@@ -8,19 +8,20 @@ namespace _0TestWebAPI1.Models
 {
     public class PruebaDeCaritas
     {
-        [Key]
-        public int Id { get; set; } 
+        //[Key]
+        //public int Id { get; set; } 
 
-        public DateTime Fecha { get; set; }
-        public int Filas { get; set; }
+        //public DateTime Fecha { get; set; }
+        //public int Filas { get; set; }
 
-        public int Intentos { get; set; }
+        //public int Intentos { get; set; }
 
-        public int Anotaciones { get; set; } 
+        //public int Anotaciones { get; set; } 
 
-        public int Errores { get; set; } 
+        //public int Errores { get; set; } 
 
-        public int Omisiones { get; set; } 
+        //public int Omisiones { get; set; } 
+        public PruebaBase PruebaBase { get; set; }
 
         public double IGAP { get; set; }  //se valida en el controller
 
