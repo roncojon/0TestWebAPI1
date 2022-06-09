@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Repository
 {
-    public class SujetoPrueba
+    public class SujetoPruebaRepository
     {
+
     }
 }
