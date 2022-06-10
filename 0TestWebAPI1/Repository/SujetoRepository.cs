@@ -37,9 +37,11 @@ namespace _0TestWebAPI1.Repository
             return pruebasDeSubject;
         }
 
-        public async void Post(Sujeto sujeto)
+        public async Task Post(Sujeto sujeto)
         {
             await _dbContext.AddAsync(sujeto);
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

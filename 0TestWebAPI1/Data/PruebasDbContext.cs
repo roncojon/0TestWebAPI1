@@ -21,5 +21,11 @@ namespace _0TestWebAPI1.Data
         public DbSet<Centro> Centro { get; set; }
 
         public DbSet<SujetoCentro> SujetoCentro { get; set; }
+
+        public DbSet<PruebaBase> PruebaBase { get; set; }
+
+        public DbSet<GrupoEtario> GrupoEtario { get; set; }
+
+        public DbSet<Escolaridad> Escolaridad { get; set; }
     }
 }

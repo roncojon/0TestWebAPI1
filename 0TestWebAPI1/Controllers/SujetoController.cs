@@ -46,30 +46,39 @@ namespace _0TestWebAPI1.Controllers
 
         // POST api/<SujetoController>
         [HttpPost]
-        public async void PostAsync([FromBody] Sujeto subject)
+        public async Task PostAsync([FromBody] Sujeto subject)
         {
+            await PostAsyncGrupoEtario(subject.GrupoEtario);
             await _dbContext.Sujeto.AddAsync(subject);
+             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task PostAsyncGrupoEtario([FromBody] GrupoEtario group)
+        {
+            await _dbContext.GrupoEtario.AddAsync(group);
             await _dbContext.SaveChangesAsync();
         }
 
         // PUT api/<SujetoController>/5
         [HttpPut("{id}")]
-        public async void PutAsync(int id, [FromBody] Sujeto value)
+        public async Task PutAsync(int id, [FromBody] Sujeto value)
         {
             var sujetoAcambiar = await _dbContext.Sujeto.FindAsync(id);
+            await _dbContext.GrupoEtario.AddAsync(value.GrupoEtario);
             sujetoAcambiar.Nombre = value.Nombre;
             sujetoAcambiar.Apellidos = value.Apellidos;
             sujetoAcambiar.Sexo = value.Sexo;
             sujetoAcambiar.Edad = value.Edad;
-            sujetoAcambiar.GrupoEtario = value.GrupoEtario;
-            sujetoAcambiar.Escolaridad = value.Escolaridad;
+            sujetoAcambiar.GrupoEtario = value.GrupoEtario; //Aki se kita el value y se pone bien el grupo etario segun edad
+            sujetoAcambiar.Escolaridad = value.Escolaridad; //Los posibles niveles de escolaridad se configuran en la bd
 
             await _dbContext.SaveChangesAsync();
         }
 
+
         // DELETE api/<SujetoController>/5
         [HttpDelete("{id}")]
-        public async void DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             Sujeto temp =await _dbContext.Sujeto.FindAsync(id);
              _dbContext.Sujeto.Remove(temp);

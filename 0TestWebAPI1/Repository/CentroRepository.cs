@@ -30,12 +30,30 @@ namespace _0TestWebAPI1.Repository
 
             List<Sujeto> sujetos = new List<Sujeto>();
 
+
+
             foreach (var item in subjectCenter)
             {
                 if (item.Centro.Id == centroId)
-                    sujetos.Add(item.Sujeto);
+                {
+                    foreach (var unit in _dbContext.Sujeto)
+                    {
+                        if (item.Sujeto.Id == unit.Id)
+                        {
+                            sujetos.Add(unit);
+                        } 
+                    }
+                    
+                }
             }
             return sujetos;
+
+            //foreach (var item in subjectCenter)
+            //{
+            //    if (item.Centro.Id == centroId)
+            //        sujetos.Add(item.Sujeto);
+            //}
+            //return sujetos;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace _0TestWebAPI1.Models
         //public int Errores { get; set; } 
 
         //public int Omisiones { get; set; } 
+        public int Id { get; set; }
         public PruebaBase PruebaBase { get; set; }
 
         public double IGAP { get; set; }  //se valida en el controller

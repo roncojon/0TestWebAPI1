@@ -33,7 +33,16 @@ namespace _0TestWebAPI1.Repository
             foreach (var item in subjectCenter)
             {
                 if (item.Centro.Id == centroId)
-                    sujetos.Add(item.Sujeto);
+                {
+                    foreach (var unit in _dbContext.Sujeto)
+                    {
+                        if (item.Sujeto.Id == unit.Id)
+                        {
+                            sujetos.Add(unit);
+                        }
+                    }
+
+                }
             }
             return sujetos;
         }
