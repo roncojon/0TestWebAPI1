@@ -8,15 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _0TestWebAPI1.Models
 {
-    public class SujetoCentro
+    public class UsuarioCentro
     {
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("SujetoId"), Required]
-        public Sujeto Sujeto { get; set; }
+        public int UsuarioId { get; set; }
+        public Usuario Usuario { get; set; }
 
-        [ForeignKey("CentroId"), Required]
+        public int CentroId { get; set; }
         public Centro Centro { get; set; } 
     }
 }

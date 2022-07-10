@@ -1,5 +1,6 @@
 ﻿using _0TestWebAPI1.Data;
 using _0TestWebAPI1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace _0TestWebAPI1.Controllers
             _dbContext = dbContext;
         }
         // GET: api/<CentroController>
+        //[Authorize]
         [HttpGet]
         public IEnumerable<Centro> Get()
         {
