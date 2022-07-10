@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Models
 {
-    public class PruebaDeCaritas
+    public class PruebaDeCaritas: PruebaBase
     {
         //[Key]
         //public int Id { get; set; } 
@@ -22,29 +22,6 @@ namespace _0TestWebAPI1.Models
 
         //public int Omisiones { get; set; } 
 
-
-
-
-        public int Id { get; set; }
-        public int PruebaBaseId { get; set; }
-        public PruebaBase PruebaBase { get; set; }
-
-        public double IGAP { get; set; }  //se valida en el controller
-
-        public double ICI { get; set; }  //se valida en el controller
-
-        public double PorCientoDeAciertos { get; set; }//se valida en el controller, preferiria q fuera en el front
-
-        public double EficaciaAtencional { get; set; }  //se valida en el controller, preferiria q fuera en el front
-
-        public double EficienciaAtencional { get; set; } //se valida en el controller, preferiria q fuera en el front
-
-        public double RendimientoAtencional { get; set; }  //se valida en el controller, preferiria q fuera en el front
-
-        public double CalidadDeLaAtencion { get; set; }  //se valida en el controller, preferiria q fuera en el front
-
-        public double DatosAtencion { get; set; }  //se valida en el controller, preferiria q fuera en el front
-
-        public ICollection<Usuario> Usuarios { get; set; }
+        public int MyProperty { get; set; }
     }
 }

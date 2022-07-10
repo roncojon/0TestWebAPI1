@@ -58,15 +58,15 @@ namespace _0TestWebAPI1.Controllers
             //Sujeto - PruebaCaritas
             await _dbContext.PruebaBase.AddAsync(bolon.PruebaBase);
             await _dbContext.PruebaCaritas.AddAsync(bolon.PruebaDeCaritas);
-            PruebaBase pruebaBaseTemp = new PruebaBase();
+            //PruebaBase pruebaBaseTemp = new PruebaBase();
             PruebaDeCaritas pruebaCaritasTemp = new PruebaDeCaritas();
-            pruebaBaseTemp = bolon.PruebaBase;
+            //pruebaBaseTemp = bolon.PruebaBase;
             pruebaCaritasTemp = bolon.PruebaDeCaritas;
-            pruebaCaritasTemp.PruebaBase = pruebaBaseTemp;
+            //pruebaCaritasTemp.PruebaBase = pruebaBaseTemp;
 
-            UsuarioPruebaBase sPb = new UsuarioPruebaBase();
-            sPb.PruebaBase = pruebaBaseTemp;
-            sPb.Usuario = temp;
+            //UsuarioPruebaBase sPb = new UsuarioPruebaBase();
+            //sPb.PruebaBase = pruebaBaseTemp;
+            //sPb.Usuario = temp;
 
             //Sujeto - Escolaridad
             //temp.EscolaridadId = bolon.Escolaridad;

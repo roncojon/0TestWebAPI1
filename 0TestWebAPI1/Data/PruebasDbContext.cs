@@ -17,7 +17,6 @@ namespace _0TestWebAPI1.Data
 
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Rol> Rol { get; set; }
-        public DbSet<UsuarioPruebaBase> UsuarioPruebaCaritas { get; set; }
 
         public DbSet<Centro> Centro { get; set; }
 
@@ -31,8 +30,6 @@ namespace _0TestWebAPI1.Data
         //public DbSet<PruebaSimbolos> PruebaSimbolos { get; set; }
 
         public DbSet<Escolaridad> Escolaridad { get; set; }
-
-        public DbSet<UsuarioPruebaBase> UsuarioPruebaBase { get; internal set; }
 
         //protected override void OnModelCreating(ModelBuilder builder)
         //{

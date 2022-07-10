@@ -25,5 +25,21 @@ namespace _0TestWebAPI1.Models
 
         public int Omisiones { get; set; }
 
+        public double IGAP { get; set; }  //se valida en el controller
+
+        public double ICI { get; set; }  //se valida en el controller
+
+        public double PorCientoDeAciertos { get; set; }//se valida en el controller, preferiria q fuera en el front
+
+        public double EficaciaAtencional { get; set; }  //se valida en el controller, preferiria q fuera en el front
+
+        public double EficienciaAtencional { get; set; } //se valida en el controller, preferiria q fuera en el front
+
+        public double RendimientoAtencional { get; set; }  //se valida en el controller, preferiria q fuera en el front
+
+        public double CalidadDeLaAtencion { get; set; }  //se valida en el controller, preferiria q fuera en el front
+
+        public double DatosAtencion { get; set; }  //se valida en el controller, preferiria q fuera en el front
+
     }
 }
