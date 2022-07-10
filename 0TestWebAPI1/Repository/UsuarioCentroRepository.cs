@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Repository
 {
-    public class SujetoCentroRepository
+    public class UsuarioCentroRepository
     {
         private PruebasDbContext _dbContext;
 
-        public SujetoCentroRepository(PruebasDbContext dbContext)
+        public UsuarioCentroRepository(PruebasDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -32,10 +32,10 @@ namespace _0TestWebAPI1.Repository
         //    return sujetos;
         //}
 
-        public async void PostAsync(SujetoCentro sujetoCentro)
+       /* public async void PostAsync(UsuarioCentro sujetoCentro)
         {
-            await _dbContext.SujetoCentro.AddAsync(sujetoCentro);
+            await _dbContext.UsuarioCentro.AddAsync(sujetoCentro);
             await _dbContext.SaveChangesAsync();
-        }
+        }*/
     }
 }

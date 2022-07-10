@@ -4,17 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace _0TestWebAPI1.Models
 {
-    public class SujetoCentro
+    public class UsuarioCentro
     {
         [Key]
         public int Id { get; set; }
 
         [ForeignKey("SujetoId"), Required]
-        public Sujeto Sujeto { get; set; }
+        public Usuario Sujeto { get; set; }
 
         [ForeignKey("CentroId"), Required]
         public Centro Centro { get; set; } 

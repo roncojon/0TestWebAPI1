@@ -9,6 +9,8 @@ namespace _0TestWebAPI1.Models
     {
         public int Id { get; set; } = 0;
         public string Nombre { get; set; } = "";
+        public ICollection<Usuario> Usuarios { get; set; }
+       
 
     }
 }

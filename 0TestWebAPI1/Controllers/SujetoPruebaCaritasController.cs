@@ -1,7 +1,4 @@
-﻿using _0TestWebAPI1.Data;
-using _0TestWebAPI1.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,43 +10,35 @@ namespace _0TestWebAPI1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CentroController : ControllerBase
+    public class SujetoPruebaCaritasController : ControllerBase
     {
-
-        private PruebasDbContext _dbContext;
-
-        public CentroController(PruebasDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-        // GET: api/<CentroController>
-        //[Authorize]
+        // GET: api/<SujetoPruebaCaritasController>
         [HttpGet]
-        public IEnumerable<Centro> Get()
+        public IEnumerable<string> Get()
         {
-            return _dbContext.Centro;
+            return new string[] { "value1", "value2" };
         }
 
-        // GET api/<CentroController>/5
+        // GET api/<SujetoPruebaCaritasController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<CentroController>
+        // POST api/<SujetoPruebaCaritasController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<CentroController>/5
+        // PUT api/<SujetoPruebaCaritasController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<CentroController>/5
+        // DELETE api/<SujetoPruebaCaritasController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

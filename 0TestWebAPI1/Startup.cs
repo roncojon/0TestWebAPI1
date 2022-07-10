@@ -1,8 +1,10 @@
 using _0TestWebAPI1.Data;
+using _0TestWebAPI1.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +33,11 @@ namespace _0TestWebAPI1
         {
             //services.AddMvc();
             services.AddControllers();
-            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=RON-PC\SQLEXPRESS; Initial Catalog=PruebasDb; Integrated Security=True"));
+            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=PruebasDb; Integrated Security=True"));
+
+            //services.AddAuthentication((@"Data Source=RON-PC\SQLEXPRESS; Initial Catalog=UsersDb; Integrated Security=True"));
+            //services.ConfigureIdentity();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "_0TestWebAPI1", Version = "v1" });

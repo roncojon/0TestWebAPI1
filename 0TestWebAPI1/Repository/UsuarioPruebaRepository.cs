@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Repository
 {
-    public class SujetoPruebaRepository
+    public class UsuarioPruebaRepository
     {
         private PruebasDbContext _dbContext;
 
-        public SujetoPruebaRepository(PruebasDbContext dbContext)
+        public UsuarioPruebaRepository(PruebasDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -22,21 +22,21 @@ namespace _0TestWebAPI1.Repository
             return centros;
         }
 
-        public async Task<IEnumerable<Sujeto>> GetSujetosPorCentro(int centroId)
+        public async Task<IEnumerable<Usuario>> GetSujetosPorCentro(int centroId)
         {
             var center = await _dbContext.Centro.FindAsync(centroId);
 
-            var subjectCenter = _dbContext.SujetoCentro;
+           /* var subjectCenter = _dbContext.UsuarioCentro;*/
 
-            List<Sujeto> sujetos = new List<Sujeto>();
+            List<Usuario> sujetos = new List<Usuario>();
 
-            foreach (var item in subjectCenter)
+/*            foreach (var item in subjectCenter)
             {
                 if (item.Centro.Id == centroId)
                 {
-                    foreach (var unit in _dbContext.Sujeto)
+                    foreach (var unit in _dbContext.Usuario)
                     {
-                        if (item.Sujeto.Id == unit.Id)
+                        if (item.Usuario.Id == unit.Id)
                         {
                             sujetos.Add(unit);
                         }
@@ -44,7 +44,7 @@ namespace _0TestWebAPI1.Repository
 
                 }
             }
-            return sujetos;
+*/            return sujetos;
         }
     }
 }

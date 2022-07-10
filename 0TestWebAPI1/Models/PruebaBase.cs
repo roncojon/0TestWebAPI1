@@ -11,6 +11,9 @@ namespace _0TestWebAPI1.Models
         [Key]
         public int Id { get; set; }
 
+        //[DataFormatString("{0:dd-MM-yyyy}")]
+
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy")]
         public DateTime Fecha { get; set; }
         public int Filas { get; set; }
 
@@ -21,5 +24,6 @@ namespace _0TestWebAPI1.Models
         public int Errores { get; set; }
 
         public int Omisiones { get; set; }
+
     }
 }
