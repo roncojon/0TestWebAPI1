@@ -12,10 +12,9 @@ namespace _0TestWebAPI1.Models
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("SujetoId"), Required]
-        public Usuario Sujeto { get; set; }
+        public Usuario Usuario { get; set; }
 
-        [ForeignKey("CentroId"), Required]
         public Centro Centro { get; set; } 
+
     }
 }

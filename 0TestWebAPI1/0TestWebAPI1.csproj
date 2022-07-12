@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\IActionResult.cs" />
-    <Compile Remove="Models\UsuarioCentro.cs" />
   </ItemGroup>
 
   <ItemGroup>

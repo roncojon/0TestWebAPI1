@@ -65,8 +65,16 @@ namespace _0TestWebAPI1.Controllers
                 GrupoEtarioId = grupoEtarioId,
                 EscolaridadId = usuario.EscolaridadId,
             };
-            //var newUserCentroRelation = usuario.Centros;
-
+            
+            ICollection<Centro> centros = new List<Centro>();
+            foreach (var center in usuario.Centros)
+            {
+                Centro centro = _dbContext.Centro.FirstOrDefault(u => u.Id == center.Id);
+                centros.Add(centro);
+               /* UsuarioCentro userCentro = new UsuarioCentro { Usuario = userObj, Centro = centro };
+                _dbContext.UsuarioCentro.Add(userCentro);*/
+            }
+            userObj.Centros = centros;
             _dbContext.Usuario.Add(userObj);
             _dbContext.SaveChanges();
             return StatusCode(StatusCodes.Status201Created);
@@ -108,15 +116,20 @@ namespace _0TestWebAPI1.Controllers
                  select new Usuario
                  {
                      Id = user.Id,
+                     Ci =user.Ci,
                      Nombre = user.Nombre,
                      Apellidos = user.Apellidos,
+                     NickName = user.NickName,
+                     Edad= user.Edad,
                      RolId = user.RolId,
                      Password = user.Password,
                      Sexo = user.Sexo,
+                     Centros = user.Centros,
                      GrupoEtarioId = user.GrupoEtarioId,
                      EscolaridadId = user.EscolaridadId,
                  })
                  .ToListAsync();
+            
 
             //var result = await _dbContext.Usuario.ToListAsync();
 

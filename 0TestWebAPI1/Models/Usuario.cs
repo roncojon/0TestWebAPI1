@@ -10,7 +10,7 @@ namespace _0TestWebAPI1.Models
     {
         [Key]
         public int Id { get; set; }
-        public long Ci { get; set; }
+        public ulong Ci { get; set; }
         public string Password { get; set; }
 
         public string Nombre { get; set; }

@@ -31,11 +31,14 @@ namespace _0TestWebAPI1.Data
                 new Escolaridad { Id = 2},
                 new Escolaridad { Id = 3},
             });
+            modelBuilder.Entity<Centro>().HasData(new Centro[] {
+                new Centro { Id = 1,Nombre="CTE Antonio Guiteras"},
+            });
 
             modelBuilder.Entity<Usuario>().HasData(new Usuario[]
             {
                new Usuario
-               {
+               {Id = 1,
                    Nombre = "Admin",
                    Apellidos = "Admin",
                    NickName = "Admin",
@@ -49,6 +52,7 @@ namespace _0TestWebAPI1.Data
                },
                 new Usuario
                {
+                    Id =2,
                    Nombre = "AdminTester",
                    Apellidos = "AdminTester",
                    NickName = "AdminTester",
@@ -111,7 +115,7 @@ namespace _0TestWebAPI1.Data
 
         public DbSet<Centro> Centro { get; set; }
 
-        /*public DbSet<UsuarioCentro> UsuarioCentro { get; set; }*/
+        public DbSet<UsuarioCentro> UsuarioCentro { get; set; }
 
         public DbSet<PruebaBase> PruebaBase { get; set; }
 
