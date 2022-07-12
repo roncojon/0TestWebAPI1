@@ -1,6 +1,7 @@
 ﻿using _0TestWebAPI1.ClassesForTheApi;
 using _0TestWebAPI1.Data;
 using _0TestWebAPI1.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UsuarioController : ControllerBase
     {
@@ -23,6 +24,53 @@ namespace _0TestWebAPI1.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpPost]
+        public IActionResult Register ([FromBody] Usuario usuario) 
+        {
+            string newUserNick = usuario.Nombre + usuario.Apellidos;
+            var usuarioConMismoNick =_dbContext.Usuario.Where(u => u.NickName == newUserNick).SingleOrDefault();
+            if (usuarioConMismoNick != null)
+            {
+                return BadRequest("Este usuario ya existe");
+            }
+            int grupoEtarioId = 1;
+            int rolId = 1;
+            switch (usuario.Edad)
+            {
+                case <=39:
+                    grupoEtarioId = 1;
+                    break;
+                case <= 59:
+                    grupoEtarioId = 2;
+                    break;
+                case >= 60:
+                    grupoEtarioId = 3;
+                    break;
+            }
+            if (_dbContext.Usuario.Count()==1)
+            {
+                rolId = 2;
+            }
+
+            var userObj = new Usuario
+            {
+                Nombre = usuario.Nombre,
+                Apellidos = usuario.Apellidos,
+                NickName = newUserNick,
+                Password = usuario.Password,
+                RolId = rolId,
+                Ci = usuario.Ci,
+                Sexo = usuario.Sexo,
+                Edad = usuario.Edad,
+                GrupoEtarioId = grupoEtarioId,
+                EscolaridadId = usuario.EscolaridadId,
+            };
+            //var newUserCentroRelation = usuario.Centros;
+
+            _dbContext.Usuario.Add(userObj);
+            _dbContext.SaveChanges();
+            return StatusCode(StatusCodes.Status201Created);
+        }
         // GET: api/<SujetoController>
         //[HttpGet]
         //public IEnumerable<Sujeto> Get()
@@ -57,17 +105,20 @@ namespace _0TestWebAPI1.Controllers
             var result =
                 await
                 (from user in _dbContext.Usuario
-                 select  new Usuario {
-                     Id= user.Id,
-                     Nombre= user.Nombre,
-                     Apellidos=user.Apellidos,
+                 select new Usuario
+                 {
+                     Id = user.Id,
+                     Nombre = user.Nombre,
+                     Apellidos = user.Apellidos,
                      RolId = user.RolId,
-                     Password =user.Password,
+                     Password = user.Password,
                      Sexo = user.Sexo,
-                     GrupoEtarioId = user.GrupoEtarioId, 
-                     EscolaridadId = user.EscolaridadId
+                     GrupoEtarioId = user.GrupoEtarioId,
+                     EscolaridadId = user.EscolaridadId,
                  })
                  .ToListAsync();
+
+            //var result = await _dbContext.Usuario.ToListAsync();
 
             return result;
         }

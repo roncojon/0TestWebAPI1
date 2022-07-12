@@ -11,8 +11,8 @@ namespace _0TestWebAPI1.Models
     {
         public int Id { get; set; }
 
-        [Range(1,3)]
-        public int Grupo { get; set; }
+        //[Range(1,3)]
+        //public int Grupo { get; set; }
 
         public ICollection<Usuario> Usuarios { get; set; }
     }

@@ -10,8 +10,8 @@ namespace _0TestWebAPI1.Models
     {
         public int Id { get; set; }
 
-        [Range(1, 3)]
-        public int NivelEscolar { get; set; }
+        //[Range(1, 3)]
+        //public int NivelEscolar { get; set; }
 
         //public List<Sujeto> Sujetos { get; set; }
         public ICollection<Usuario> Usuarios { get; set; }

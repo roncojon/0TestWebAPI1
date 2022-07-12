@@ -13,6 +13,84 @@ namespace _0TestWebAPI1.Data
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Rol>().HasData(new Rol[] {
+                new Rol { Id = 1, NombreDelRol = "EXAMINADO" },
+                new Rol { Id = 2, NombreDelRol = "ADMINISTRADOR" },
+                new Rol { Id = 3, NombreDelRol = "ADMINISTRADORTESTER" },
+            });
+            modelBuilder.Entity<GrupoEtario>().HasData(new GrupoEtario[] {
+                new GrupoEtario { Id = 1},
+                new GrupoEtario { Id = 2},
+                new GrupoEtario { Id = 3},
+            });
+            modelBuilder.Entity<Escolaridad>().HasData(new Escolaridad[] {
+                new Escolaridad { Id = 1},
+                new Escolaridad { Id = 2},
+                new Escolaridad { Id = 3},
+            });
+
+            //modelBuilder.Entity<Usuario>().HasData(
+            //    new Usuario
+            //    {
+            //        Id = "f42559a2-2776-4e9b-9ba1-268597eff72b",
+            //        UserName = "admin",
+            //        NormalizedUserName = "ADMIN",
+            //        Email = "admin@nauta.cu",
+            //        NormalizedEmail = "ADMIN@NAUTA.CU",
+            //        PasswordHash = "AQAAAAEAACcQAAAAEP4OedI6m26WUn/2C4AcBkzdT6SnL/6E+xakQ/9mGAkqqp3t9PwyIR6l9obLouKIVg==",
+            //        SecurityStamp = "43VMKYQKNTENYZVJNU2TII26X23H5PGV",
+            //        ConcurrencyStamp = "36fd2616-8e8a-4cc6-8a5a-52d963207836",
+            //        Activo = true,
+            //        Nombres = "Administrador",
+            //        Apellidos = "General",
+            //    }
+            //);
+
+            //modelBuilder.Entity<Usuario>().HasData(
+            //    new Usuario
+            //    {
+            //        Id = "f42559a2-2776-4e9b-9ba1-268597eff72b",
+            //        UserName = "admin",
+            //        NormalizedUserName = "ADMIN",
+            //        Email = "admin@nauta.cu",
+            //        NormalizedEmail = "ADMIN@NAUTA.CU",
+            //        PasswordHash = "AQAAAAEAACcQAAAAEP4OedI6m26WUn/2C4AcBkzdT6SnL/6E+xakQ/9mGAkqqp3t9PwyIR6l9obLouKIVg==",
+            //        SecurityStamp = "43VMKYQKNTENYZVJNU2TII26X23H5PGV",
+            //        ConcurrencyStamp = "36fd2616-8e8a-4cc6-8a5a-52d963207836",
+            //        Activo = true,
+            //        Nombres = "Administrador",
+            //        Apellidos = "General",
+            //    }
+            //);
+
+            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+            //    new IdentityUserRole<string>
+            //    {
+            //        UserId = "f42559a2-2776-4e9b-9ba1-268597eff72b",
+            //        RoleId = "1"
+            //    }
+            //);
+            //// Leer del json y guardar en base de datos los elementos por defecto
+            //var r = System.IO.File.ReadAllText("Data/DatosIniciales/redesSociales.json");
+            //var redesSociales = JsonConvert.DeserializeObject<List<RedSocial>>(r);
+
+            //foreach (var item in redesSociales)
+            //{
+            //    modelBuilder.Entity<RedSocial>().HasData(
+            //        new RedSocial
+            //        {
+            //            Id = item.Id,
+            //            Nombre = item.Nombre,
+            //            Icon = item.Icon
+            //        }
+            //    );
+            //    modelBuilder.ForNpgsqlUseIdentityColumns();
+
+            //}
+        }
 
 
         public DbSet<Usuario> Usuario { get; set; }

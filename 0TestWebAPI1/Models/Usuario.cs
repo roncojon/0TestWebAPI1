@@ -16,6 +16,7 @@ namespace _0TestWebAPI1.Models
         public string Nombre { get; set; }
 
         public string Apellidos { get; set; } 
+        public string NickName { get; set; }
 
         public bool Sexo { get; set; }  //true es femeneino
 
@@ -26,6 +27,6 @@ namespace _0TestWebAPI1.Models
         public int EscolaridadId { get; set; }  // se valida en el front y en el controller 
 
         public ICollection<Centro> Centros { get; set; }
-        public ICollection<PruebaBase> PruebaBase { get; set; }
+        public ICollection<PruebaBase> PruebasBase { get; set; }
     }
 }
