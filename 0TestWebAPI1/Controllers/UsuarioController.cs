@@ -66,15 +66,15 @@ namespace _0TestWebAPI1.Controllers
                 EscolaridadId = usuario.EscolaridadId,
             };
             
-            ICollection<Centro> centros = new List<Centro>();
-            foreach (var center in usuario.Centros)
-            {
-                Centro centro = _dbContext.Centro.FirstOrDefault(u => u.Id == center.Id);
-                centros.Add(centro);
-               /* UsuarioCentro userCentro = new UsuarioCentro { Usuario = userObj, Centro = centro };
-                _dbContext.UsuarioCentro.Add(userCentro);*/
-            }
-            userObj.Centros = centros;
+            //ICollection<Centro> centros = new List<Centro>();
+            //foreach (var center in usuario.Centros)
+            //{
+            //    Centro centro = _dbContext.Centro.FirstOrDefault(u => u.Id == center.Id);
+            //    centros.Add(centro);
+            //   /* UsuarioCentro userCentro = new UsuarioCentro { Usuario = userObj, Centro = centro };
+            //    _dbContext.UsuarioCentro.Add(userCentro);*/
+            //}
+            //userObj.Centros = centros;
             _dbContext.Usuario.Add(userObj);
             _dbContext.SaveChanges();
             return StatusCode(StatusCodes.Status201Created);
@@ -124,7 +124,7 @@ namespace _0TestWebAPI1.Controllers
                      RolId = user.RolId,
                      Password = user.Password,
                      Sexo = user.Sexo,
-                     Centros = user.Centros,
+                     //Centros = user.Centros,
                      GrupoEtarioId = user.GrupoEtarioId,
                      EscolaridadId = user.EscolaridadId,
                  })

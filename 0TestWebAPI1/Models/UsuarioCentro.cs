@@ -11,8 +11,10 @@ namespace _0TestWebAPI1.Models
     {
         [Key]
         public int Id { get; set; }
+        public int UsuarioId { get; set; }
 
         public Usuario Usuario { get; set; }
+        public int CentroId { get; set; }
 
         public Centro Centro { get; set; } 
 
