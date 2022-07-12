@@ -47,9 +47,9 @@ namespace _0TestWebAPI1.Controllers
                     grupoEtarioId = 3;
                     break;
             }
-            if (_dbContext.Usuario.Count()==1)
+            if (_dbContext.Usuario.Count()==2)
             {
-                rolId = 2;
+                rolId = 3;
             }
 
             var userObj = new Usuario

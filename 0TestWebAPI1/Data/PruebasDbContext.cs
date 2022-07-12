@@ -32,22 +32,35 @@ namespace _0TestWebAPI1.Data
                 new Escolaridad { Id = 3},
             });
 
-            //modelBuilder.Entity<Usuario>().HasData(
-            //    new Usuario
-            //    {
-            //        Id = "f42559a2-2776-4e9b-9ba1-268597eff72b",
-            //        UserName = "admin",
-            //        NormalizedUserName = "ADMIN",
-            //        Email = "admin@nauta.cu",
-            //        NormalizedEmail = "ADMIN@NAUTA.CU",
-            //        PasswordHash = "AQAAAAEAACcQAAAAEP4OedI6m26WUn/2C4AcBkzdT6SnL/6E+xakQ/9mGAkqqp3t9PwyIR6l9obLouKIVg==",
-            //        SecurityStamp = "43VMKYQKNTENYZVJNU2TII26X23H5PGV",
-            //        ConcurrencyStamp = "36fd2616-8e8a-4cc6-8a5a-52d963207836",
-            //        Activo = true,
-            //        Nombres = "Administrador",
-            //        Apellidos = "General",
-            //    }
-            //);
+            modelBuilder.Entity<Usuario>().HasData(new Usuario[]
+            {
+               new Usuario
+               {
+                   Nombre = "Admin",
+                   Apellidos = "Admin",
+                   NickName = "Admin",
+                   Password = "PsychoMaster.10*",
+                   RolId = 3,
+                   Ci = 85050560959,
+                   Sexo = false,
+                   Edad = 37,
+                   GrupoEtarioId = 1,
+                   EscolaridadId = 3,
+               },
+                new Usuario
+               {
+                   Nombre = "AdminTester",
+                   Apellidos = "AdminTester",
+                   NickName = "AdminTester",
+                   Password = "PsychoMaster.10*",
+                   RolId = 3,
+                   Ci = 86060670067,
+                   Sexo = false,
+                   Edad = 36,
+                   GrupoEtarioId = 1,
+                   EscolaridadId = 3,
+               },
+               });
 
             //modelBuilder.Entity<Usuario>().HasData(
             //    new Usuario
