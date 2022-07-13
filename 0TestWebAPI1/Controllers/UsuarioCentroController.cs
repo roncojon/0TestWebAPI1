@@ -76,20 +76,21 @@ namespace _0TestWebAPI1.Controllers
         // POST: api/UsuarioCentroes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UsuarioCentro>>  PostUsuarioCentro(int userId, int[] centros)
+        public async Task<ActionResult<UsuarioCentro>>  PostUsuarioCentro(int userId,[FromBody] int[] centros)
         {
             Usuario usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u=>u.Id==userId);
-            UsuarioCentro usuarioCentro = new UsuarioCentro();
+            
             foreach (var centro in centros)
             {
+                UsuarioCentro usuarioCentro = new UsuarioCentro();
                 Centro center = await _dbContext.Centro.FirstOrDefaultAsync(u => u.Id == centro);
                 usuarioCentro.UsuarioId = userId;
                 usuarioCentro.Usuario = usuario;
                 usuarioCentro.CentroId = center.Id;
                 usuarioCentro.Centro = center;
                 await _dbContext.UsuarioCentro.AddAsync(usuarioCentro);
+                await _dbContext.SaveChangesAsync();
             }
-            await _dbContext.SaveChangesAsync();
             return StatusCode(201);
 
 

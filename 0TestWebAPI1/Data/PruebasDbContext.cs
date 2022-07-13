@@ -43,7 +43,7 @@ namespace _0TestWebAPI1.Data
                    Apellidos = "Admin",
                    NickName = "Admin",
                    Password = "PsychoMaster.10*",
-                   RolId = 3,
+                   RolId = 2,
                    Ci = 85050560959,
                    Sexo = false,
                    Edad = 37,

@@ -1,13 +1,12 @@
-﻿using _0TestWebAPI1.Data;
-using _0TestWebAPI1.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using _0TestWebAPI1.Data;
+using _0TestWebAPI1.Models;
 
 namespace _0TestWebAPI1.Controllers
 {
@@ -15,44 +14,95 @@ namespace _0TestWebAPI1.Controllers
     [ApiController]
     public class CentroController : ControllerBase
     {
+        private readonly PruebasDbContext _context;
 
-        private PruebasDbContext _dbContext;
-
-        public CentroController(PruebasDbContext dbContext)
+        public CentroController(PruebasDbContext context)
         {
-            _dbContext = dbContext;
+            _context = context;
         }
-        // GET: api/<CentroController>
-        //[Authorize]
+
+        // GET: api/Centro
         [HttpGet]
-        public IEnumerable<Centro> Get()
+        public async Task<ActionResult<IEnumerable<Centro>>> GetCentro()
         {
-            return _dbContext.Centro;
+            return await _context.Centro.ToListAsync();
         }
 
-        // GET api/<CentroController>/5
+        // GET: api/Centro/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<Centro>> GetCentro(int id)
         {
-            return "value";
+            var centro = await _context.Centro.FindAsync(id);
+
+            if (centro == null)
+            {
+                return NotFound();
+            }
+
+            return centro;
         }
 
-        // POST api/<CentroController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<CentroController>/5
+        // PUT: api/Centro/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutCentro(int id, Centro centro)
         {
+            if (id != centro.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(centro).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CentroExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // DELETE api/<CentroController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // POST: api/Centro
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Centro>> PostCentro(Centro centro)
         {
+            _context.Centro.Add(centro);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCentro", new { id = centro.Id }, centro);
+        }
+
+        // DELETE: api/Centro/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCentro(int id)
+        {
+            var centro = await _context.Centro.FindAsync(id);
+            if (centro == null)
+            {
+                return NotFound();
+            }
+
+            _context.Centro.Remove(centro);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool CentroExists(int id)
+        {
+            return _context.Centro.Any(e => e.Id == id);
         }
     }
 }
