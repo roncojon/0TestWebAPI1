@@ -80,6 +80,7 @@ namespace _0TestWebAPI1.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<UserData> Get(int id)
         {
             Usuario user = _dbContext.Usuario.Find(id);
@@ -108,7 +109,6 @@ namespace _0TestWebAPI1.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Register([FromBody] UserData usuario)
         {
             //creando usuario
@@ -185,14 +185,17 @@ namespace _0TestWebAPI1.Controllers
             {
                 return NotFound();
             }
-            if (!SecurePasswordHasherHelper.Verify(userLogin.Paswword, usuario.Password))
+            if (!SecurePasswordHasherHelper.Verify(userLogin.Password, usuario.Password))
             {
                 return Unauthorized();
             }
+
+            Rol rol =await _dbContext.Rol.FirstOrDefaultAsync(r => r.Id == usuario.RolId);
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.NickName),
                 new Claim(ClaimTypes.NameIdentifier, userLogin.NickName),
+                new Claim(ClaimTypes.Role, rol.NombreDelRol)
             };
             var token = _auth.GenerateAccessToken(claims);
             return new ObjectResult(new

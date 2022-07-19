@@ -8,6 +8,6 @@ namespace _0TestWebAPI1.ClassesForTheApi
     public class UserLogin
     {
         public string NickName { get; set; }
-        public string Paswword { get; set; }
+        public string Password { get; set; }
     }
 }
