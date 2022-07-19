@@ -7,39 +7,79 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using _0TestWebAPI1.Data;
 using _0TestWebAPI1.Models;
+using _0TestWebAPI1.ClassesForTheApi;
 
 namespace _0TestWebAPI1.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CentroController : ControllerBase
     {
-        private readonly PruebasDbContext _context;
+        private readonly PruebasDbContext _dbContext;
 
         public CentroController(PruebasDbContext context)
         {
-            _context = context;
+            _dbContext = context;
         }
 
         // GET: api/Centro
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Centro>>> GetCentro()
+        //{
+        //    return await _dbContext.Centro.ToListAsync();
+        //}
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Centro>>> GetCentro()
+        [Route("usuarios")]
+        public async  Task<List<UsuariosXcentro>> GetUsuariosPorCentro()
         {
-            return await _context.Centro.ToListAsync();
+            List<UsuariosXcentro> usuariosXcentro = new List<UsuariosXcentro>();
+            foreach (var centro in _dbContext.Centro)
+            { 
+                UsuariosXcentro uXcTemp = new UsuariosXcentro();
+                uXcTemp.CentroId = centro.Id;
+                uXcTemp.NombreDelCentro = centro.Nombre;
+                List<Usuario> usuarios = new List<Usuario>();
+                
+                foreach (var uc in _dbContext.UsuarioCentro.Where(uc => uc.CentroId == centro.Id)
+                //var uCent =await _dbContext.UsuarioCentro.ToListAsync();
+                )
+                {
+                    Usuario user =await _dbContext.Usuario.FindAsync(uc.UsuarioId);
+                    usuarios.Add(user);
+                }
+
+                uXcTemp.Usuarios = usuarios;
+                usuariosXcentro.Add(uXcTemp);
+            }
+
+
+            return usuariosXcentro;
         }
 
         // GET: api/Centro/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Centro>> GetCentro(int id)
+        public async Task<ActionResult<UsuariosXcentro>> GetCentro(int id)
         {
-            var centro = await _context.Centro.FindAsync(id);
-
+            var centro = await _dbContext.Centro.FindAsync(id);
             if (centro == null)
             {
                 return NotFound();
             }
 
-            return centro;
+            List<Usuario> usuarios = new List<Usuario>();
+
+            foreach (var uc in _dbContext.UsuarioCentro.Where(uc => uc.CentroId == id))
+            {
+                Usuario user = await _dbContext.Usuario.FindAsync(uc.UsuarioId);
+                usuarios.Add(user);
+            }
+            UsuariosXcentro uXc = new UsuariosXcentro();
+            uXc.CentroId = centro.Id;
+            uXc.NombreDelCentro = centro.Nombre;
+            uXc.Usuarios = usuarios;
+
+            return uXc;
         }
 
         // PUT: api/Centro/5
@@ -52,11 +92,11 @@ namespace _0TestWebAPI1.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(centro).State = EntityState.Modified;
+            _dbContext.Entry(centro).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,8 +118,8 @@ namespace _0TestWebAPI1.Controllers
         [HttpPost]
         public async Task<ActionResult<Centro>> PostCentro(Centro centro)
         {
-            _context.Centro.Add(centro);
-            await _context.SaveChangesAsync();
+            _dbContext.Centro.Add(centro);
+            await _dbContext.SaveChangesAsync();
 
             return CreatedAtAction("GetCentro", new { id = centro.Id }, centro);
         }
@@ -88,21 +128,21 @@ namespace _0TestWebAPI1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCentro(int id)
         {
-            var centro = await _context.Centro.FindAsync(id);
+            var centro = await _dbContext.Centro.FindAsync(id);
             if (centro == null)
             {
                 return NotFound();
             }
 
-            _context.Centro.Remove(centro);
-            await _context.SaveChangesAsync();
+            _dbContext.Centro.Remove(centro);
+            await _dbContext.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool CentroExists(int id)
         {
-            return _context.Centro.Any(e => e.Id == id);
+            return _dbContext.Centro.Any(e => e.Id == id);
         }
     }
 }

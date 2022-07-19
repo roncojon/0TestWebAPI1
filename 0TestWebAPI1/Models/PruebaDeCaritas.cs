@@ -22,6 +22,6 @@ namespace _0TestWebAPI1.Models
 
         //public int Omisiones { get; set; } 
 
-        public int Type { get; set; }
+        public int Tipo { get; set; }
     }
 }

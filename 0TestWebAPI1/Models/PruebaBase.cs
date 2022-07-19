@@ -40,6 +40,7 @@ namespace _0TestWebAPI1.Models
         public double CalidadDeLaAtencion { get; set; }  //se valida en el controller, preferiria q fuera en el front
 
         public double DatosAtencion { get; set; }  //se valida en el controller, preferiria q fuera en el front
-
+        //public int UsuarioId { get; set; }
+        //public Usuario Usuario { get; set; }
     }
 }

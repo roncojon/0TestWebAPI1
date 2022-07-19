@@ -89,8 +89,9 @@ namespace _0TestWebAPI1.Controllers
                 usuarioCentro.CentroId = center.Id;
                 usuarioCentro.Centro = center;
                 await _dbContext.UsuarioCentro.AddAsync(usuarioCentro);
-                await _dbContext.SaveChangesAsync();
+                
             }
+            await _dbContext.SaveChangesAsync();
             return StatusCode(201);
 
 

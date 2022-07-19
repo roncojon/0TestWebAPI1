@@ -33,6 +33,7 @@ namespace _0TestWebAPI1.Data
             });
             modelBuilder.Entity<Centro>().HasData(new Centro[] {
                 new Centro { Id = 1,Nombre="CTE Antonio Guiteras"},
+                new Centro { Id = 2,Nombre="UMCC"},
             });
 
             modelBuilder.Entity<Usuario>().HasData(new Usuario[]
@@ -65,7 +66,11 @@ namespace _0TestWebAPI1.Data
                    EscolaridadId = 3,
                },
                });
-
+            modelBuilder.Entity<UsuarioCentro>().HasData(new UsuarioCentro[] {
+                new UsuarioCentro { Id = 1, UsuarioId=1,CentroId=1 },
+                new UsuarioCentro { Id = 2, UsuarioId=2,CentroId=1 },
+                new UsuarioCentro { Id = 3, UsuarioId=1,CentroId=2 },
+            });
             //modelBuilder.Entity<Usuario>().HasData(
             //    new Usuario
             //    {
@@ -109,6 +114,11 @@ namespace _0TestWebAPI1.Data
             //}
         }
 
+        public DbSet<Book>  Books { get; set; }
+
+        public DbSet<Category> Category { get; set; }
+
+        public DbSet<BookCategory> BookCategory { get; set; }
 
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Rol> Rol { get; set; }
