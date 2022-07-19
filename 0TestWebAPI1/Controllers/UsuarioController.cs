@@ -1,9 +1,11 @@
 ﻿using _0TestWebAPI1.ClassesForTheApi;
 using _0TestWebAPI1.Data;
 using _0TestWebAPI1.Models;
+using AuthenticationPlugin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +19,14 @@ namespace _0TestWebAPI1.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
+        private IConfiguration _configuration;
+        private readonly AuthService _auth;
         private PruebasDbContext _dbContext;
 
-        public UsuarioController(PruebasDbContext dbContext)
+        public UsuarioController(PruebasDbContext dbContext, IConfiguration configuration)
         {
+            _configuration = configuration;
+            _auth = new AuthService(_configuration);
             _dbContext = dbContext;
         }
 
@@ -187,7 +193,7 @@ namespace _0TestWebAPI1.Controllers
                 Nombre = usuario.Nombre,
                 Apellidos = usuario.Apellidos,
                 NickName = newUserNick,
-                Password = usuario.Password,
+                Password = SecurePasswordHasherHelper.Hash(usuario.Password),
                 RolId = rolId,
                 Ci = usuario.Ci,
                 Sexo = usuario.Sexo,
