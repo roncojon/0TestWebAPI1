@@ -59,6 +59,8 @@ namespace _0TestWebAPI1
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
 
             app.UseAuthorization();

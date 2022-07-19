@@ -130,6 +130,7 @@ namespace _0TestWebAPI1.Data
         public DbSet<PruebaBase> PruebaBase { get; set; }
 
         public DbSet<PruebaDeCaritas> PruebaCaritas { get; set; }
+        public DbSet<PruebaToulosePieron> PruebaToulosePieron { get; set; }
         public DbSet<GrupoEtario> GrupoEtario { get; set; }
 
         //public DbSet<PruebaSimbolos> PruebaSimbolos { get; set; }

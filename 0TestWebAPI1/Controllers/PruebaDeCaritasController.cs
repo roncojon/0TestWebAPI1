@@ -26,6 +26,7 @@ namespace _0TestWebAPI1.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PruebaDeCaritas>>> GetPruebaCaritas()
         {
+
             return await _dbContext.PruebaCaritas.ToListAsync();
         }
 
@@ -80,24 +81,18 @@ namespace _0TestWebAPI1.Controllers
         [HttpPost]
         public async Task<ActionResult<PruebaDeCaritas>> PostPruebaDeCaritas(PruebaDeCaritas pruebaDeCaritas, int userId)
         {
-            //Usuario usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.Id == pruebaDeCaritas.UsuarioId);
-            //pruebaDeCaritas.Usuario = usuario;
-
             Usuario usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.Id == userId);
-            //_dbContext.Usuario.FirstOrDefaultAsync(u => u.Id == userId).PruebaDeCaritas.Add(pruebaDeCaritas);
 
-            //PropertyInfo[] properties = usuario.GetType().GetProperties();
-            //foreach (PropertyInfo pi in properties)
-            //{
-                
-            //}
-
-                await _dbContext.PruebaCaritas.AddAsync(pruebaDeCaritas);
+            PruebaDeCaritas pc = new PruebaDeCaritas();
+            pc = pruebaDeCaritas;
+            pc.Evaluar(pruebaDeCaritas);
+            //await _dbContext.PruebaBase.OfType<PruebaDeCaritas>();
+                await _dbContext.PruebaCaritas.AddAsync(pc);
             if (usuario.PruebaDeCaritas==null)
             {
                 usuario.PruebaDeCaritas = new List<PruebaDeCaritas>();
             }
-            usuario.PruebaDeCaritas.Add(pruebaDeCaritas);
+            usuario.PruebaDeCaritas.Add(pc);
             await _dbContext.SaveChangesAsync();
 
             return StatusCode(StatusCodes.Status201Created);
