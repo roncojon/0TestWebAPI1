@@ -1,4 +1,5 @@
 ﻿using _0TestWebAPI1.Models;
+using AuthenticationPlugin;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace _0TestWebAPI1.Data
                    Nombre = "Admin",
                    Apellidos = "Admin",
                    NickName = "Admin",
-                   Password = "PsychoMaster.10*",
+                   Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
                    RolId = 2,
                    Ci = 85050560959,
                    Sexo = false,
@@ -57,7 +58,7 @@ namespace _0TestWebAPI1.Data
                    Nombre = "AdminTester",
                    Apellidos = "AdminTester",
                    NickName = "AdminTester",
-                   Password = "PsychoMaster.10*",
+                   Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
                    RolId = 3,
                    Ci = 86060670067,
                    Sexo = false,
@@ -71,47 +72,7 @@ namespace _0TestWebAPI1.Data
                 new UsuarioCentro { Id = 2, UsuarioId=2,CentroId=1 },
                 new UsuarioCentro { Id = 3, UsuarioId=1,CentroId=2 },
             });
-            //modelBuilder.Entity<Usuario>().HasData(
-            //    new Usuario
-            //    {
-            //        Id = "f42559a2-2776-4e9b-9ba1-268597eff72b",
-            //        UserName = "admin",
-            //        NormalizedUserName = "ADMIN",
-            //        Email = "admin@nauta.cu",
-            //        NormalizedEmail = "ADMIN@NAUTA.CU",
-            //        PasswordHash = "AQAAAAEAACcQAAAAEP4OedI6m26WUn/2C4AcBkzdT6SnL/6E+xakQ/9mGAkqqp3t9PwyIR6l9obLouKIVg==",
-            //        SecurityStamp = "43VMKYQKNTENYZVJNU2TII26X23H5PGV",
-            //        ConcurrencyStamp = "36fd2616-8e8a-4cc6-8a5a-52d963207836",
-            //        Activo = true,
-            //        Nombres = "Administrador",
-            //        Apellidos = "General",
-            //    }
-            //);
-
-            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(
-            //    new IdentityUserRole<string>
-            //    {
-            //        UserId = "f42559a2-2776-4e9b-9ba1-268597eff72b",
-            //        RoleId = "1"
-            //    }
-            //);
-            //// Leer del json y guardar en base de datos los elementos por defecto
-            //var r = System.IO.File.ReadAllText("Data/DatosIniciales/redesSociales.json");
-            //var redesSociales = JsonConvert.DeserializeObject<List<RedSocial>>(r);
-
-            //foreach (var item in redesSociales)
-            //{
-            //    modelBuilder.Entity<RedSocial>().HasData(
-            //        new RedSocial
-            //        {
-            //            Id = item.Id,
-            //            Nombre = item.Nombre,
-            //            Icon = item.Icon
-            //        }
-            //    );
-            //    modelBuilder.ForNpgsqlUseIdentityColumns();
-
-            //}
+           
         }
 
         public DbSet<Book>  Books { get; set; }

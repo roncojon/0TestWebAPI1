@@ -2,13 +2,16 @@
 using _0TestWebAPI1.Data;
 using _0TestWebAPI1.Models;
 using AuthenticationPlugin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -43,47 +46,7 @@ namespace _0TestWebAPI1.Controllers
         [Route("usuarios")]//asdasd
         public async Task<IEnumerable<UserData>> GetAll()
         {
-            //var result = await _dbContext.Sujeto
-            //    .Include(s => s.GrupoEtario)
-            //    .Include(s => s.Escolaridad)
-            //    .Select(x => new MostrarSujeto(){
-            //        Id = x.Id,
-            //        Nombre = x.Nombre,
-            //        GrupoEtario = x.GrupoEtario.Grupo,
-            //        Escolaridad = x.Escolaridad.NivelEscolar
-            //    }).ToListAsync();
-            //return result;
-            //List<int> Centros(int Id) {
-            //    List<int> centrosId = new List<int>();
-            //var centros = _dbContext.UsuarioCentro.Where(u => u.UsuarioId == Id);
-            //    foreach (var centro in centros)
-            //    {
-            //        centrosId.Add(centro.)
-            //    }
-            //    List<int> centrosId = 
-            //}
-
-            //var result =
-            //    await
-            //    (from user in _dbContext.Usuario
-            //     .Include(c => c)
-            //     select new UserData
-            //     {
-            //         Id = user.Id,
-            //         Ci = user.Ci,
-            //         Nombre = user.Nombre,
-            //         Apellidos = user.Apellidos,
-            //         NickName = user.NickName,
-            //         Edad = user.Edad,
-            //         RolId = user.RolId,
-            //         //Password = user.Password,
-            //         Sexo = user.Sexo,
-            //         Centros = .,
-            //         GrupoEtarioId = user.GrupoEtarioId,
-            //         EscolaridadId = user.EscolaridadId,
-            //     })
-            //     .ToListAsync();
-
+            
             var result =
                 await
                 (from user in _dbContext.Usuario
@@ -116,18 +79,12 @@ namespace _0TestWebAPI1.Controllers
             return result;
         }
 
-        // GET api/<SujetoController>/5
         [HttpGet("{id}")]
         public async Task<UserData> Get(int id)
         {
             Usuario user = _dbContext.Usuario.Find(id);
 
             UserData userData = new UserData();
-
-            //if (user.PruebaDeCaritas)
-            //{
-
-            //}
 
             userData.Id = user.Id;
             userData.Ci = user.Ci;
@@ -139,11 +96,11 @@ namespace _0TestWebAPI1.Controllers
             //Password = user.Password;
             userData.Sexo = user.Sexo;
             userData.Centros = /*(List<string>)*/await (from uc in _dbContext.UsuarioCentro
-                                                  where uc.UsuarioId == user.Id
-                                                  join c in _dbContext.Centro
-                                                  on uc.CentroId equals c.Id
-                                                  select c.Nombre).ToListAsync();
-                userData.GrupoEtarioId = user.GrupoEtarioId;
+                                                        where uc.UsuarioId == user.Id
+                                                        join c in _dbContext.Centro
+                                                        on uc.CentroId equals c.Id
+                                                        select c.Nombre).ToListAsync();
+            userData.GrupoEtarioId = user.GrupoEtarioId;
             userData.EscolaridadId = user.EscolaridadId;
             userData.PruebaDeCaritas = (List<PruebaDeCaritas>)user.PruebaDeCaritas;
 
@@ -151,126 +108,117 @@ namespace _0TestWebAPI1.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Register([FromBody] UserData usuario)
         {
-            string newUserNick = usuario.Nombre + usuario.Apellidos;
+            //creando usuario
+            string newUserNick = usuario.Nombre +"."+ usuario.Apellidos;
             var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.NickName == newUserNick).SingleOrDefault();
             if (usuarioConMismoNick != null)
             { return BadRequest("Ya existe un usuario con ese nombre"); }
             else
             {
+                int grupoEtarioId = 1;
+                int rolId = 1;
+                switch (usuario.Edad)
+                {
+                    case <= 39:
+                        grupoEtarioId = 1;
+                        break;
+                    case <= 59:
+                        grupoEtarioId = 2;
+                        break;
+                    case >= 60:
+                        grupoEtarioId = 3;
+                        break;
+                }
+                if (_dbContext.Usuario.Count() == 2)
+                {
+                    rolId = 2;
+                }
+                int escolaridadId = 1;
+                if (usuario.EscolaridadId >= 1 && usuario.EscolaridadId <= 3)
+                {
+                    escolaridadId = usuario.EscolaridadId;
+                }
+                if (usuario.CentrosIds[0] == 0)
+                {
+                    usuario.CentrosIds = new List<int>();
+                }
+                var userObj = new Usuario
+                {
+                    Nombre = usuario.Nombre,
+                    Apellidos = usuario.Apellidos,
+                    NickName = newUserNick,
+                    Password = SecurePasswordHasherHelper.Hash(usuario.Password),
+                    RolId = rolId,
+                    Ci = usuario.Ci,
+                    Sexo = usuario.Sexo,
+                    Edad = usuario.Edad,
+                    GrupoEtarioId = grupoEtarioId,
+                    EscolaridadId = escolaridadId,
+                };
+                _dbContext.Usuario.Add(userObj);
+                _dbContext.SaveChanges();
 
-            
-            int grupoEtarioId = 1;
-            int rolId = 1;
-            switch (usuario.Edad)
-            {
-                case <= 39:
-                    grupoEtarioId = 1;
-                    break;
-                case <= 59:
-                    grupoEtarioId = 2;
-                    break;
-                case >= 60:
-                    grupoEtarioId = 3;
-                    break;
-            }
-            if (_dbContext.Usuario.Count() == 2)
-            {
-                rolId = 2;
-            }
-            int escolaridadId = 1;
-            if (usuario.EscolaridadId>=1 && usuario.EscolaridadId<=3)
-            {
-                escolaridadId = usuario.EscolaridadId;
-            }
-            if (usuario.CentrosIds[0]==0)
-            {
-                usuario.CentrosIds = new List<int>();
-            }
-            var userObj = new Usuario
-            {
-                Nombre = usuario.Nombre,
-                Apellidos = usuario.Apellidos,
-                NickName = newUserNick,
-                Password = SecurePasswordHasherHelper.Hash(usuario.Password),
-                RolId = rolId,
-                Ci = usuario.Ci,
-                Sexo = usuario.Sexo,
-                Edad = usuario.Edad,
-                GrupoEtarioId = grupoEtarioId,
-                EscolaridadId = escolaridadId,
-            };
-             _dbContext.Usuario.Add(userObj);
-             _dbContext.SaveChanges();
+                //asignando los centros a los q pertenece este usuario
 
-            //asignando los centros a los q pertenece este usuario
-            //Usuario user = new Usuario();
-            //   user =  _dbContext.Usuario.Where(u => u.NickName == newUserNick).SingleOrDefault();
+                foreach (var centroId in usuario.CentrosIds)
+                {
+                    UsuarioCentro userCenterTemp = new UsuarioCentro();
+                    userCenterTemp.UsuarioId = userObj.Id;
+                    userCenterTemp.CentroId = centroId;
+                    await _dbContext.UsuarioCentro.AddAsync(userCenterTemp);
+                };
 
-            foreach (var centroId in usuario.CentrosIds)
-            {
-                UsuarioCentro userCenterTemp = new UsuarioCentro();
-                userCenterTemp.UsuarioId = userObj.Id;
-                userCenterTemp.CentroId = centroId;
-                await _dbContext.UsuarioCentro.AddAsync(userCenterTemp);
-            };
+                await _dbContext.SaveChangesAsync();
 
-            await _dbContext.SaveChangesAsync();
-
-            return StatusCode(StatusCodes.Status201Created);
+                return StatusCode(StatusCodes.Status201Created);
             }
         }
-        // GET: api/<SujetoController>
-        //[HttpGet]
-        //public IEnumerable<Sujeto> Get()
-        //{
-        //    return _dbContext.Sujeto;
-        //}
 
-        //[HttpGet]
-        //public async Task<IEnumerable<Sujeto>> GetAsync()
-        //{
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
+        {
+            Usuario usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.NickName == userLogin.NickName);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            if (!SecurePasswordHasherHelper.Verify(userLogin.Paswword, usuario.Password))
+            {
+                return Unauthorized();
+            }
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.NickName),
+                new Claim(ClaimTypes.NameIdentifier, userLogin.NickName),
+            };
+            var token = _auth.GenerateAccessToken(claims);
+            return new ObjectResult(new
+            {
+                access_token = token.AccessToken,
+                expires_in = token.ExpiresIn,
+                token_type = token.TokenType,
+                creation_Time = token.ValidFrom,
+                expiration_Time = token.ValidTo,
+                usuario_id= usuario.Id
+            });
 
-        //    IEnumerable<Sujeto> sujetos = await _dbContext.Sujeto.ToListAsync();
+        }
 
-        //    return sujetos;
-        //}
-
-
-
-        // POST api/<SujetoController>
-        //[HttpPost]
-        //public async Task PostAsync([FromBody] Usuario subject)
-        //{
-        //    //var sujetoTemp = subject;
-        //    await _dbContext.Usuario.AddAsync(subject);
-        //    //var temp = await _dbContext.GrupoEtario.
-        //    //sujetoTemp.GrupoEtarioId =temp.Id;
-        //    //await _dbContext.Sujeto.AddAsync(sujetoTemp);
-        //     await _dbContext.SaveChangesAsync();
-        //}
-
-        //[HttpPost]
-        //public async Task PostAsyncGrupoEtario([FromBody] GrupoEtario group)
-        //{
-        //    await _dbContext.GrupoEtario.AddAsync(group);
-        //    await _dbContext.SaveChangesAsync();
-        //}
-
-        // PUT api/<SujetoController>/5
         [HttpPut("{id}")]
         public async Task PutAsync(int id, [FromBody] UserData userData)
         {
-            Usuario user =await _dbContext.Usuario.FindAsync(id);
+            Usuario user = await _dbContext.Usuario.FindAsync(id);
 
-            if (user!=null)
+            if (user != null)
             {
                 foreach (var usuarioCentro in _dbContext.UsuarioCentro)
                 {
                     if (usuarioCentro.UsuarioId == id)
                     {
-                       _dbContext.UsuarioCentro.Remove(usuarioCentro);
+                        _dbContext.UsuarioCentro.Remove(usuarioCentro);
                     }
                 }
 
@@ -297,7 +245,7 @@ namespace _0TestWebAPI1.Controllers
 
                 await _dbContext.SaveChangesAsync();
             }
-            
+
         }
 
 
