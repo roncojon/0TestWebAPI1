@@ -10,20 +10,21 @@ namespace _0TestWebAPI1.Models
     {
         [Key]
         public int Id { get; set; }
+        public int UsuarioId { get; set; }
 
         //[DataFormatString("{0:dd-MM-yyyy}")]
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy")]
         public DateTime Fecha { get; set; }
-        public int Filas { get; set; }
+        public ICollection<Fila> Filas { get; set; }
 
-        public int Intentos { get; set; }
+        public int IntentosTotales { get; set; }
 
-        public int Anotaciones { get; set; }
+        public int AnotacionesTotales { get; set; }
 
-        public int Errores { get; set; }
+        public int ErroresTotales { get; set; }
 
-        public int Omisiones { get; set; }
+        public int OmisionesTotales { get; set; }
 
         public double IGAP { get; set; }  //se valida en el controller
 
