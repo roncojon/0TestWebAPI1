@@ -1,4 +1,5 @@
-﻿using _0TestWebAPI1.Models;
+﻿using _0TestWebAPI1.Data;
+using _0TestWebAPI1.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace _0TestWebAPI1.ClassesForTheApi
 {
     public class UserData
     {
+        /*private PruebasDbContext _dbContext { get; set; }*/
         public int Id { get; set; }
         public ulong Ci { get; set; }
 
@@ -30,5 +32,24 @@ namespace _0TestWebAPI1.ClassesForTheApi
 
         public List<PruebaDeCaritas> PruebaDeCaritas {get; set;}
         public int EscolaridadId { get; set; }  // se valida en el front y en el controller
+
+       /* public List<PruebaDeCaritas> PcConFilas(ICollection<PruebaDeCaritas> pruebasCaritas)
+        {
+            List<PruebaDeCaritas> pC = new List<PruebaDeCaritas>();
+            foreach (var pc in pruebasCaritas)
+            {
+                List<Fila> filas = new List<Fila>();
+                foreach (var fila in _dbContext.Fila)
+                {
+                    if (fila.PruebaBaseId == pc.Id)
+                    {
+                        filas.Add(fila);
+                    }
+                }
+                pc.Filas = filas;
+                pC.Add(pc);
+            }
+            return pC;
+        }*/
     }
 }

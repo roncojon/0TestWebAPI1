@@ -37,7 +37,7 @@ namespace _0TestWebAPI1
         {
             //services.AddMvc();
             services.AddControllers();
-            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=RON-PC\SQLEXPRESS; Initial Catalog=PruebasDb; Integrated Security=True; MultipleActiveResultSets = True")); 
+            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=PruebasDb; Integrated Security=True; MultipleActiveResultSets = True")); 
 
             //services.AddAuthentication((@"Data Source=RON-PC\SQLEXPRESS; Initial Catalog=UsersDb; Integrated Security=True"));
             //services.ConfigureIdentity();

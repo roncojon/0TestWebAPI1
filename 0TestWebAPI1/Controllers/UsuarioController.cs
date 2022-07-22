@@ -26,6 +26,7 @@ namespace _0TestWebAPI1.Controllers
         private readonly AuthService _auth;
         private PruebasDbContext _dbContext;
 
+
         public UsuarioController(PruebasDbContext dbContext, IConfiguration configuration)
         {
             _configuration = configuration;
@@ -42,11 +43,30 @@ namespace _0TestWebAPI1.Controllers
             return listado;
         }
 
+       /* public List<PruebaDeCaritas> PcConFilas(ICollection<PruebaDeCaritas> pruebasCaritas)
+        {
+            List<PruebaDeCaritas> pC = new List<PruebaDeCaritas>();
+            foreach (var pc in pruebasCaritas)
+            {
+                List<Fila> filas = new List<Fila>();
+                foreach (var fila in _dbContext.Fila)
+                {
+                    if (fila.PruebaBaseId == pc.Id)
+                    {
+                        filas.Add(fila);
+                    }
+                }
+                pc.Filas = filas;
+                pC.Add(pc);
+            }
+            return pC;
+        }*/
         [HttpGet]
         [Route("usuarios")]//asdasd
         public async Task<IEnumerable<UserData>> GetAll()
         {
             
+
             var result =
                 await
                 (from user in _dbContext.Usuario
@@ -72,7 +92,30 @@ namespace _0TestWebAPI1.Controllers
                                                   select c.Nombre).ToList(),
                      GrupoEtarioId = user.GrupoEtarioId,
                      EscolaridadId = user.EscolaridadId,
-                     PruebaDeCaritas = user.PruebaDeCaritas.ToList()
+                     PruebaDeCaritas = /*(from pc in user.PruebaDeCaritas
+                                        join f in _dbContext.Fila
+                                        on pc.Id equals f.PruebaBaseId
+                                        select new PruebaDeCaritas { }).ToList()*/
+                     (from pc in user.PruebaDeCaritas
+                      select new PruebaDeCaritas {
+                          Id = pc.Id,
+                          UsuarioId = pc.UsuarioId,
+                          Fecha = pc.Fecha,
+                          Filas = _dbContext.Fila.Where(f=>f.PruebaBaseId==pc.Id).ToList(),
+                          IntentosTotales = pc.IntentosTotales,
+                          AnotacionesTotales = pc.AnotacionesTotales,
+                          ErroresTotales = pc.ErroresTotales,
+                          OmisionesTotales = pc.OmisionesTotales,
+                          IGAP = pc.IGAP,
+                          ICI = pc.ICI,
+                          PorCientoDeAciertos = pc.PorCientoDeAciertos,
+                          EficaciaAtencional = pc.EficaciaAtencional,
+                          RendimientoAtencional = pc.RendimientoAtencional,
+                          CalidadDeLaAtencion = pc.CalidadDeLaAtencion,
+                          DatosAtencion= pc.DatosAtencion,
+                          Tipo = pc.Tipo
+                      }).ToList()
+
                  })
                  .ToListAsync();
 

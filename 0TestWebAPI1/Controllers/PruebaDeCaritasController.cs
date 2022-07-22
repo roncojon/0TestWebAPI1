@@ -144,9 +144,9 @@ namespace _0TestWebAPI1.Controllers
         //    //return CreatedAtAction("GetPruebaDeCaritas", new { id = pruebaDeCaritas.Id }, pruebaDeCaritas);
         //}
         [HttpPost]
-        public  ActionResult<PruebaDeCaritas> PostPruebaDeCaritas(PruebaPlusFilas pruebaDeCaritas, int userId)
+        public  ActionResult<PruebaDeCaritas> PostPruebaDeCaritas(PruebaPlusFilas pruebaDeCaritas)
         {
-            Usuario usuario =  _dbContext.Usuario.FirstOrDefault(u => u.Id == userId);
+            Usuario usuario =  _dbContext.Usuario.FirstOrDefault(u => u.Id == pruebaDeCaritas.PruebaCaritas.UsuarioId);
 
             PruebaDeCaritas pc = new PruebaDeCaritas();
             pc = pruebaDeCaritas.PruebaCaritas;
