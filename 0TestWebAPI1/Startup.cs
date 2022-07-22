@@ -35,6 +35,17 @@ namespace _0TestWebAPI1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44351","http://localhost:3000", "http://localhost:4200")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
             //services.AddMvc();
             services.AddControllers();
             services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=PruebasDb; Integrated Security=True; MultipleActiveResultSets = True")); 
@@ -73,7 +84,7 @@ namespace _0TestWebAPI1
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "_0TestWebAPI1 v1"));
             }
-
+            app.UseCors();
             //app.UseMvc();
 
             app.UseHttpsRedirection();
