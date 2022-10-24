@@ -11,7 +11,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario");
 
             migrationBuilder.AddColumn<int>(
-                name: "RolId",
+                name: "RolNombre",
                 table: "Usuario",
                 type: "int",
                 nullable: true);
@@ -30,14 +30,14 @@ namespace _0TestWebAPI1.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Usuario_RolId",
+                name: "IX_Usuario_RolNombre",
                 table: "Usuario",
-                column: "RolId");
+                column: "RolNombre");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Usuario_Rol_RolId",
+                name: "FK_Usuario_Rol_RolNombre",
                 table: "Usuario",
-                column: "RolId",
+                column: "RolNombre",
                 principalTable: "Rol",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -46,18 +46,18 @@ namespace _0TestWebAPI1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Usuario_Rol_RolId",
+                name: "FK_Usuario_Rol_RolNombre",
                 table: "Usuario");
 
             migrationBuilder.DropTable(
                 name: "Rol");
 
             migrationBuilder.DropIndex(
-                name: "IX_Usuario_RolId",
+                name: "IX_Usuario_RolNombre",
                 table: "Usuario");
 
             migrationBuilder.DropColumn(
-                name: "RolId",
+                name: "RolNombre",
                 table: "Usuario");
 
             migrationBuilder.AddColumn<string>(

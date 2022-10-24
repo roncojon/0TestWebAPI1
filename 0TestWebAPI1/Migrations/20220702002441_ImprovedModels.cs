@@ -19,7 +19,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Usuario_Rol_RolId",
+                name: "FK_Usuario_Rol_RolNombre",
                 table: "Usuario");
 
             migrationBuilder.DropForeignKey(
@@ -70,7 +70,7 @@ namespace _0TestWebAPI1.Migrations
                 defaultValue: 0);
 
             migrationBuilder.AlterColumn<int>(
-                name: "RolId",
+                name: "RolNombre",
                 table: "Usuario",
                 type: "int",
                 nullable: false,
@@ -80,7 +80,7 @@ namespace _0TestWebAPI1.Migrations
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<int>(
-                name: "GrupoEtarioId",
+                name: "GrupoEtarioNombre",
                 table: "Usuario",
                 type: "int",
                 nullable: false,
@@ -90,7 +90,7 @@ namespace _0TestWebAPI1.Migrations
                 oldNullable: true);
 
             migrationBuilder.AlterColumn<int>(
-                name: "EscolaridadId",
+                name: "EscolaridadNombre",
                 table: "Usuario",
                 type: "int",
                 nullable: false,
@@ -125,7 +125,7 @@ namespace _0TestWebAPI1.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Usuario_Escolaridad_EscolaridadId",
                 table: "Usuario",
-                column: "EscolaridadId",
+                column: "EscolaridadNombre",
                 principalTable: "Escolaridad",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -133,15 +133,15 @@ namespace _0TestWebAPI1.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Usuario_GrupoEtario_GrupoEtarioId",
                 table: "Usuario",
-                column: "GrupoEtarioId",
+                column: "GrupoEtarioNombre",
                 principalTable: "GrupoEtario",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Usuario_Rol_RolId",
+                name: "FK_Usuario_Rol_RolNombre",
                 table: "Usuario",
-                column: "RolId",
+                column: "RolNombre",
                 principalTable: "Rol",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -186,7 +186,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Usuario_Rol_RolId",
+                name: "FK_Usuario_Rol_RolNombre",
                 table: "Usuario");
 
             migrationBuilder.DropForeignKey(
@@ -234,7 +234,7 @@ namespace _0TestWebAPI1.Migrations
                 nullable: true);
 
             migrationBuilder.AlterColumn<int>(
-                name: "RolId",
+                name: "RolNombre",
                 table: "Usuario",
                 type: "int",
                 nullable: true,
@@ -242,7 +242,7 @@ namespace _0TestWebAPI1.Migrations
                 oldType: "int");
 
             migrationBuilder.AlterColumn<int>(
-                name: "GrupoEtarioId",
+                name: "GrupoEtarioNombre",
                 table: "Usuario",
                 type: "int",
                 nullable: true,
@@ -250,7 +250,7 @@ namespace _0TestWebAPI1.Migrations
                 oldType: "int");
 
             migrationBuilder.AlterColumn<int>(
-                name: "EscolaridadId",
+                name: "EscolaridadNombre",
                 table: "Usuario",
                 type: "int",
                 nullable: true,
@@ -281,7 +281,7 @@ namespace _0TestWebAPI1.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Usuario_Escolaridad_EscolaridadId",
                 table: "Usuario",
-                column: "EscolaridadId",
+                column: "EscolaridadNombre",
                 principalTable: "Escolaridad",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -289,15 +289,15 @@ namespace _0TestWebAPI1.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_Usuario_GrupoEtario_GrupoEtarioId",
                 table: "Usuario",
-                column: "GrupoEtarioId",
+                column: "GrupoEtarioNombre",
                 principalTable: "GrupoEtario",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Usuario_Rol_RolId",
+                name: "FK_Usuario_Rol_RolNombre",
                 table: "Usuario",
-                column: "RolId",
+                column: "RolNombre",
                 principalTable: "Rol",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);

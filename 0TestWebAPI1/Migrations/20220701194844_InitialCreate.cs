@@ -183,12 +183,12 @@ namespace _0TestWebAPI1.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Usuario_EscolaridadId",
                 table: "Usuario",
-                column: "EscolaridadId");
+                column: "EscolaridadNombre");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuario_GrupoEtarioId",
                 table: "Usuario",
-                column: "GrupoEtarioId");
+                column: "GrupoEtarioNombre");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsuarioCentro_CentroId",

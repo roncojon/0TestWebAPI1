@@ -12,6 +12,6 @@ namespace _0TestWebAPI1.ClassesForTheApi
         public int CentroId { get; set; }
         public string NombreDelCentro { get; set; }
 
-        public List<Usuario> Usuarios { get; set; }
+        public List<Usuario1> Usuarios { get; set; }
     }
 }

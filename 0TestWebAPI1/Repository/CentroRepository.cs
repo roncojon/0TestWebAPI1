@@ -16,19 +16,19 @@ namespace _0TestWebAPI1.Repository
         {
             _dbContext = dbContext;
         }
-        public async Task<IEnumerable<Centro>> GetCentros(int centroId)
+        public async Task<IEnumerable<Centro4>> GetCentros(int centroId)
         {
-            List<Centro> centros =await _dbContext.Centro.ToListAsync();
+            List<Centro4> centros =await _dbContext.Centro.ToListAsync();
             return centros;
         }
 
-        public async Task<IEnumerable<Usuario>> GetSujetosPorCentro(int centroId)
+        public async Task<IEnumerable<Usuario1>> GetSujetosPorCentro(int centroId)
         {
             var center =await _dbContext.Centro.FindAsync(centroId);
 
             //var subjectCenter = _dbContext.UsuarioCentro;
 
-            List<Usuario> sujetos = new List<Usuario>();
+            List<Usuario1> sujetos = new List<Usuario1>();
 
 
 /*

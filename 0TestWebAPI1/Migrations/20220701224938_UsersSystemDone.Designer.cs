@@ -168,10 +168,10 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int>("Edad")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EscolaridadId")
+                    b.Property<int?>("EscolaridadNombre")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GrupoEtarioId")
+                    b.Property<int?>("GrupoEtarioNombre")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
@@ -180,19 +180,19 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RolId")
+                    b.Property<int?>("RolNombre")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Sexo")
+                    b.Property<bool>("SexoNombre")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EscolaridadId");
+                    b.HasIndex("EscolaridadNombre");
 
-                    b.HasIndex("GrupoEtarioId");
+                    b.HasIndex("GrupoEtarioNombre");
 
-                    b.HasIndex("RolId");
+                    b.HasIndex("RolNombre");
 
                     b.ToTable("Usuario");
                 });
@@ -254,15 +254,15 @@ namespace _0TestWebAPI1.Migrations
                 {
                     b.HasOne("_0TestWebAPI1.Models.Escolaridad", "Escolaridad")
                         .WithMany()
-                        .HasForeignKey("EscolaridadId");
+                        .HasForeignKey("EscolaridadNombre");
 
                     b.HasOne("_0TestWebAPI1.Models.GrupoEtario", "GrupoEtario")
                         .WithMany()
-                        .HasForeignKey("GrupoEtarioId");
+                        .HasForeignKey("GrupoEtarioNombre");
 
                     b.HasOne("_0TestWebAPI1.Models.Rol", "Rol")
                         .WithMany()
-                        .HasForeignKey("RolId");
+                        .HasForeignKey("RolNombre");
 
                     b.Navigation("Escolaridad");
 

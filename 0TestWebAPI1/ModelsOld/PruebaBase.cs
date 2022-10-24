@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace _0TestWebAPI1.Models
 {
-    public class PruebaBase
+    public class PruebaCaritas
     {
         [Key]
         public int Id { get; set; }
@@ -14,8 +14,8 @@ namespace _0TestWebAPI1.Models
 
         //[DataFormatString("{0:dd-MM-yyyy}")]
 
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy")]
-        public DateTime Fecha { get; set; }
+        //[DisplayFormat(DataFormatString = "{0:dd-MM-yyyy")]
+        public string Fecha { get; set; }
         public ICollection<Fila> Filas { get; set; }
 
         public int IntentosTotales { get; set; }

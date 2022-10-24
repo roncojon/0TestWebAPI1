@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Models
 {
-    public class Centro //de trabajo o estudio
+    public class Rol7
     {
-        public int Id { get; set; }
+        [Key]
         public string Nombre { get; set; }
-        /*public ICollection<Usuario> Usuarios { get; set; }*/
-
-
+        // public ICollection<Usuario1> Usuarios { get; set; }
     }
 }

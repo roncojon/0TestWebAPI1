@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Models
 {
-    public class PruebaToulosePieron:PruebaBase
+    public class PruebaToulosePieron:PruebaCaritas
     {
         public int Tipo = 2;
     }

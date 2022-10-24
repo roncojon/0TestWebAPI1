@@ -34,14 +34,14 @@ namespace _0TestWebAPI1.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
+       /* [HttpGet]
         [Route("books")]
         public async Task<List<Book>> GetAllBooks()
         {
             var listado = new List<Book>();
             listado = await _dbContext.Books.Include(x => x.BookCategories).ThenInclude(x => x.Category).ToListAsync();
             return listado;
-        }
+        }*/
 
        /* public List<PruebaDeCaritas> PcConFilas(ICollection<PruebaDeCaritas> pruebasCaritas)
         {
@@ -63,6 +63,7 @@ namespace _0TestWebAPI1.Controllers
         }*/
         [HttpGet]
         [Route("usuarios")]//asdasd
+        /*[Authorize(Roles = "ADMINISTRADOR,EXAMINADOR")]*/
         public async Task<IEnumerable<UserData>> GetAll()
         {
             
@@ -82,22 +83,22 @@ namespace _0TestWebAPI1.Controllers
                      Apellidos = user.Apellidos,
                      NickName = user.NickName,
                      Edad = user.Edad,
-                     RolId = user.RolId,
+                     RolNombre = user.RolNombre,
                      //Password = user.Password,
-                     Sexo = user.Sexo,
-                     Centros = /*(List<string>)*/(from uc in _dbContext.UsuarioCentro
+                     SexoNombre = user.SexoNombre,
+                     /*Centros = (from uc in _dbContext.UsuarioCentro
                                                   where uc.UsuarioId == user.Id
                                                   join c in _dbContext.Centro
                                                   on uc.CentroId equals c.Id
-                                                  select c.Nombre).ToList(),
-                     GrupoEtarioId = user.GrupoEtarioId,
-                     EscolaridadId = user.EscolaridadId,
-                     PruebaDeCaritas = /*(from pc in user.PruebaDeCaritas
+                                                  select c.Nombre).ToList(),*/
+                     GrupoEtarioNombre = user.GrupoEtarioNombre,
+                     EscolaridadNombre = user.EscolaridadNombre,
+                     /*PruebaDeCaritas = (from pc in user.PruebaDeCaritas
                                         join f in _dbContext.Fila
                                         on pc.Id equals f.PruebaBaseId
                                         select new PruebaDeCaritas { }).ToList()*/
-                     (from pc in user.PruebaDeCaritas
-                      select new PruebaDeCaritas {
+                     /*(from pc in user.PruebaDeCaritas
+                      select new PruebaCaritasFormulas {
                           Id = pc.Id,
                           UsuarioId = pc.UsuarioId,
                           Fecha = pc.Fecha,
@@ -114,7 +115,7 @@ namespace _0TestWebAPI1.Controllers
                           CalidadDeLaAtencion = pc.CalidadDeLaAtencion,
                           DatosAtencion= pc.DatosAtencion,
                           Tipo = pc.Tipo
-                      }).ToList()
+                      }).ToList()*/
 
                  })
                  .ToListAsync();
@@ -123,10 +124,10 @@ namespace _0TestWebAPI1.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "ADMINISTRADOR")]
+        [Authorize(Roles = "ADMINISTRADOR,ADMINISTRADORTESTER")]
         public async Task<UserData> Get(int id)
         {
-            Usuario user = _dbContext.Usuario.Find(id);
+            Usuario1 user = _dbContext.Usuario.Find(id);
 
             UserData userData = new UserData();
 
@@ -136,22 +137,23 @@ namespace _0TestWebAPI1.Controllers
             userData.Apellidos = user.Apellidos;
             userData.NickName = user.NickName;
             userData.Edad = user.Edad;
-            userData.RolId = user.RolId;
+            userData.RolNombre = user.RolNombre;
             //Password = user.Password;
-            userData.Sexo = user.Sexo;
-            userData.Centros = /*(List<string>)*/await (from uc in _dbContext.UsuarioCentro
+            userData.SexoNombre = user.SexoNombre;
+            /*userData.Centros = (List<string>)await (from uc in _dbContext.UsuarioCentro
                                                         where uc.UsuarioId == user.Id
                                                         join c in _dbContext.Centro
                                                         on uc.CentroId equals c.Id
-                                                        select c.Nombre).ToListAsync();
-            userData.GrupoEtarioId = user.GrupoEtarioId;
-            userData.EscolaridadId = user.EscolaridadId;
-            userData.PruebaDeCaritas = (List<PruebaDeCaritas>)user.PruebaDeCaritas;
+                                                        select c.Nombre).ToListAsync();*/
+            userData.GrupoEtarioNombre = user.GrupoEtarioNombre;
+            userData.EscolaridadNombre = user.EscolaridadNombre;
+            /*userData.PruebaDeCaritas = (List<PruebaCaritasFormulas>)user.PruebaDeCaritas;*/
 
             return userData;
         }
 
         [HttpPost]
+        //[Authorize(Roles = "ADMINISTRADOR,ADMINISTRADORTESTER")]
         public async Task<IActionResult> Register([FromBody] UserData usuario)
         {
             //creando usuario
@@ -161,58 +163,59 @@ namespace _0TestWebAPI1.Controllers
             { return BadRequest("Ya existe un usuario con ese nombre"); }
             else
             {
-                int grupoEtarioId = 1;
-                int rolId = 1;
+                string grupoEtarioNombre = "Fuera de rango para el estudio";
+
+                string RolNombre = usuario.RolNombre;
                 switch (usuario.Edad)
                 {
-                    case <= 39:
-                        grupoEtarioId = 1;
+                    case int n when (n >= 12 && n <= 18):
+                        grupoEtarioNombre = "Joven";
                         break;
-                    case <= 59:
-                        grupoEtarioId = 2;
+                    case <= 30:
+                        grupoEtarioNombre = "Medio";
                         break;
-                    case >= 60:
-                        grupoEtarioId = 3;
+                    case <= 60:
+                        grupoEtarioNombre = "Mayor";
                         break;
                 }
-                if (_dbContext.Usuario.Count() == 2)
+                if (_dbContext.Usuario.Count() == 3)
                 {
-                    rolId = 2;
+                    RolNombre = "ADMINISTRADOR";
                 }
-                int escolaridadId = 1;
-                if (usuario.EscolaridadId >= 1 && usuario.EscolaridadId <= 3)
+                /*int EscolaridadNombre = 1;
+                if (usuario.EscolaridadNombre >= 1 && usuario.EscolaridadNombre <= 3)
                 {
-                    escolaridadId = usuario.EscolaridadId;
-                }
-                if (usuario.CentrosIds[0] == 0)
+                    EscolaridadNombre = usuario.EscolaridadNombre;
+                }*/
+                if (usuario.CentrosIds!=null && usuario.CentrosIds[0] == 0)
                 {
                     usuario.CentrosIds = new List<int>();
                 }
-                var userObj = new Usuario
+                var userObj = new Usuario1
                 {
                     Nombre = usuario.Nombre,
                     Apellidos = usuario.Apellidos,
                     NickName = newUserNick,
-                    Password = SecurePasswordHasherHelper.Hash(usuario.Password),
-                    RolId = rolId,
+                    Password = SecurePasswordHasherHelper.Hash(usuario.Password)/*usuario.Password*/,
+                    RolNombre = RolNombre,
                     Ci = usuario.Ci,
-                    Sexo = usuario.Sexo,
+                    SexoNombre = usuario.SexoNombre,
                     Edad = usuario.Edad,
-                    GrupoEtarioId = grupoEtarioId,
-                    EscolaridadId = escolaridadId,
+                    GrupoEtarioNombre = grupoEtarioNombre,
+                    EscolaridadNombre = usuario.EscolaridadNombre,
                 };
-                _dbContext.Usuario.Add(userObj);
-                _dbContext.SaveChanges();
+                await _dbContext.Usuario.AddAsync(userObj);
+               await _dbContext.SaveChangesAsync();
 
                 //asignando los centros a los q pertenece este usuario
 
-                foreach (var centroId in usuario.CentrosIds)
+              /*  foreach (var centroId in usuario.CentrosIds)
                 {
                     UsuarioCentro userCenterTemp = new UsuarioCentro();
                     userCenterTemp.UsuarioId = userObj.Id;
                     userCenterTemp.CentroId = centroId;
                     await _dbContext.UsuarioCentro.AddAsync(userCenterTemp);
-                };
+                };*/
 
                 await _dbContext.SaveChangesAsync();
 
@@ -223,7 +226,7 @@ namespace _0TestWebAPI1.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
         {
-            Usuario usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.NickName == userLogin.NickName);
+            Usuario1 usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.NickName == userLogin.NickName);
             if (usuario == null)
             {
                 return NotFound();
@@ -233,12 +236,12 @@ namespace _0TestWebAPI1.Controllers
                 return Unauthorized();
             }
 
-            Rol rol =await _dbContext.Rol.FirstOrDefaultAsync(r => r.Id == usuario.RolId);
+            Rol7 rol =await _dbContext.Rol.FirstOrDefaultAsync(r => r.Nombre == usuario.RolNombre);
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.NickName),
                 new Claim(ClaimTypes.NameIdentifier, userLogin.NickName),
-                new Claim(ClaimTypes.Role, rol.NombreDelRol)
+                new Claim(ClaimTypes.Role, rol.Nombre)
             };
             var token = _auth.GenerateAccessToken(claims);
             return new ObjectResult(new
@@ -248,19 +251,59 @@ namespace _0TestWebAPI1.Controllers
                 token_type = token.TokenType,
                 creation_Time = token.ValidFrom,
                 expiration_Time = token.ValidTo,
-                usuario_id= usuario.Id
+                usuario_id= usuario.Id,
+                rol_name = rol.Nombre,
+                status=200
             });
-
         }
 
+        public static int TokenValidTo = 1;
+
+        /*[HttpPost]
+        public async Task<IActionResult> Logout([FromBody] UserLogin userLogin)
+        {
+            Usuario1 usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.NickName == userLogin.NickName);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            if (!SecurePasswordHasherHelper.Verify(userLogin.Password, usuario.Password))
+            {
+                return Unauthorized();
+            }
+
+            Rol7 rol = await _dbContext.Rol.FirstOrDefaultAsync(r => r.Nombre == usuario.RolNombre);
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.NickName),
+                new Claim(ClaimTypes.NameIdentifier, userLogin.NickName),
+                new Claim(ClaimTypes.Role, rol.Nombre)
+            };
+            var token = _auth.GenerateAccessToken(claims);
+            // token.ValidTo = 1;
+            return new ObjectResult(new
+            {
+                access_token = token.AccessToken,
+                expires_in = token.ExpiresIn,
+                token_type = token.TokenType,
+                creation_Time = token.ValidFrom,
+                expiration_Time = token.ValidTo,
+                usuario_id = usuario.Id,
+                rol_name = rol.Nombre,
+                status = 200
+            });
+        }*/
+
+
         [HttpPut("{id}")]
+        /*[Authorize(Roles = "ADMINISTRADOR,ADMINISTRADORTESTER")]*/
         public async Task PutAsync(int id, [FromBody] UserData userData)
         {
-            Usuario user = await _dbContext.Usuario.FindAsync(id);
+            Usuario1 user = await _dbContext.Usuario.FindAsync(id);
 
             if (user != null)
             {
-                foreach (var usuarioCentro in _dbContext.UsuarioCentro)
+                /*foreach (var usuarioCentro in _dbContext.UsuarioCentro)
                 {
                     if (usuarioCentro.UsuarioId == id)
                     {
@@ -274,18 +317,18 @@ namespace _0TestWebAPI1.Controllers
                     userCentroTemp.UsuarioId = id;
                     userCentroTemp.CentroId = centroId;
                     await _dbContext.UsuarioCentro.AddAsync(userCentroTemp);
-                }
+                }*/
 
                 user.Ci = userData.Ci;
                 user.Nombre = userData.Nombre;
                 user.Apellidos = userData.Apellidos;
                 user.NickName = userData.NickName;
                 user.Edad = userData.Edad;
-                user.RolId = userData.RolId;
+                user.RolNombre = userData.RolNombre;
                 user.Password = userData.Password;
-                user.Sexo = userData.Sexo;
-                user.GrupoEtarioId = userData.GrupoEtarioId;
-                user.EscolaridadId = userData.EscolaridadId;
+                user.SexoNombre = userData.SexoNombre;
+                user.GrupoEtarioNombre = userData.GrupoEtarioNombre;
+                user.EscolaridadNombre = userData.EscolaridadNombre;
                 //user.PruebaDeCaritas = userData.PruebaDeCaritas;
 
 
@@ -297,9 +340,10 @@ namespace _0TestWebAPI1.Controllers
 
         // DELETE api/<SujetoController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMINISTRADOR,ADMINISTRADORTESTER")]
         public async Task DeleteAsync(int id)
         {
-            Usuario temp = await _dbContext.Usuario.FindAsync(id);
+            Usuario1 temp = await _dbContext.Usuario.FindAsync(id);
             _dbContext.Usuario.Remove(temp);
             await _dbContext.SaveChangesAsync();
         }

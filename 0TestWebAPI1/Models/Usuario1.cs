@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Models
 {
-    public class Usuario
+    public class Usuario1
     {
         /*private PruebasDbContext _dbContext { get; set; }*/
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
+
         public ulong Ci { get; set; }
         public string Password { get; set; }
 
@@ -20,16 +21,17 @@ namespace _0TestWebAPI1.Models
         public string Apellidos { get; set; } 
         public string NickName { get; set; }
 
-        public bool Sexo { get; set; }  //true es femeneino
+        public string SexoNombre { get; set; }
+        // public Sexo2 Sexo2 { get; set; }  //true es femeneino
 
         public int Edad { get; set; }
-        public int RolId { get; set; }
-        public int GrupoEtarioId { get; set; } // se valida en el controller
+        public string RolNombre { get; set; }
+        public string GrupoEtarioNombre { get; set; } // se valida en el controller
 
-        public int EscolaridadId { get; set; }  // se valida en el front y en el controller 
+        public string EscolaridadNombre { get; set; }  // se valida en el front y en el controller 
 
         //public ICollection<Centro> Centros { get; set; }
-        public ICollection<PruebaDeCaritas> PruebaDeCaritas { get; set; }
+        // public ICollection<PruebaMatriz8> PruebaMatriz8 { get; set; }
 
        /* public List<PruebaDeCaritas> PcConFilas(List<PruebaDeCaritas> pruebasCaritas)
         {

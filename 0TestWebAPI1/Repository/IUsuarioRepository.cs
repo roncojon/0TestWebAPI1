@@ -9,6 +9,6 @@ namespace _0TestWebAPI1.Repository
 {
     public interface IUsuarioRepository
     {
-        Task<IEnumerable<Usuario>> GetAllSujetos();
+        Task<IEnumerable<Usuario1>> GetAllSujetos();
     }
 }

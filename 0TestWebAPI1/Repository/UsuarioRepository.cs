@@ -18,7 +18,7 @@ namespace _0TestWebAPI1.Repository
             _dbContext = context;
         }
 
-        public async Task<IEnumerable<Usuario>> GetAllSujetos()
+        public async Task<IEnumerable<Usuario1>> GetAllSujetos()
         {
             return await _dbContext.Usuario.ToListAsync();
         }
@@ -37,7 +37,7 @@ namespace _0TestWebAPI1.Repository
         //    return pruebasDeSubject;
         //}
 
-        public async Task Post(Usuario sujeto)
+        public async Task Post(Usuario1 sujeto)
         {
             await _dbContext.AddAsync(sujeto);
 
