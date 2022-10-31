@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace _0TestWebAPI1.Models
 {
 
-    public class GrupoEtario3
+    public class GrupoEtario
     {
         [Key]
         public string Nombre { get; set; }

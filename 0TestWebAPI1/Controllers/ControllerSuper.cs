@@ -72,7 +72,7 @@ namespace _0TestWebAPI1.Controllers
 
         // PUT api/<ControllerSuper>/5
         [HttpPut("{id}")]
-        public async Task Put(T value/*, Z id*/)
+        public virtual async Task Put(T value/*, Z id*/)
         {
             /*T temp = await _dbContext.Set<T>().FindAsync(id);
 
@@ -100,7 +100,7 @@ namespace _0TestWebAPI1.Controllers
 
         // DELETE api/<ControllerSuper>/5
         [HttpDelete("{id}")]
-        public async Task Delete(Z id)
+        public virtual async Task Delete(Z id)
         {
              T temp = await _dbContext.FindAsync<T>(id);
             // _dbContext.Entry(temp).State = EntityState.Deleted;

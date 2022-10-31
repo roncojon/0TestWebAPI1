@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace _0TestWebAPI1.Models
 {
@@ -9,7 +10,11 @@ namespace _0TestWebAPI1.Models
                 public int MyProperty { get; set; }*/
         /*yyyy-MM-dd'T'HH:mm:ss*/
         public string PruebaMatrizNombre { get; set; }
+        [JsonIgnore]
         public PruebaMatriz8 PruebaMatriz { get; set; }
+
+        public string PatronClave { get; set; }
+        public string PatronUsuario { get; set; }
         public DateTime Fecha { get; set; }
     }
 }

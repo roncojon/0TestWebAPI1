@@ -11,7 +11,7 @@ namespace _0TestWebAPI1.Models
         // public int Id { get; set; }
         public Guid Id { get; set; }
         public string Nombre { get; set; }
-        public ICollection<Usuario1> Usuarios { get; set; }
+        /*public ICollection<Usuario1> Usuarios { get; set; }*/
 
 
     }

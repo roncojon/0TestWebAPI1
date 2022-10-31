@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace _0TestWebAPI1.Models
 {
-    public class Escolaridad5
+    public class Escolaridad
     {
         // public Guid Id { get; set; }
 
