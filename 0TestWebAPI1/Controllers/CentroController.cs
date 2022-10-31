@@ -1,55 +1,149 @@
-﻿using _0TestWebAPI1.Data;
-using _0TestWebAPI1.Models;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using _0TestWebAPI1.Data;
+using _0TestWebAPI1.Models;
+using _0TestWebAPI1.ClassesForTheApi;
+using _0TestWebAPI1.Service;
 
 namespace _0TestWebAPI1.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
-    public class CentroController : ControllerBase
+    public class CentroController : ControllerSuper<Centro4,Guid> // <Entidad, Tipo de Id>
     {
 
-        private PruebasDbContext _dbContext;
 
-        public CentroController(PruebasDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-        // GET: api/<CentroController>
-        [HttpGet]
-        public IEnumerable<Centro> Get()
-        {
-            return _dbContext.Centro;
-        }
 
-        // GET api/<CentroController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/<CentroController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        /* private readonly PruebasDbContext _dbContext;
 
-        // PUT api/<CentroController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+         public CentroController(PruebasDbContext context)
+         {
+             _dbContext = context;
+         }*/
 
-        // DELETE api/<CentroController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // GET: api/Centro
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Centro>>> GetCentro()
+        //{
+        //    return await _dbContext.Centro.ToListAsync();
+        //}
+
+        /* [HttpGet]
+         [Route("usuarios")]
+         public async  Task<List<UsuariosXcentro>> GetUsuariosPorCentro()
+         {
+             List<UsuariosXcentro> usuariosXcentro = new List<UsuariosXcentro>();
+             foreach (var centro in _dbContext.Centro)
+             { 
+                 UsuariosXcentro uXcTemp = new UsuariosXcentro();
+                 // uXcTemp.CentroId = centro.Id;
+                 uXcTemp.NombreDelCentro = centro.Nombre;
+                 List<Usuario1> usuarios = new List<Usuario1>();
+
+
+
+                 uXcTemp.Usuarios = usuarios;
+                 usuariosXcentro.Add(uXcTemp);
+             }
+
+
+             return usuariosXcentro;
+         }*/
+
+        /*  // GET: api/Centro/5
+          [HttpGet("{id}")]
+          public async Task<ActionResult<UsuariosXcentro>> GetCentro(int id)
+          {
+              var centro = await _dbContext.Centro.FindAsync(id);
+              if (centro == null)
+              {
+                  return NotFound();
+              }
+
+              List<Usuario1> usuarios = new List<Usuario1>();
+
+              foreach (var uc in _dbContext.UsuarioCentro.Where(uc => uc.CentroId == id))
+              {
+                  Usuario1 user = await _dbContext.Usuario.FindAsync(uc.UsuarioId);
+                  usuarios.Add(user);
+              }
+              UsuariosXcentro uXc = new UsuariosXcentro();
+              uXc.CentroId = centro.Id;
+              uXc.NombreDelCentro = centro.Nombre;
+              uXc.Usuarios = usuarios;
+
+              return uXc;
+          }
+
+          // PUT: api/Centro/5
+          // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+          [HttpPut("{id}")]
+          public async Task<IActionResult> PutCentro(int id, Centro4 centro)
+          {
+              if (id != centro.Id)
+              {
+                  return BadRequest();
+              }
+
+              _dbContext.Entry(centro).State = EntityState.Modified;
+
+              try
+              {
+                  await _dbContext.SaveChangesAsync();
+              }
+              catch (DbUpdateConcurrencyException)
+              {
+                  if (!CentroExists(id))
+                  {
+                      return NotFound();
+                  }
+                  else
+                  {
+                      throw;
+                  }
+              }
+
+              return NoContent();
+          }
+
+          // POST: api/Centro
+          // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+          [HttpPost]
+          public async Task<ActionResult<Centro4>> PostCentro(Centro4 centro)
+          {
+              _dbContext.Centro.Add(centro);
+              await _dbContext.SaveChangesAsync();
+
+              return CreatedAtAction("GetCentro", new { id = centro.Id }, centro);
+          }
+
+          // DELETE: api/Centro/5
+          [HttpDelete("{id}")]
+          public async Task<IActionResult> DeleteCentro(int id)
+          {
+              var centro = await _dbContext.Centro.FindAsync(id);
+              if (centro == null)
+              {
+                  return NotFound();
+              }
+
+              _dbContext.Centro.Remove(centro);
+              await _dbContext.SaveChangesAsync();
+
+              return NoContent();
+          }
+
+          private bool CentroExists(int id)
+          {
+              return _dbContext.Centro.Any(e => e.Id == id);
+          }*/
+        public CentroController(PruebasDbContext context) : base(context)
         {
         }
     }
