@@ -14,6 +14,8 @@ namespace _0TestWebAPI1.Models
         public int CantidadFilas { get; set; }
         public int CantColumnas { get; set; }
         public int TiempoLimiteMs { get; set; }
+
+        public string PatronOriginal { get; set; }
         /*[IgnoreDataMember]*/
         [JsonIgnore]
         public ICollection<Examen9> Examenes { get; set; }

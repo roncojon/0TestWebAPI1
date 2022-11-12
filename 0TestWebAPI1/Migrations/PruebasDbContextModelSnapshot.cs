@@ -77,7 +77,7 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int>("Errores")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Fecha")
+                    b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Filas")

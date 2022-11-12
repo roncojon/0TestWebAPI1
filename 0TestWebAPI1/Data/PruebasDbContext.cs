@@ -42,11 +42,16 @@ namespace _0TestWebAPI1.Data
                 new Sexo2 {Nombre="Femenino"},
             });
 
-
+            Guid userAdminId = Guid.NewGuid();
+            Guid userExaminadorId = Guid.NewGuid();
+            Guid userExaminadoId = Guid.NewGuid();
+            Guid userAdminId2 = Guid.NewGuid();
+            Guid userExaminadorId2 = Guid.NewGuid();
+            Guid userExaminadoId2 = Guid.NewGuid();
             modelBuilder.Entity<Usuario1>().HasData(new Usuario1[]
             {
                new Usuario1
-               {Id = Guid.NewGuid(),
+               {Id = userAdminId,
                    Nombre = "Admin",
                    Apellidos = "Admin",
                    NickName = "Admin",
@@ -61,7 +66,7 @@ namespace _0TestWebAPI1.Data
                },
                 new Usuario1
                {
-                    Id = Guid.NewGuid(),
+                    Id = userExaminadorId,
                    Nombre = "Examinador",
                    Apellidos = "Examinador",
                    NickName = "Examinador",
@@ -76,10 +81,54 @@ namespace _0TestWebAPI1.Data
                },
                 new Usuario1
                {
-                    Id = Guid.NewGuid(),
+                    Id = userExaminadoId,
                    Nombre = "Examinado",
                    Apellidos = "Examinado",
                    NickName = "Examinado",
+                   Password = SecurePasswordHasherHelper.Hash("ExaminadoMaster.10*"),
+                   RolNombre = "EXAMINADO",
+                   Ci = 86060670065,
+                   SexoNombre = "Femenino",
+                   Edad = 36,
+                   GrupoEtarioNombre = "Medio",
+                   EscolaridadNombre = "Superior",
+                   Centro4Id = centroUmcc
+               },
+                new Usuario1
+               {Id = userAdminId2,
+                   Nombre = "Admin2",
+                   Apellidos = "Admin2",
+                   NickName = "Admin2",
+                   Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
+                   RolNombre = "ADMINISTRADOR",
+                   Ci = 85050560959,
+                   SexoNombre = "Masculino",
+                   Edad = 37,
+                   GrupoEtarioNombre = "Medio",
+                   EscolaridadNombre = "Básico",
+                   Centro4Id = centroGuiteras
+               },
+                new Usuario1
+               {
+                    Id = userExaminadorId2,
+                   Nombre = "Examinador2",
+                   Apellidos = "Examinador2",
+                   NickName = "Examinador2",
+                   Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
+                   RolNombre = "EXAMINADOR",
+                   Ci = 86060670067,
+                   SexoNombre = "Masculino",
+                   Edad = 36,
+                   GrupoEtarioNombre = "Medio",
+                   EscolaridadNombre = "Superior",
+                   Centro4Id = centroGuiteras
+               },
+                new Usuario1
+               {
+                    Id = userExaminadoId2,
+                   Nombre = "Examinado2",
+                   Apellidos = "Examinado2",
+                   NickName = "Examinado2",
                    Password = SecurePasswordHasherHelper.Hash("ExaminadoMaster.10*"),
                    RolNombre = "EXAMINADO",
                    Ci = 86060670065,
@@ -102,11 +151,19 @@ namespace _0TestWebAPI1.Data
                 Descripcion = "Test de percepcion de diferencias. Selecciona la carita única en cada trío",
                 CantidadFilas = 15,
                 CantColumnas = 4,
-                TiempoLimiteMs = 180000
-                });
-            }
+                TiempoLimiteMs = 180000,
+                PatronOriginal = "i1 3,i2 2,i3 2,i4 2,i5 3,i6 3,i7 2,i8 3,i9 1,i10 1,i11 1,i12 3,i13 2,i14 1,i15 2,i16 2,i17 2,i18 2,i19 3,i20 1,i21 2,i22 2,i23 1,i24 1,i25 1,i26 1,i27 1,i28 3,i29 1,i30 3,i31 2,i32 2,i33 1,i34 1,i35 2,i36 3,i37 1,i38 1,i39 2,i40 3,i41 2,i42 2,i43 3,i44 3,i45 3,i46 2,i47 2,i48 1,i49 1,i50 1,i51 1,i52 2,i53 2,i54 3,i55 2,i56 3,i57 3,i58 1,i59 2,i60 1,"
+            });
 
-        public DbSet<Usuario1> Usuario { get; set; }
+            modelBuilder.Entity<UsuarioRol6>().HasData(new UsuarioRol6[] {
+                new UsuarioRol6 { UsuarioId=userAdminId, RolNombre ="ADMINISTRADOR"},
+                new UsuarioRol6 {UsuarioId=userExaminadorId, RolNombre="EXAMINADOR"},
+                new UsuarioRol6 {UsuarioId=userExaminadoId, RolNombre="EXAMINADO"},
+            });
+            }
+       
+
+public DbSet<Usuario1> Usuario { get; set; }
         public DbSet<Sexo2> Sexo { get; set; }
         public DbSet<GrupoEtario> GrupoEtario { get; set; }
         public DbSet<Centro4> Centro { get; set; }

@@ -1,5 +1,6 @@
 ﻿using _0TestWebAPI1.Data;
 using _0TestWebAPI1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,7 +25,8 @@ namespace _0TestWebAPI1.Controllers
 
         // GET: api/<ControllerSuper>
         [HttpGet]
-        public async Task<List<T>> GetAll()
+        // [Authorize]
+        public virtual async Task<List<T>> GetAll()
         {
             return await _dbContext.Set<T>().ToListAsync();
         }

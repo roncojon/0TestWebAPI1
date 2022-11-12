@@ -32,15 +32,14 @@ namespace _0TestWebAPI1.Controllers
             _auth = new AuthService(_configuration);
            /* _dbContext = dbContext;*/
         }
-
         [NonAction]
-        public override async Task<Usuario1> Post(Usuario1 user)
+        public override async Task Post(Usuario1 user)
         {
-            return new Usuario1();
+           /* return new Usuario1();*/
         }
 
         [HttpPost]
-        //[Authorize(Roles = "ADMINISTRADOR,ADMINISTRADORTESTER")]
+        //[Authorize(Roles = "ADMINISTRADOR,EXAMINADOR")]
         public async Task<IActionResult> Register([FromBody] Usuario1 usuario)
         {
             //creando usuario
@@ -126,5 +125,35 @@ namespace _0TestWebAPI1.Controllers
                 status=200
             });
         }
+
+        [HttpGet]
+        [Route("usuariosConNombre")]
+        public async Task<List<Usuario1>> GetAll(string userName)
+            {
+            return await _dbContext.Set<Usuario1>().Where(uc => uc.NickName.Contains(userName)).ToListAsync();
+            }
+
+        [HttpDelete]
+        public  void DeleteSeveral(List<Guid> ids)
+            {
+            foreach (var id in ids)
+                {
+                try
+                    {
+                    Usuario1 temp = _dbContext.Find<Usuario1>(id);
+                    _dbContext.Set<Usuario1>().Remove(temp);
+                    }
+                catch (Exception)
+                    {
+                    throw;
+                    }
+                
+
+                }
+            _dbContext.SaveChanges();
+
+            }
+        }
+    
+
     }
-}
