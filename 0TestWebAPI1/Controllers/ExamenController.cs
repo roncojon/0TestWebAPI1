@@ -24,6 +24,7 @@ namespace _0TestWebAPI1.Controllers
             }
         [NonAction]
         public async override Task<List<Examen9>> GetAll() { List<Examen9> temp = new List<Examen9>(); return temp; }
+        
         [HttpGet]
         // [Authorize]
         // [Route("examenPlus")]
