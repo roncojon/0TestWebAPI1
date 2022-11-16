@@ -17,5 +17,6 @@ namespace _0TestWebAPI1.Models
         /*public string PatronUsuario { get; set; }*/
         public DateTime Fecha { get; set; }
 
+        public bool Activo { get; set; }
     }
 }

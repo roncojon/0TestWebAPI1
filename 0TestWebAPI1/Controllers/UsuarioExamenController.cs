@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Controllers
-{
+    {
     [Route("api/[controller]")]
     [ApiController]
     public class UsuarioExamenController : ControllerSuper<UsuarioExamen10, Guid>
@@ -26,8 +26,9 @@ namespace _0TestWebAPI1.Controllers
             return await _dbContext.FindAsync<UsuarioExamen10>(usuarioId, examenId);
             }
         [HttpPost]
-         [Route("uexamen2")]
-        public  async void PostExamen(Guid usuarioId, Guid examenId, string respuestaDeUsuarioAExamen){
+        [Route("uexamen2")]
+        public async void PostExamen(Guid usuarioId, Guid examenId, string respuestaDeUsuarioAExamen)
+            {
             try
                 {
                 var usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(usuarioId, examenId);
@@ -38,7 +39,9 @@ namespace _0TestWebAPI1.Controllers
                 {
                 throw;
                 }
-            
+
             }
+
+
         }
-}
+    }

@@ -17,5 +17,6 @@ namespace _0TestWebAPI1.ClassesForTheApi
         public int CantColumnas { get; set; }
         public int CantidadFilas { get; set; }
         public int TiempoLimiteMs { get; set; }
+        public bool Activo { get; set; }
         }
     }

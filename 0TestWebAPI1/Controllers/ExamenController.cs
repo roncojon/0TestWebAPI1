@@ -10,6 +10,7 @@ using _0TestWebAPI1.SupportFunctions;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using _0TestWebAPI1.ClassesForTheApi;
+using System.Linq;
 
 namespace _0TestWebAPI1.Controllers
     {
@@ -45,6 +46,8 @@ namespace _0TestWebAPI1.Controllers
                 newExamenPlus.PruebaMatrizNombre = examen.PruebaMatrizNombre;
                 newExamenPlus.PatronClave = examen.PatronClave;
                 newExamenPlus.Fecha = examen.Fecha;
+                newExamenPlus.Activo = examen.Activo;
+
 
                 newExamenPlus.Descripcion = pmTemp.Descripcion;
                 newExamenPlus.CantColumnas = pmTemp.CantColumnas;
@@ -56,8 +59,39 @@ namespace _0TestWebAPI1.Controllers
 
             return examenesPlus;
             // return await _dbContext.Set<Examen9>().ToListAsync();
+            }
+
+        [HttpGet]
+        // [Authorize]
+        [Route("examenesActivos")]
+        public async Task<List<ExamenPlus>> GetActivos()
+            {
+            List<ExamenPlus> examenesPlus = new List<ExamenPlus>();
+            List<Examen9> examenes = await _dbContext.Set<Examen9>().Where(e => e.Activo == true).ToListAsync();
+
+            foreach (var examen in examenes)
+                {
+                PruebaMatriz8 pmTemp = new PruebaMatriz8();
+                pmTemp = await _dbContext.FindAsync<PruebaMatriz8>(examen.PruebaMatrizNombre);
+
+                ExamenPlus newExamenPlus = new ExamenPlus();
+
+                newExamenPlus.Id = examen.Id;
+                newExamenPlus.PruebaMatrizNombre = examen.PruebaMatrizNombre;
+                newExamenPlus.PatronClave = examen.PatronClave;
+                newExamenPlus.Fecha = examen.Fecha;
+                newExamenPlus.Activo = examen.Activo;
 
 
+                newExamenPlus.Descripcion = pmTemp.Descripcion;
+                newExamenPlus.CantColumnas = pmTemp.CantColumnas;
+                newExamenPlus.CantidadFilas = pmTemp.CantidadFilas;
+                newExamenPlus.TiempoLimiteMs = pmTemp.TiempoLimiteMs;
+
+                examenesPlus.Add(newExamenPlus);
+                }
+
+            return examenesPlus;
             }
 
         [NonAction]
@@ -79,6 +113,7 @@ namespace _0TestWebAPI1.Controllers
             newExamen.Id = Guid.NewGuid();
             newExamen.PruebaMatrizNombre = pruebaMatrizNombre;
             newExamen.Fecha = DateTime.Now;
+            newExamen.Activo = true;
 
             if (!isPatronOriginal)
                 {
@@ -102,6 +137,15 @@ namespace _0TestWebAPI1.Controllers
                 await _dbContext.SaveChangesAsync();
 
                 }
+            }
+
+        [HttpPost]
+        [Route("examenesActivos")]
+        public  async Task DisableExam(Guid examenId/* bool setIsActive*//*, Z id*/)
+            {
+            Examen9 temp = await _dbContext.Examen.FirstOrDefaultAsync(e => e.Id == examenId);
+            temp.Activo = false;
+            await _dbContext.SaveChangesAsync();
             }
         }
     }

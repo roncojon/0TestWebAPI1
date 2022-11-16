@@ -153,6 +153,31 @@ namespace _0TestWebAPI1.Controllers
             _dbContext.SaveChanges();
 
             }
+
+        [HttpGet]
+        [Route("pruebasActivas")]
+        public async Task<List<Examen9>> GetAll(Guid userId)
+            {
+            List<UsuarioExamen10> ueList =await _dbContext.Set<UsuarioExamen10>().Where(u =>  u.Usuario1Id == userId).ToListAsync();
+
+            List<Examen9> examenes = new List<Examen9>();
+            List<Examen9> examenesActivos = new List<Examen9>();
+
+            foreach (var ue in ueList)
+                {
+                Examen9 exTemp =await _dbContext.FindAsync<Examen9>(ue.Examen9Id);
+                if(exTemp != null)
+                    { examenes.Add(exTemp); }
+                }
+
+            foreach (var examen in examenes)
+                {
+                if(examen.Activo)
+                    { examenesActivos.Add(examen); }
+                }
+            return examenesActivos;
+            }
+
         }
     
 
