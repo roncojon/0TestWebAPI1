@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace _0TestWebAPI1.Models
@@ -13,10 +14,15 @@ namespace _0TestWebAPI1.Models
         [JsonIgnore]
         public PruebaMatriz8 PruebaMatriz { get; set; }
 
+     
+        public DateTime FechaCreacion { get; set; }
+        [JsonIgnore]
+
+        public Fecha Fecha { get; set; }
+
         public string PatronClave { get; set; }
         /*public string PatronUsuario { get; set; }*/
-        public DateTime Fecha { get; set; }
-
+        
         public bool Activo { get; set; }
     }
 }

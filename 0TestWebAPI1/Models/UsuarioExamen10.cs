@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace _0TestWebAPI1.Models
@@ -6,6 +7,13 @@ namespace _0TestWebAPI1.Models
     public class UsuarioExamen10
     {
         public Guid Usuario1Id { get; set; }
+
+       /* [NotMapped]*/
+        
+        public DateTime FechaValue { get; set; }
+        [JsonIgnore]
+
+        public Fecha Fecha { get; set; }
 
         [JsonIgnore]
         public Usuario1 Usuario1 { get; set; }
@@ -16,6 +24,6 @@ namespace _0TestWebAPI1.Models
 
         public string PatronUsuario { get; set; }
 
-        public int TiempoSegundos { get; set; }
+        // public int TiempoSegundos { get; set; }
     }
 }

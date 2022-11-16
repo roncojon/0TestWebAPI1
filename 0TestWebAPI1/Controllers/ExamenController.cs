@@ -45,7 +45,7 @@ namespace _0TestWebAPI1.Controllers
                 newExamenPlus.Id = examen.Id;
                 newExamenPlus.PruebaMatrizNombre = examen.PruebaMatrizNombre;
                 newExamenPlus.PatronClave = examen.PatronClave;
-                newExamenPlus.Fecha = examen.Fecha;
+                newExamenPlus.Fecha = examen.FechaCreacion;
                 newExamenPlus.Activo = examen.Activo;
 
 
@@ -79,7 +79,7 @@ namespace _0TestWebAPI1.Controllers
                 newExamenPlus.Id = examen.Id;
                 newExamenPlus.PruebaMatrizNombre = examen.PruebaMatrizNombre;
                 newExamenPlus.PatronClave = examen.PatronClave;
-                newExamenPlus.Fecha = examen.Fecha;
+                newExamenPlus.Fecha = examen.FechaCreacion;
                 newExamenPlus.Activo = examen.Activo;
 
 
@@ -112,7 +112,9 @@ namespace _0TestWebAPI1.Controllers
             Examen9 newExamen = new Examen9();
             newExamen.Id = Guid.NewGuid();
             newExamen.PruebaMatrizNombre = pruebaMatrizNombre;
-            newExamen.Fecha = DateTime.Now;
+            Fecha fechaNow = new Fecha();
+            fechaNow.FechaValue = DateTime.Now;
+            newExamen.FechaCreacion = fechaNow.FechaValue;
             newExamen.Activo = true;
 
             if (!isPatronOriginal)
@@ -123,6 +125,7 @@ namespace _0TestWebAPI1.Controllers
             else
                 newExamen.PatronClave = patronOriginal;
 
+            _dbContext.Entry(fechaNow).State = EntityState.Added;
             _dbContext.Entry(newExamen).State = EntityState.Added;
             // await _dbContext.Set<T>().AddAsync(value);
             await _dbContext.SaveChangesAsync();

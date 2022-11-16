@@ -96,9 +96,9 @@ namespace _0TestWebAPI1.Data
                },
                 new Usuario1
                {Id = userAdminId2,
-                   Nombre = "Admin2",
-                   Apellidos = "Admin2",
-                   NickName = "Admin2",
+                   Nombre = "Juan",
+                   Apellidos = "Martinez",
+                   NickName = "JuanMartinez",
                    Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
                    RolNombre = "ADMINISTRADOR",
                    Ci = 85050560959,
@@ -111,9 +111,9 @@ namespace _0TestWebAPI1.Data
                 new Usuario1
                {
                     Id = userExaminadorId2,
-                   Nombre = "Examinador2",
-                   Apellidos = "Examinador2",
-                   NickName = "Examinador2",
+                   Nombre = "Alberto",
+                   Apellidos = "Perez",
+                   NickName = "AlbertoPerez",
                    Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
                    RolNombre = "EXAMINADOR",
                    Ci = 86060670067,
@@ -126,9 +126,9 @@ namespace _0TestWebAPI1.Data
                 new Usuario1
                {
                     Id = userExaminadoId2,
-                   Nombre = "Examinado2",
-                   Apellidos = "Examinado2",
-                   NickName = "Examinado2",
+                   Nombre = "Alberta",
+                   Apellidos = "Perez",
+                   NickName = "AlbertaPerez",
                    Password = SecurePasswordHasherHelper.Hash("ExaminadoMaster.10*"),
                    RolNombre = "EXAMINADO",
                    Ci = 86060670065,
@@ -140,7 +140,7 @@ namespace _0TestWebAPI1.Data
                }
                });
             modelBuilder.Entity<UsuarioExamen10>()
-       .HasKey(u => new { u.Usuario1Id, u.Examen9Id });
+       .HasKey(u => new { u.Usuario1Id, u.Examen9Id, u.FechaValue });
 
             modelBuilder.Entity<UsuarioRol6>()
        .HasKey(u => new { u.UsuarioId, u.RolNombre });
@@ -170,6 +170,7 @@ public DbSet<Usuario1> Usuario { get; set; }
         public DbSet<Escolaridad> Escolaridad { get; set; }
         public DbSet<UsuarioRol6> UsuarioRol { get; set; }
         public DbSet<Rol7> Rol { get; set; }
+        public DbSet<Fecha> Fecha { get; set; }
         public DbSet<PruebaMatriz8> PruebaMatriz { get; set; }
         public DbSet<Examen9> Examen { get; set; }
         public DbSet<UsuarioExamen10> UsuarioExamen { get; set; }

@@ -32,8 +32,8 @@ namespace _0TestWebAPI1.Models
         public GrupoEtario GrupoEtario { get; set; }
 
         public string RolNombre { get; set; }
-        [JsonIgnore]
-        public Rol7 Rol7 { get; set; }
+        /*[JsonIgnore]
+        public Rol7 Rol7 { get; set; }*/
 
         public string EscolaridadNombre { get; set; }  // se valida en el front y en el controller 
         [JsonIgnore]

@@ -2,6 +2,7 @@
 using _0TestWebAPI1.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 
@@ -33,15 +34,17 @@ namespace _0TestWebAPI1.Controllers
                 {
                 var usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(usuarioId, examenId);
                 usuarioExamen.PatronUsuario = respuestaDeUsuarioAExamen;
+
+                Fecha fechaNow = new Fecha();
+                fechaNow.FechaValue = DateTime.Now;
+                usuarioExamen.FechaValue = fechaNow.FechaValue;
+                _dbContext.Entry(fechaNow).State = EntityState.Added;
                 await _dbContext.SaveChangesAsync();
                 }
             catch (Exception)
                 {
                 throw;
                 }
-
             }
-
-
         }
     }
