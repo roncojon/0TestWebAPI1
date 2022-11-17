@@ -35,9 +35,9 @@ namespace _0TestWebAPI1.Controllers
                 var usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(usuarioId, examenId);
                 usuarioExamen.PatronUsuario = respuestaDeUsuarioAExamen;
 
-                DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                Fecha fechaNow = new Fecha();
-                fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
+                // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+                Fecha fechaNow = new Fecha(/*dto.ToUnixTimeMilliseconds()*/);
+                // fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
 
                 _dbContext.Entry(fechaNow).State = EntityState.Added;
                 await _dbContext.SaveChangesAsync();

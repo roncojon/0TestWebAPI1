@@ -24,7 +24,7 @@ namespace _0TestWebAPI1.Models
 
         public string SexoNombre { get; set; }
         [JsonIgnore]
-        public Sexo2 Sexo2 { get; set; }
+        public Sexo2 Sexo { get; set; }
 
         public int Edad { get; set; }
         public string GrupoEtarioNombre { get; set; }

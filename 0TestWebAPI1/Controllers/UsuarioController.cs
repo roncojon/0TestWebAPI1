@@ -43,8 +43,9 @@ namespace _0TestWebAPI1.Controllers
         public async Task<IActionResult> Register([FromBody] Usuario1 usuario)
         {
             //creando usuario
-            string newUserNick = usuario.Nombre +"."+ usuario.Apellidos;
-            var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.NickName == newUserNick).SingleOrDefault();
+            // string newUserNick = usuario.NickName;
+            // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.NickName == newUserNick).SingleOrDefault();
+            var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.NickName == usuario.NickName).SingleOrDefault();
             if (usuarioConMismoNick != null)
             { return BadRequest("Ya existe un usuario con ese nombre"); }
             else
@@ -73,7 +74,7 @@ namespace _0TestWebAPI1.Controllers
                     UId = Guid.NewGuid(),
                     Nombre = usuario.Nombre,
                     Apellidos = usuario.Apellidos,
-                    NickName = newUserNick,
+                    NickName = usuario.NickName,
                     Password = SecurePasswordHasherHelper.Hash(usuario.Password),
                     RolNombre = RolNombre,
                     Ci = usuario.Ci,
@@ -94,7 +95,7 @@ namespace _0TestWebAPI1.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
         {
-            Usuario1 usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.NickName == userLogin.NickName);
+            Usuario1 usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.NickName == userLogin.NickName  );
             if (usuario == null)
             {
                 return NotFound();

@@ -12,9 +12,9 @@ namespace _0TestWebAPI1.Models
         /*        public string Prueba { get; set; }
                 public int MyProperty { get; set; }*/
         /*yyyy-MM-dd'T'HH:mm:ss*/
-        public string PruebaMatrizNombre { get; set; }
+        public string TestNombre { get; set; }
         [JsonIgnore]
-        public Test PruebaMatriz { get; set; }
+        public Test Test { get; set; }
 
         /*public long FechaTimeStamp { get; set; }
         [JsonIgnore]

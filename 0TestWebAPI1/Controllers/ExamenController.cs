@@ -38,12 +38,12 @@ namespace _0TestWebAPI1.Controllers
             foreach (var examen in examenes)
                 {
                 Test pmTemp = new Test();
-                pmTemp = await _dbContext.FindAsync<Test>(examen.PruebaMatrizNombre);
+                pmTemp = await _dbContext.FindAsync<Test>(examen.TestNombre);
 
                 ExamenPlus newExamenPlus = new ExamenPlus();
 
                 newExamenPlus.Id = examen.UId;
-                newExamenPlus.PruebaMatrizNombre = examen.PruebaMatrizNombre;
+                newExamenPlus.PruebaMatrizNombre = examen.TestNombre;
                 newExamenPlus.PatronClave = examen.PatronClave;
 
                 /*List<Examen9> exams = _dbContext.Fecha.FirstOrDefault(f => f.Examenes)*/
@@ -92,12 +92,12 @@ namespace _0TestWebAPI1.Controllers
             foreach (var examen in examenes)
                 {
                 PruebaMatriz8 pmTemp = new PruebaMatriz8();
-                pmTemp = await _dbContext.FindAsync<PruebaMatriz8>(examen.PruebaMatrizNombre);
+                pmTemp = await _dbContext.FindAsync<PruebaMatriz8>(examen.TestNombre);
 
                 ExamenPlus newExamenPlus = new ExamenPlus();
 
                 newExamenPlus.UId = examen.UId;
-                newExamenPlus.PruebaMatrizNombre = examen.PruebaMatrizNombre;
+                newExamenPlus.TestNombre = examen.TestNombre;
                 newExamenPlus.PatronClave = examen.PatronClave;
                 newExamenPlus.Fecha = examen.FechaCreacion;
 
@@ -130,11 +130,11 @@ namespace _0TestWebAPI1.Controllers
 
             Examen9 newExamen = new Examen9();
             newExamen.UId = Guid.NewGuid();
-            newExamen.PruebaMatrizNombre = pruebaMatrizNombre;
+            newExamen.TestNombre = pruebaMatrizNombre;
 
-            DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-            Fecha fechaNow = new Fecha();
-            fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
+            // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+            Fecha fechaNow = new Fecha(/*dto.ToUnixTimeMilliseconds()*/);
+            // fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
 
             if (!isPatronOriginal)
                 {
