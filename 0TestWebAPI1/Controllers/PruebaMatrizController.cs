@@ -8,7 +8,7 @@ namespace _0TestWebAPI1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PruebaMatrizController : ControllerSuper<PruebaMatriz8, string>
+    public class PruebaMatrizController : ControllerSuper<Test, string>
     {
         public PruebaMatrizController(PruebasDbContext context) : base(context)
         {

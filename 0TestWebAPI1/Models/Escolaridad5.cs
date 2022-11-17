@@ -8,7 +8,7 @@ namespace _0TestWebAPI1.Models
 {
     public class Escolaridad
     {
-        // public Guid Id { get; set; }
+        // public Guid UId { get; set; }
 
         //[Range(1, 3)]
         //public int NivelEscolar { get; set; }

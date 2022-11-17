@@ -37,16 +37,36 @@ namespace _0TestWebAPI1.Controllers
 
             foreach (var examen in examenes)
                 {
-                PruebaMatriz8 pmTemp = new PruebaMatriz8();
-                pmTemp = await _dbContext.FindAsync<PruebaMatriz8>(examen.PruebaMatrizNombre);
+                Test pmTemp = new Test();
+                pmTemp = await _dbContext.FindAsync<Test>(examen.PruebaMatrizNombre);
 
                 ExamenPlus newExamenPlus = new ExamenPlus();
 
-                newExamenPlus.Id = examen.Id;
+                newExamenPlus.Id = examen.UId;
                 newExamenPlus.PruebaMatrizNombre = examen.PruebaMatrizNombre;
                 newExamenPlus.PatronClave = examen.PatronClave;
-                newExamenPlus.Fecha = examen.FechaCreacion;
-                newExamenPlus.Activo = examen.Activo;
+
+                /*List<Examen9> exams = _dbContext.Fecha.FirstOrDefault(f => f.Examenes)*/
+               /* List<Fecha> fechasAll = await _dbContext.Set<Fecha>().ToListAsync();
+
+                // por cada fecha salvada
+                foreach (Fecha f in fechasAll)
+                    {
+                    // revisa todos los examenes en esa fecha
+                    foreach (Examen9 e in f.Examenes)
+                        {
+                        // si el examen es el q busco, q es el q le quiero cojer la fecha
+                        if (e.UId == examen.UId)
+                            {
+                            // le cojo esa fecha para mostrarla en examen plus
+                            newExamenPlus.Fecha = f.TimeStamp;
+                            }
+                        }
+
+                    }*/
+
+                // newExamenPlus.Fecha = 
+                // newExamenPlus.Activo = examen.Activo;
 
 
                 newExamenPlus.Descripcion = pmTemp.Descripcion;
@@ -61,7 +81,7 @@ namespace _0TestWebAPI1.Controllers
             // return await _dbContext.Set<Examen9>().ToListAsync();
             }
 
-        [HttpGet]
+       /* [HttpGet]
         // [Authorize]
         [Route("examenesActivos")]
         public async Task<List<ExamenPlus>> GetActivos()
@@ -76,11 +96,10 @@ namespace _0TestWebAPI1.Controllers
 
                 ExamenPlus newExamenPlus = new ExamenPlus();
 
-                newExamenPlus.Id = examen.Id;
+                newExamenPlus.UId = examen.UId;
                 newExamenPlus.PruebaMatrizNombre = examen.PruebaMatrizNombre;
                 newExamenPlus.PatronClave = examen.PatronClave;
                 newExamenPlus.Fecha = examen.FechaCreacion;
-                newExamenPlus.Activo = examen.Activo;
 
 
                 newExamenPlus.Descripcion = pmTemp.Descripcion;
@@ -92,7 +111,7 @@ namespace _0TestWebAPI1.Controllers
                 }
 
             return examenesPlus;
-            }
+            }*/
 
         [NonAction]
         public async override Task Post(Examen9 e) { }
@@ -106,16 +125,16 @@ namespace _0TestWebAPI1.Controllers
             temp.Fecha = fecha;*/
            
 
-            PruebaMatriz8 temp = await _dbContext.PruebaMatriz.FirstOrDefaultAsync(p => p.Nombre == pruebaMatrizNombre);
+            Test temp = await _dbContext.Test.FirstOrDefaultAsync(p => p.Nombre == pruebaMatrizNombre);
             string patronOriginal = temp.PatronOriginal;
 
             Examen9 newExamen = new Examen9();
-            newExamen.Id = Guid.NewGuid();
+            newExamen.UId = Guid.NewGuid();
             newExamen.PruebaMatrizNombre = pruebaMatrizNombre;
+
+            DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
             Fecha fechaNow = new Fecha();
-            fechaNow.FechaValue = DateTime.Now;
-            newExamen.FechaCreacion = fechaNow.FechaValue;
-            newExamen.Activo = true;
+            fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
 
             if (!isPatronOriginal)
                 {
@@ -134,21 +153,21 @@ namespace _0TestWebAPI1.Controllers
             foreach (var item in usuariosIds)
                 {
                 UsuarioExamen10 newUsuarioExamen = new UsuarioExamen10();
-                newUsuarioExamen.Usuario1Id = item;
-                newUsuarioExamen.Examen9Id = newExamen.Id;
+                newUsuarioExamen.UsuarioId = item;
+                newUsuarioExamen.ExamenId = newExamen.UId;
                 _dbContext.Entry(newUsuarioExamen).State = EntityState.Added;
                 await _dbContext.SaveChangesAsync();
 
                 }
             }
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("examenesActivos")]
-        public  async Task DisableExam(Guid examenId/* bool setIsActive*//*, Z id*/)
+        public  async Task DisableExam(Guid examenId*//* bool setIsActive*//*, Z id*//*)
             {
-            Examen9 temp = await _dbContext.Examen.FirstOrDefaultAsync(e => e.Id == examenId);
+            Examen9 temp = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == examenId);
             temp.Activo = false;
             await _dbContext.SaveChangesAsync();
-            }
+            }*/
         }
     }

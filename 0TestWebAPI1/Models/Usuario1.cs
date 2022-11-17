@@ -12,7 +12,7 @@ namespace _0TestWebAPI1.Models
     {
         /*private PruebasDbContext _dbContext { get; set; }*/
         [Key]
-        public Guid Id { get; set; }
+        public Guid UId { get; set; }
 
         public ulong Ci { get; set; }
         public string Password { get; set; }
@@ -38,9 +38,9 @@ namespace _0TestWebAPI1.Models
         public string EscolaridadNombre { get; set; }  // se valida en el front y en el controller 
         [JsonIgnore]
         public Escolaridad Escolaridad { get; set; }
-        public Guid Centro4Id { get; set; }
+       /* public Guid Centro4Id { get; set; }
         [JsonIgnore]
-        public Centro4 Centro4 { get; set; }
+        public Centro4 Centro4 { get; set; }*/
 
     }
 }

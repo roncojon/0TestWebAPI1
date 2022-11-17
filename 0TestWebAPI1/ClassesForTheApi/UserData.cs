@@ -41,7 +41,7 @@ namespace _0TestWebAPI1.ClassesForTheApi
                 List<Fila> filas = new List<Fila>();
                 foreach (var fila in _dbContext.Fila)
                 {
-                    if (fila.PruebaBaseId == pc.Id)
+                    if (fila.PruebaBaseId == pc.UId)
                     {
                         filas.Add(fila);
                     }

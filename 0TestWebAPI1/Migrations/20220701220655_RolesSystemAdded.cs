@@ -39,7 +39,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario",
                 column: "RolNombre",
                 principalTable: "Rol",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Restrict);
         }
 

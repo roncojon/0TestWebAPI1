@@ -12,7 +12,7 @@ namespace _0TestWebAPI1.ClassesForTheApi
         public string PruebaMatrizNombre { get; set; }
         public string PatronClave { get; set; }
         public string Descripcion { get; set; }
-        public DateTime Fecha { get; set; }
+        public long Fecha { get; set; }
         public int CantColumnas { get; set; }
         public int CantidadFilas { get; set; }
         public int TiempoLimiteMs { get; set; }

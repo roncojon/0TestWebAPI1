@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace _0TestWebAPI1.Models
 {
-    public class PruebaMatriz8
+    public class Test
     {
         [Key]
         [Required(ErrorMessage = "Name is required")]

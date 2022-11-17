@@ -6,21 +6,22 @@ namespace _0TestWebAPI1.Models
 {
     public class UsuarioExamen10
     {
-        public Guid Usuario1Id { get; set; }
+        public Guid UsuarioId { get; set; }
 
-       /* [NotMapped]*/
-        
-        public DateTime FechaValue { get; set; }
+        /* [NotMapped]*/
+        /*[NotMapped]
+        [JsonIgnore]*/
+        public long FechaTimeStamp { get; set; }
         [JsonIgnore]
-
         public Fecha Fecha { get; set; }
 
-        [JsonIgnore]
-        public Usuario1 Usuario1 { get; set; }
-        public Guid Examen9Id { get; set; }
 
         [JsonIgnore]
-        public Examen9 Examen9 { get; set; }
+        public Usuario1 Usuario { get; set; }
+        public Guid ExamenId { get; set; }
+
+        [JsonIgnore]
+        public Examen9 Examen { get; set; }
 
         public string PatronUsuario { get; set; }
 

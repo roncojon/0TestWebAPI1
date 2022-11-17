@@ -70,7 +70,7 @@ namespace _0TestWebAPI1.Controllers
                 }
                 var userObj = new Usuario1
                 {
-                    Id = Guid.NewGuid(),
+                    UId = Guid.NewGuid(),
                     Nombre = usuario.Nombre,
                     Apellidos = usuario.Apellidos,
                     NickName = newUserNick,
@@ -81,7 +81,6 @@ namespace _0TestWebAPI1.Controllers
                     Edad = usuario.Edad,
                     GrupoEtarioNombre = grupoEtarioNombre,
                     EscolaridadNombre = usuario.EscolaridadNombre,
-                    Centro4Id = usuario.Centro4Id
                 };
                 await _dbContext.Usuario.AddAsync(userObj);
                await _dbContext.SaveChangesAsync();
@@ -120,7 +119,7 @@ namespace _0TestWebAPI1.Controllers
                 token_type = token.TokenType,
                 creation_Time = token.ValidFrom,
                 expiration_Time = token.ValidTo,
-                usuario_id= usuario.Id,
+                usuario_id= usuario.UId,
                 rol_name = rol.Nombre,
                 status=200
             });
@@ -154,18 +153,18 @@ namespace _0TestWebAPI1.Controllers
 
             }
 
-        [HttpGet]
+        /*[HttpGet]
         [Route("pruebasActivas")]
         public async Task<List<Examen9>> GetAll(Guid userId)
             {
-            List<UsuarioExamen10> ueList =await _dbContext.Set<UsuarioExamen10>().Where(u =>  u.Usuario1Id == userId).ToListAsync();
+            List<UsuarioExamen10> ueList =await _dbContext.Set<UsuarioExamen10>().Where(u =>  u.UsuarioId == userId).ToListAsync();
 
             List<Examen9> examenes = new List<Examen9>();
             List<Examen9> examenesActivos = new List<Examen9>();
 
             foreach (var ue in ueList)
                 {
-                Examen9 exTemp =await _dbContext.FindAsync<Examen9>(ue.Examen9Id);
+                Examen9 exTemp =await _dbContext.FindAsync<Examen9>(ue.ExamenId);
                 if(exTemp != null)
                     { examenes.Add(exTemp); }
                 }
@@ -176,7 +175,7 @@ namespace _0TestWebAPI1.Controllers
                     { examenesActivos.Add(examen); }
                 }
             return examenesActivos;
-            }
+            }*/
 
         }
     

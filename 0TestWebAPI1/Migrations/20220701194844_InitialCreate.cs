@@ -86,13 +86,13 @@ namespace _0TestWebAPI1.Migrations
                         name: "FK_Usuario_Escolaridad_EscolaridadId",
                         column: x => x.EscolaridadId,
                         principalTable: "Escolaridad",
-                        principalColumn: "Id",
+                        principalColumn: "UId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Usuario_GrupoEtario_GrupoEtarioId",
                         column: x => x.GrupoEtarioId,
                         principalTable: "GrupoEtario",
-                        principalColumn: "Id",
+                        principalColumn: "UId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -119,7 +119,7 @@ namespace _0TestWebAPI1.Migrations
                         name: "FK_PruebaCaritas_PruebaBase_PruebaBaseId",
                         column: x => x.PruebaBaseId,
                         principalTable: "PruebaBase",
-                        principalColumn: "Id",
+                        principalColumn: "UId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -139,13 +139,13 @@ namespace _0TestWebAPI1.Migrations
                         name: "FK_UsuarioCentro_Centro_CentroId",
                         column: x => x.CentroId,
                         principalTable: "Centro",
-                        principalColumn: "Id",
+                        principalColumn: "UId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UsuarioCentro_Usuario_SujetoId",
                         column: x => x.SujetoId,
                         principalTable: "Usuario",
-                        principalColumn: "Id",
+                        principalColumn: "UId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -165,13 +165,13 @@ namespace _0TestWebAPI1.Migrations
                         name: "FK_UsuarioPruebaBase_PruebaBase_PruebaBaseId",
                         column: x => x.PruebaBaseId,
                         principalTable: "PruebaBase",
-                        principalColumn: "Id",
+                        principalColumn: "UId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UsuarioPruebaBase_Usuario_SujetoId",
                         column: x => x.SujetoId,
                         principalTable: "Usuario",
-                        principalColumn: "Id",
+                        principalColumn: "UId",
                         onDelete: ReferentialAction.Restrict);
                 });
 

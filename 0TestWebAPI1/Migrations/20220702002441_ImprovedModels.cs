@@ -119,7 +119,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "PruebaCaritas",
                 column: "PruebaBaseId",
                 principalTable: "PruebaBase",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -127,7 +127,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario",
                 column: "EscolaridadNombre",
                 principalTable: "Escolaridad",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -135,7 +135,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario",
                 column: "GrupoEtarioNombre",
                 principalTable: "GrupoEtario",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -143,7 +143,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario",
                 column: "RolNombre",
                 principalTable: "Rol",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -151,7 +151,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "UsuarioCentro",
                 column: "UsuarioId",
                 principalTable: "Usuario",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -159,7 +159,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "UsuarioPruebaBase",
                 column: "PruebaBaseId",
                 principalTable: "PruebaBase",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -167,7 +167,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "UsuarioPruebaBase",
                 column: "UsuarioId",
                 principalTable: "Usuario",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
         }
 
@@ -275,7 +275,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "PruebaCaritas",
                 column: "PruebaBaseId",
                 principalTable: "PruebaBase",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
@@ -283,7 +283,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario",
                 column: "EscolaridadNombre",
                 principalTable: "Escolaridad",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
@@ -291,7 +291,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario",
                 column: "GrupoEtarioNombre",
                 principalTable: "GrupoEtario",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
@@ -299,7 +299,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario",
                 column: "RolNombre",
                 principalTable: "Rol",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
@@ -307,7 +307,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "UsuarioCentro",
                 column: "SujetoId",
                 principalTable: "Usuario",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
@@ -315,7 +315,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "UsuarioPruebaBase",
                 column: "PruebaBaseId",
                 principalTable: "PruebaBase",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
@@ -323,7 +323,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "UsuarioPruebaBase",
                 column: "SujetoId",
                 principalTable: "Usuario",
-                principalColumn: "Id",
+                principalColumn: "UId",
                 onDelete: ReferentialAction.Restrict);
         }
     }

@@ -49,21 +49,21 @@ namespace _0TestWebAPI1.Controllers
             {
                 Guid id = new Guid();
                 var tempExamen = value as Examen9;
-                tempExamen.Id = id;
+                tempExamen.UId = id;
                 dbtry = tempExamen;
             }
-            if (typeof(T) == typeof(Centro4))
+           /* if (typeof(T) == typeof(Centro4))
             {
                 Guid id = new Guid();
                 var tempCentro = value as Centro4;
-                tempCentro.Id = id;
+                tempCentro.UId = id;
                 dbtry = tempCentro;
-            }
+            }*/
             if (typeof(T) == typeof(Usuario1) )
             {
                 Guid id = new Guid();
                 var tempUsuario = value as Usuario1;
-                tempUsuario.Id = id;
+                tempUsuario.UId = id;
                 dbtry = tempUsuario;
             }
 

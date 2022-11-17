@@ -23,7 +23,7 @@ namespace _0TestWebAPI1.Migrations
 
             modelBuilder.Entity("_0TestWebAPI1.Models.Centro", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -31,14 +31,14 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.ToTable("Centro");
                 });
 
             modelBuilder.Entity("_0TestWebAPI1.Models.Escolaridad", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -46,14 +46,14 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int>("NivelEscolar")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.ToTable("Escolaridad");
                 });
 
             modelBuilder.Entity("_0TestWebAPI1.Models.GrupoEtario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -61,14 +61,14 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int>("Grupo")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.ToTable("GrupoEtario");
                 });
 
             modelBuilder.Entity("_0TestWebAPI1.Models.PruebaBase", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -91,14 +91,14 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int>("Omisiones")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.ToTable("PruebaBase");
                 });
 
             modelBuilder.Entity("_0TestWebAPI1.Models.PruebaDeCaritas", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -130,7 +130,7 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<double>("RendimientoAtencional")
                         .HasColumnType("float");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.HasIndex("PruebaBaseId");
 
@@ -139,7 +139,7 @@ namespace _0TestWebAPI1.Migrations
 
             modelBuilder.Entity("_0TestWebAPI1.Models.Rol", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -147,14 +147,14 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<string>("NombreDelRol")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.ToTable("Rol");
                 });
 
             modelBuilder.Entity("_0TestWebAPI1.Models.Usuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -186,7 +186,7 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<bool>("SexoNombre")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.HasIndex("EscolaridadNombre");
 
@@ -199,7 +199,7 @@ namespace _0TestWebAPI1.Migrations
 
             modelBuilder.Entity("_0TestWebAPI1.Models.UsuarioCentro", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -210,7 +210,7 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int>("SujetoId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.HasIndex("CentroId");
 
@@ -221,7 +221,7 @@ namespace _0TestWebAPI1.Migrations
 
             modelBuilder.Entity("_0TestWebAPI1.Models.UsuarioPruebaBase", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -232,7 +232,7 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int?>("SujetoId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UId");
 
                     b.HasIndex("PruebaBaseId");
 

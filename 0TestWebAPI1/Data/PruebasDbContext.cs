@@ -33,10 +33,10 @@ namespace _0TestWebAPI1.Data
             });
             Guid centroGuiteras = Guid.NewGuid();
             Guid centroUmcc = Guid.NewGuid();
-            modelBuilder.Entity<Centro4>().HasData(new Centro4[] {
-                new Centro4 {Id = centroGuiteras, Nombre="CTE Antonio Guiteras"},
-                new Centro4 {Id =centroUmcc, Nombre="UMCC"},
-            });
+           /* modelBuilder.Entity<Centro4>().HasData(new Centro4[] {
+                new Centro4 {UId = centroGuiteras, Nombre="CTE Antonio Guiteras"},
+                new Centro4 {UId =centroUmcc, Nombre="UMCC"},
+            });*/
             modelBuilder.Entity<Sexo2>().HasData(new Sexo2[] {
                 new Sexo2 {Nombre="Masculino"},
                 new Sexo2 {Nombre="Femenino"},
@@ -51,7 +51,7 @@ namespace _0TestWebAPI1.Data
             modelBuilder.Entity<Usuario1>().HasData(new Usuario1[]
             {
                new Usuario1
-               {Id = userAdminId,
+               {UId = userAdminId,
                    Nombre = "Admin",
                    Apellidos = "Admin",
                    NickName = "Admin",
@@ -62,11 +62,11 @@ namespace _0TestWebAPI1.Data
                    Edad = 37,
                    GrupoEtarioNombre = "Medio",
                    EscolaridadNombre = "Básico",
-                   Centro4Id = centroGuiteras
+                   // Centro4Id = centroGuiteras
                },
                 new Usuario1
                {
-                    Id = userExaminadorId,
+                    UId = userExaminadorId,
                    Nombre = "Examinador",
                    Apellidos = "Examinador",
                    NickName = "Examinador",
@@ -77,11 +77,11 @@ namespace _0TestWebAPI1.Data
                    Edad = 36,
                    GrupoEtarioNombre = "Medio",
                    EscolaridadNombre = "Superior",
-                   Centro4Id = centroGuiteras
+                   // Centro4Id = centroGuiteras
                },
                 new Usuario1
                {
-                    Id = userExaminadoId,
+                    UId = userExaminadoId,
                    Nombre = "Examinado",
                    Apellidos = "Examinado",
                    NickName = "Examinado",
@@ -92,10 +92,10 @@ namespace _0TestWebAPI1.Data
                    Edad = 36,
                    GrupoEtarioNombre = "Medio",
                    EscolaridadNombre = "Superior",
-                   Centro4Id = centroUmcc
+                   // Centro4Id = centroUmcc
                },
                 new Usuario1
-               {Id = userAdminId2,
+               {UId = userAdminId2,
                    Nombre = "Juan",
                    Apellidos = "Martinez",
                    NickName = "JuanMartinez",
@@ -106,11 +106,10 @@ namespace _0TestWebAPI1.Data
                    Edad = 37,
                    GrupoEtarioNombre = "Medio",
                    EscolaridadNombre = "Básico",
-                   Centro4Id = centroGuiteras
                },
                 new Usuario1
                {
-                    Id = userExaminadorId2,
+                    UId = userExaminadorId2,
                    Nombre = "Alberto",
                    Apellidos = "Perez",
                    NickName = "AlbertoPerez",
@@ -121,11 +120,10 @@ namespace _0TestWebAPI1.Data
                    Edad = 36,
                    GrupoEtarioNombre = "Medio",
                    EscolaridadNombre = "Superior",
-                   Centro4Id = centroGuiteras
                },
                 new Usuario1
                {
-                    Id = userExaminadoId2,
+                    UId = userExaminadoId2,
                    Nombre = "Alberta",
                    Apellidos = "Perez",
                    NickName = "AlbertaPerez",
@@ -136,16 +134,15 @@ namespace _0TestWebAPI1.Data
                    Edad = 36,
                    GrupoEtarioNombre = "Medio",
                    EscolaridadNombre = "Superior",
-                   Centro4Id = centroUmcc
                }
                });
             modelBuilder.Entity<UsuarioExamen10>()
-       .HasKey(u => new { u.Usuario1Id, u.Examen9Id, u.FechaValue });
+       .HasKey(u => new { u.UsuarioId, u.ExamenId, u.FechaTimeStamp });
 
             modelBuilder.Entity<UsuarioRol6>()
        .HasKey(u => new { u.UsuarioId, u.RolNombre });
 
-            modelBuilder.Entity<PruebaMatriz8>().HasData(new PruebaMatriz8
+            modelBuilder.Entity<Test>().HasData(new Test
                 {
                 Nombre = "Caritas",
                 Descripcion = "Test de percepcion de diferencias. Selecciona la carita única en cada trío",
@@ -166,12 +163,12 @@ namespace _0TestWebAPI1.Data
 public DbSet<Usuario1> Usuario { get; set; }
         public DbSet<Sexo2> Sexo { get; set; }
         public DbSet<GrupoEtario> GrupoEtario { get; set; }
-        public DbSet<Centro4> Centro { get; set; }
+        // public DbSet<Centro4> Centro { get; set; }
         public DbSet<Escolaridad> Escolaridad { get; set; }
         public DbSet<UsuarioRol6> UsuarioRol { get; set; }
         public DbSet<Rol7> Rol { get; set; }
         public DbSet<Fecha> Fecha { get; set; }
-        public DbSet<PruebaMatriz8> PruebaMatriz { get; set; }
+        public DbSet<Test> Test { get; set; }
         public DbSet<Examen9> Examen { get; set; }
         public DbSet<UsuarioExamen10> UsuarioExamen { get; set; }
         }
