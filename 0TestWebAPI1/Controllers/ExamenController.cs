@@ -132,9 +132,34 @@ namespace _0TestWebAPI1.Controllers
             newExamen.UId = Guid.NewGuid();
             newExamen.TestNombre = pruebaMatrizNombre;
 
-            // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-            Fecha fechaNow = new Fecha(/*dto.ToUnixTimeMilliseconds()*/);
+            // var fechaDbtry = Activator.CreateInstance(typeof(Fecha));
+
             // fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
+            // using (var transaction = _dbContext.Database.BeginTransaction()) { 
+            /*using (_dbContext)
+                {*/
+                /*_dbContext.Database.OpenConnection();
+                try
+                    {
+                    _dbContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Fecha ON");*/
+                    
+            /*Fecha fechaNowTemp = new Fecha(*//*dto.ToUnixTimeMilliseconds()*//*);
+                    DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+                    fechaNowTemp.TimeStamp = dto.ToUnixTimeMilliseconds();
+                    Fecha fechaNow = fechaNowTemp;
+                    _dbContext.Add(fechaNow);
+
+                    await _dbContext.SaveChangesAsync();*/
+
+                   /* await _dbContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Fecha OFF");
+                    }
+                finally
+                    {
+                    _dbContext.Database.CloseConnection();
+                    }*/
+                /*}*/
+            /*transaction.Commit();
+            }*/
 
             if (!isPatronOriginal)
                 {
@@ -144,7 +169,11 @@ namespace _0TestWebAPI1.Controllers
             else
                 newExamen.PatronClave = patronOriginal;
 
+            /*_dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Fecha ON");
             _dbContext.Entry(fechaNow).State = EntityState.Added;
+            _dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Fecha OFF");*/
+
+            // _dbContext.Entry(fechaNow).State = EntityState.Added;
             _dbContext.Entry(newExamen).State = EntityState.Added;
             // await _dbContext.Set<T>().AddAsync(value);
             await _dbContext.SaveChangesAsync();
@@ -155,9 +184,12 @@ namespace _0TestWebAPI1.Controllers
                 UsuarioExamen10 newUsuarioExamen = new UsuarioExamen10();
                 newUsuarioExamen.UsuarioId = item;
                 newUsuarioExamen.ExamenId = newExamen.UId;
+
+                // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+                newUsuarioExamen.FechaTimeStamp = 0/*dto.ToUnixTimeMilliseconds()*/;
+
                 _dbContext.Entry(newUsuarioExamen).State = EntityState.Added;
                 await _dbContext.SaveChangesAsync();
-
                 }
             }
 
@@ -169,5 +201,5 @@ namespace _0TestWebAPI1.Controllers
             temp.Activo = false;
             await _dbContext.SaveChangesAsync();
             }*/
+            }
         }
-    }

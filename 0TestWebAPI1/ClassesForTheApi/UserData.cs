@@ -12,23 +12,24 @@ namespace _0TestWebAPI1.ClassesForTheApi
     {
         /*private PruebasDbContext _dbContext { get; set; }*/
         public Guid Id { get; set; }
-        public ulong Ci { get; set; }
+        public string Ci { get; set; }
 
         public string Nombre { get; set; }
 
         public string Apellidos { get; set; }
-        public string NickName { get; set; }
+        public string UserName { get; set; }
         public string Password { get; set; }
 
         public string SexoNombre { get; set; }  //true es femeneino
 
-        public int Edad { get; set; }
-        public string RolNombre { get; set; }
+        // public int Edad { get; set; }
+
+        public List<string> Roles { get; set; }
         public string GrupoEtarioNombre { get; set; } // se valida en el controller
 
-        public List<string> Centros { get; set; } //esto es pal get pa ver los centros a q pertenece 1 usuario
+        // public List<string> Centros { get; set; } //esto es pal get pa ver los centros a q pertenece 1 usuario
 
-        public List<int> CentrosIds { get; set; } //esto es pal post, pa asignar los centros a los q percenece 1 usuario
+        // public List<int> CentrosIds { get; set; } //esto es pal post, pa asignar los centros a los q percenece 1 usuario
 
         // public List<PruebaCaritasFormulas> PruebaDeCaritas {get; set;}
         public string EscolaridadNombre { get; set; }  // se valida en el front y en el controller

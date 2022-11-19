@@ -28,18 +28,31 @@ namespace _0TestWebAPI1.Controllers
             }
         [HttpPost]
         [Route("uexamen2")]
-        public async void PostExamen(Guid usuarioId, Guid examenId, string respuestaDeUsuarioAExamen)
+        public async Task PostExamen(Guid usuarioId, Guid examenId, string respuestaDeUsuarioAExamen)
             {
             try
                 {
-                var usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(usuarioId, examenId);
+                var usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(usuarioId, examenId,(long)0);
+                UsuarioExamen10 ue2 = new UsuarioExamen10();
+                ue2.UsuarioId = usuarioExamen.UsuarioId;
+                ue2.ExamenId = usuarioExamen.ExamenId;
+                ue2.PatronUsuario = usuarioExamen.PatronUsuario;
+
+                DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+                ue2.FechaTimeStamp = dto.ToUnixTimeMilliseconds(); ;
+
                 usuarioExamen.PatronUsuario = respuestaDeUsuarioAExamen;
 
                 // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                Fecha fechaNow = new Fecha(/*dto.ToUnixTimeMilliseconds()*/);
+                // Fecha fechaNow = new Fecha(/*dto.ToUnixTimeMilliseconds()*/);
                 // fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
 
-                _dbContext.Entry(fechaNow).State = EntityState.Added;
+                /* DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+                 usuarioExamen.FechaTimeStamp = dto.ToUnixTimeMilliseconds();*/
+                _dbContext.Remove(usuarioExamen);
+                await _dbContext.SaveChangesAsync();
+
+                _dbContext.Entry(ue2).State = EntityState.Added;
                 await _dbContext.SaveChangesAsync();
                 }
             catch (Exception)

@@ -40,22 +40,76 @@ namespace _0TestWebAPI1.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "ADMINISTRADOR,EXAMINADOR")]
-        public async Task<IActionResult> Register([FromBody] Usuario1 usuario)
+        public async Task<IActionResult> Register([FromBody] UserData usuario)
         {
             //creando usuario
-            // string newUserNick = usuario.NickName;
-            // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.NickName == newUserNick).SingleOrDefault();
-            var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.NickName == usuario.NickName).SingleOrDefault();
+            // string newUserNick = usuario.UserName;
+            // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.UserName == newUserNick).SingleOrDefault();
+            var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.UserName == usuario.UserName).SingleOrDefault();
+            var usuarioConMismoCi = _dbContext.Usuario.Where(u => u.Ci == usuario.Ci).SingleOrDefault();
+
             if (usuarioConMismoNick != null)
             { return BadRequest("Ya existe un usuario con ese nombre"); }
+            if (usuarioConMismoCi != null)
+                { return BadRequest("Ya existe un usuario con ese ci"); }
             else
             {
                 string grupoEtarioNombre = "Fuera de rango para el estudio";
 
-                string RolNombre = usuario.RolNombre;
-                switch (usuario.Edad)
+                // List<string> RolNombres = usuario.Roles;
+
+               string ciAsDate = usuario.Ci.Substring(0, 6);
+                string ciAsDateYear = ciAsDate.Substring(0, 2);
+
+                /////////////////////
+                int edad = 0;
+                string actualYear = DateTime.Now.Year.ToString();
+                if (int.Parse(ciAsDateYear) <= int.Parse(actualYear.Substring(2, 2)))
+                    {
+                    ciAsDate = "20" + ciAsDate;
+                    }
+                else
+                    {
+                    // int actualYear = DateTime.Now.Year;
+                    ciAsDate = "19" + ciAsDate;
+                    }
+                ciAsDateYear = ciAsDate.Substring(0, 4);
+                // Console.WriteLine(ciAsDateYear);
+                string ciAsDateMonth = ciAsDate.Substring(4, 2);
+                // Console.WriteLine(ciAsDateMonth);
+                string ciAsDateDay = ciAsDate.Substring(6, 2);
+                // Console.WriteLine(ciAsDateDay);
+                // ciAsDate = ciAsDateYear + ciAsDate.Substring(2, 6);
+                ciAsDate = ciAsDateMonth + "/" + ciAsDateDay + "/" + ciAsDateYear;
+                string[] ciAsDateArray = { ciAsDateMonth, "/", ciAsDateDay, "/", ciAsDateYear };
+                ciAsDate = string.Concat(ciAsDateArray);
+                // Console.WriteLine(ciAsDate);
+
+                DateTime userBornDate = DateTime.Parse(ciAsDate);
+                DateTime actualDate = DateTime.Now;
+
+                // DateTimeOffset userBornDateMs = new DateTimeOffset(userBornDate);
+                // DateTimeOffset actualDateMs = new DateTimeOffset(actualDate);
+
+
+                int now = int.Parse(actualDate.ToString("yyyyMMdd"));
+                Console.WriteLine(now);
+                int dob = int.Parse(userBornDate.ToString("yyyyMMdd"));
+                Console.WriteLine(dob);
+                int age = (now - dob) / 10000;
+
+                // Console.WriteLine(age);
+                /////////////////////
+
+                switch (age)
                 {
-                    case int n when (n >= 12 && n <= 18):
+                    case < 12:
+                        grupoEtarioNombre = "Muy joven";
+                        break;
+                    /*case int n when (n >= 12 && n <= 18):
+                        grupoEtarioNombre = "Joven";
+                        break;*/
+                    case <= 18:
                         grupoEtarioNombre = "Joven";
                         break;
                     case <= 30:
@@ -64,27 +118,40 @@ namespace _0TestWebAPI1.Controllers
                     case <= 60:
                         grupoEtarioNombre = "Mayor";
                         break;
-                }
-                if (_dbContext.Usuario.Count() == 3)
+                    case > 60:
+                        grupoEtarioNombre = "Muy mayor";
+                        break;
+                    }
+               /* if (_dbContext.Usuario.Count() == 3)
                 {
                     RolNombre = "ADMINISTRADOR";
-                }
+                }*/
                 var userObj = new Usuario1
                 {
                     UId = Guid.NewGuid(),
                     Nombre = usuario.Nombre,
                     Apellidos = usuario.Apellidos,
-                    NickName = usuario.NickName,
+                    UserName = usuario.UserName,
                     Password = SecurePasswordHasherHelper.Hash(usuario.Password),
-                    RolNombre = RolNombre,
+                    // RolNombre = RolNombre,
                     Ci = usuario.Ci,
                     SexoNombre = usuario.SexoNombre,
-                    Edad = usuario.Edad,
+                    // Edad = usuario.Edad,
                     GrupoEtarioNombre = grupoEtarioNombre,
                     EscolaridadNombre = usuario.EscolaridadNombre,
                 };
+               
+
                 await _dbContext.Usuario.AddAsync(userObj);
-               await _dbContext.SaveChangesAsync();
+
+                foreach (var rol in usuario.Roles)
+                    {
+                    UsuarioRol6 urTemp = new UsuarioRol6();
+                    urTemp.UsuarioId = userObj.UId;
+                    urTemp.RolNombre = rol;
+                    await _dbContext.UsuarioRol.AddAsync(urTemp);
+
+                    }
 
                 await _dbContext.SaveChangesAsync();
 
@@ -95,7 +162,17 @@ namespace _0TestWebAPI1.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
         {
-            Usuario1 usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.NickName == userLogin.NickName  );
+            Usuario1 usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.UserName == userLogin.UserName);
+            List<UsuarioRol6> uRolList = await _dbContext.UsuarioRol.Where(ur=> ur.UsuarioId == usuario.UId).ToListAsync();
+            List<Rol7> rolList = new List<Rol7>();
+            foreach (var uRol in uRolList)
+                {
+                Rol7 rolTemp = await _dbContext.Rol.FirstOrDefaultAsync(u => u.Nombre == uRol.RolNombre);
+                if (rolTemp != null)
+                    rolList.Add(rolTemp);
+                }
+
+
             if (usuario == null)
             {
                 return NotFound();
@@ -105,14 +182,28 @@ namespace _0TestWebAPI1.Controllers
                 return Unauthorized();
             }
 
-            Rol7 rol =await _dbContext.Rol.FirstOrDefaultAsync(r => r.Nombre == usuario.RolNombre);
-            var claims = new[]
+            // Rol7 rol =await _dbContext.Rol.FirstOrDefaultAsync(r => r.Nombre == rolNombre.Nombre);
+            List<Claim> claims = new List<Claim>();
+            Claim cl1 = new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.UserName);
+            claims.Add(cl1);
+            Claim cl2 = new Claim(ClaimTypes.NameIdentifier, userLogin.UserName);
+            claims.Add(cl2);
+            foreach (var rol in rolList)
+                {
+                Claim claimTemp = new Claim(ClaimTypes.Role, rol.Nombre);
+                }
+            /*var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.NickName),
-                new Claim(ClaimTypes.NameIdentifier, userLogin.NickName),
+                new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.UserName),
+                new Claim(ClaimTypes.NameIdentifier, userLogin.UserName),
                 new Claim(ClaimTypes.Role, rol.Nombre)
-            };
+            };*/
             var token = _auth.GenerateAccessToken(claims);
+            List<string> roles = new List<string>();
+            foreach (var rol in rolList)
+                {
+                roles.Add(rol.Nombre);
+                }
             return new ObjectResult(new
             {
                 access_token = token.AccessToken,
@@ -121,7 +212,7 @@ namespace _0TestWebAPI1.Controllers
                 creation_Time = token.ValidFrom,
                 expiration_Time = token.ValidTo,
                 usuario_id= usuario.UId,
-                rol_name = rol.Nombre,
+                roles_name = roles,
                 status=200
             });
         }
@@ -130,11 +221,11 @@ namespace _0TestWebAPI1.Controllers
         [Route("usuariosConNombre")]
         public async Task<List<Usuario1>> GetAll(string userName)
             {
-            return await _dbContext.Set<Usuario1>().Where(uc => uc.NickName.Contains(userName)).ToListAsync();
+            return await _dbContext.Set<Usuario1>().Where(uc => uc.UserName.Contains(userName)).ToListAsync();
             }
 
         [HttpDelete]
-        public  void DeleteSeveral(List<Guid> ids)
+        public string  DeleteSeveral(List<Guid> ids)
             {
             foreach (var id in ids)
                 {
@@ -151,7 +242,8 @@ namespace _0TestWebAPI1.Controllers
 
                 }
             _dbContext.SaveChanges();
-
+            var databaseName = _dbContext.Database.GetDbConnection().Database;
+            return databaseName;
             }
 
         /*[HttpGet]

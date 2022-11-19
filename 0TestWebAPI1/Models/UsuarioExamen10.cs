@@ -12,8 +12,8 @@ namespace _0TestWebAPI1.Models
         /*[NotMapped]
         [JsonIgnore]*/
         public long FechaTimeStamp { get; set; }
-        [JsonIgnore]
-        public Fecha Fecha { get; set; }
+        /*[JsonIgnore]
+        public Fecha Fecha { get; set; }*/
 
 
         [JsonIgnore]
