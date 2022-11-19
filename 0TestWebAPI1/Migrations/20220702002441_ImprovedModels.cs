@@ -45,12 +45,12 @@ namespace _0TestWebAPI1.Migrations
             migrationBuilder.RenameColumn(
                 name: "SujetoId",
                 table: "UsuarioCentro",
-                newName: "UsuarioId");
+                newName: "UsuarioCi");
 
             migrationBuilder.RenameIndex(
                 name: "IX_UsuarioCentro_SujetoId",
                 table: "UsuarioCentro",
-                newName: "IX_UsuarioCentro_UsuarioId");
+                newName: "IX_UsuarioCentro_UsuarioCi");
 
             migrationBuilder.AlterColumn<int>(
                 name: "PruebaBaseId",
@@ -63,7 +63,7 @@ namespace _0TestWebAPI1.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddColumn<int>(
-                name: "UsuarioId",
+                name: "UsuarioCi",
                 table: "UsuarioPruebaBase",
                 type: "int",
                 nullable: false,
@@ -110,9 +110,9 @@ namespace _0TestWebAPI1.Migrations
                 oldNullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsuarioPruebaBase_UsuarioId",
+                name: "IX_UsuarioPruebaBase_UsuarioCi",
                 table: "UsuarioPruebaBase",
-                column: "UsuarioId");
+                column: "UsuarioCi");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_PruebaCaritas_PruebaBase_PruebaBaseId",
@@ -147,9 +147,9 @@ namespace _0TestWebAPI1.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_UsuarioCentro_Usuario_UsuarioId",
+                name: "FK_UsuarioCentro_Usuario_UsuarioCi",
                 table: "UsuarioCentro",
-                column: "UsuarioId",
+                column: "UsuarioCi",
                 principalTable: "Usuario",
                 principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
@@ -163,9 +163,9 @@ namespace _0TestWebAPI1.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_UsuarioPruebaBase_Usuario_UsuarioId",
+                name: "FK_UsuarioPruebaBase_Usuario_UsuarioCi",
                 table: "UsuarioPruebaBase",
-                column: "UsuarioId",
+                column: "UsuarioCi",
                 principalTable: "Usuario",
                 principalColumn: "UId",
                 onDelete: ReferentialAction.Cascade);
@@ -190,7 +190,7 @@ namespace _0TestWebAPI1.Migrations
                 table: "Usuario");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_UsuarioCentro_Usuario_UsuarioId",
+                name: "FK_UsuarioCentro_Usuario_UsuarioCi",
                 table: "UsuarioCentro");
 
             migrationBuilder.DropForeignKey(
@@ -198,24 +198,24 @@ namespace _0TestWebAPI1.Migrations
                 table: "UsuarioPruebaBase");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_UsuarioPruebaBase_Usuario_UsuarioId",
+                name: "FK_UsuarioPruebaBase_Usuario_UsuarioCi",
                 table: "UsuarioPruebaBase");
 
             migrationBuilder.DropIndex(
-                name: "IX_UsuarioPruebaBase_UsuarioId",
+                name: "IX_UsuarioPruebaBase_UsuarioCi",
                 table: "UsuarioPruebaBase");
 
             migrationBuilder.DropColumn(
-                name: "UsuarioId",
+                name: "UsuarioCi",
                 table: "UsuarioPruebaBase");
 
             migrationBuilder.RenameColumn(
-                name: "UsuarioId",
+                name: "UsuarioCi",
                 table: "UsuarioCentro",
                 newName: "SujetoId");
 
             migrationBuilder.RenameIndex(
-                name: "IX_UsuarioCentro_UsuarioId",
+                name: "IX_UsuarioCentro_UsuarioCi",
                 table: "UsuarioCentro",
                 newName: "IX_UsuarioCentro_SujetoId");
 

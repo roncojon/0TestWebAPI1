@@ -10,7 +10,7 @@ namespace _0TestWebAPI1.Models
     {
         [Key]
         public int Id { get; set; }
-        public int UsuarioId { get; set; }
+        public int UsuarioCi { get; set; }
 
         //[DataFormatString("{0:dd-MM-yyyy}")]
 
@@ -41,7 +41,7 @@ namespace _0TestWebAPI1.Models
         public double CalidadDeLaAtencion { get; set; }  //se valida en el controller, preferiria q fuera en el front
 
         public double DatosAtencion { get; set; }  //se valida en el controller, preferiria q fuera en el front
-        //public int UsuarioId { get; set; }
+        //public int UsuarioCi { get; set; }
         //public Usuario Usuario { get; set; }
         public int Tipo = 1;
 

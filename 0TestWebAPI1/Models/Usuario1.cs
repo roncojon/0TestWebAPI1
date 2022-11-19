@@ -11,9 +11,9 @@ namespace _0TestWebAPI1.Models
     public class Usuario1
     {
         /*private PruebasDbContext _dbContext { get; set; }*/
+        
+        // public Guid UId { get; set; }
         [Key]
-        public Guid UId { get; set; }
-
         public string Ci { get; set; }
         public string Password { get; set; }
 
@@ -26,7 +26,7 @@ namespace _0TestWebAPI1.Models
         [JsonIgnore]
         public Sexo2 Sexo { get; set; }
 
-        public int Edad { get; set; }
+        // public int Edad { get; set; }
         public string GrupoEtarioNombre { get; set; }
         [JsonIgnore]
         public GrupoEtario GrupoEtario { get; set; }

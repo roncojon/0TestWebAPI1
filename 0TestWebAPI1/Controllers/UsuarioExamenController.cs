@@ -22,24 +22,24 @@ namespace _0TestWebAPI1.Controllers
             }
         [HttpGet]
         [Route("uexamen")]
-        public async Task<UsuarioExamen10> GetByIds(Guid usuarioId, Guid examenId)
+        public async Task<UsuarioExamen10> GetByIds(string UsuarioCi, Guid examenId)
             {
-            return await _dbContext.FindAsync<UsuarioExamen10>(usuarioId, examenId);
+            return await _dbContext.FindAsync<UsuarioExamen10>(UsuarioCi, examenId);
             }
         [HttpPost]
         [Route("uexamen2")]
-        public async Task PostExamen(Guid usuarioId, Guid examenId, string respuestaDeUsuarioAExamen)
+        public async Task PostExamen(string UsuarioCi, Guid examenId, string respuestaDeUsuarioAExamen)
             {
             try
                 {
-                var usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(usuarioId, examenId,(long)0);
+                var usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(UsuarioCi, examenId,(long)0);
                 UsuarioExamen10 ue2 = new UsuarioExamen10();
-                ue2.UsuarioId = usuarioExamen.UsuarioId;
+                ue2.UsuarioCi = usuarioExamen.UsuarioCi;
                 ue2.ExamenId = usuarioExamen.ExamenId;
                 ue2.PatronUsuario = usuarioExamen.PatronUsuario;
 
                 DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                ue2.FechaTimeStamp = dto.ToUnixTimeMilliseconds(); ;
+                ue2.Fecha = dto.ToUnixTimeMilliseconds(); ;
 
                 usuarioExamen.PatronUsuario = respuestaDeUsuarioAExamen;
 
@@ -48,7 +48,7 @@ namespace _0TestWebAPI1.Controllers
                 // fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
 
                 /* DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                 usuarioExamen.FechaTimeStamp = dto.ToUnixTimeMilliseconds();*/
+                 usuarioExamen.Fecha = dto.ToUnixTimeMilliseconds();*/
                 _dbContext.Remove(usuarioExamen);
                 await _dbContext.SaveChangesAsync();
 

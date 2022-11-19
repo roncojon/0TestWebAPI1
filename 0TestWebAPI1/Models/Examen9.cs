@@ -16,7 +16,7 @@ namespace _0TestWebAPI1.Models
         [JsonIgnore]
         public Test Test { get; set; }
 
-        /*public long FechaTimeStamp { get; set; }
+        /*public long Fecha { get; set; }
         [JsonIgnore]
         public Fecha Fecha { get; set; }*/
 

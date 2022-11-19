@@ -21,9 +21,9 @@ namespace _0TestWebAPI1.Controllers
         }
         [HttpGet]
         [Route("urol")]
-        public async Task<UsuarioRol6> GetByIds(Guid usuarioId, string rolId)
+        public async Task<UsuarioRol6> GetByIds(Guid UsuarioCi, string rolId)
         {
-            return await _dbContext.FindAsync<UsuarioRol6>(usuarioId, rolId);
+            return await _dbContext.FindAsync<UsuarioRol6>(UsuarioCi, rolId);
         }
     }
 }

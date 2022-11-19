@@ -5,8 +5,10 @@ namespace _0TestWebAPI1.Models
 {
     public class UsuarioRol6
     {
-        public Guid UsuarioId { get; set; }
+        // public Guid UsuarioCi { get; set; }
         /*[NotMapped]*/
+        
+        public string UsuarioCi { get; set; }
         public Usuario1 Usuario{ get; set; }
         public string RolNombre { get; set; }
         /*[NotMapped]*/

@@ -118,7 +118,7 @@ namespace _0TestWebAPI1.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task Post(string pruebaMatrizNombre, bool isPatronOriginal,List<Guid> usuariosIds)
+        public async Task Post(string pruebaMatrizNombre, bool isPatronOriginal,List<string> usuariosCiList)
             {
             /*var fecha = value.Fecha.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("es-ES"));
             var temp = value;
@@ -179,14 +179,14 @@ namespace _0TestWebAPI1.Controllers
             await _dbContext.SaveChangesAsync();
 
             //CREANDO LA RELACION DE CADA USUARIO ASIGNADO AL EXAMEN
-            foreach (var item in usuariosIds)
+            foreach (var item in usuariosCiList)
                 {
                 UsuarioExamen10 newUsuarioExamen = new UsuarioExamen10();
-                newUsuarioExamen.UsuarioId = item;
+                newUsuarioExamen.UsuarioCi = item;
                 newUsuarioExamen.ExamenId = newExamen.UId;
 
                 // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                newUsuarioExamen.FechaTimeStamp = 0/*dto.ToUnixTimeMilliseconds()*/;
+                newUsuarioExamen.Fecha = 0/*dto.ToUnixTimeMilliseconds()*/;
 
                 _dbContext.Entry(newUsuarioExamen).State = EntityState.Added;
                 await _dbContext.SaveChangesAsync();

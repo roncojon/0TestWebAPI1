@@ -59,13 +59,13 @@ namespace _0TestWebAPI1.Controllers
                 tempCentro.UId = id;
                 dbtry = tempCentro;
             }*/
-            if (typeof(T) == typeof(Usuario1) )
+          /*  if (typeof(T) == typeof(Usuario1) )
             {
                 Guid id = new Guid();
                 var tempUsuario = value as Usuario1;
                 tempUsuario.UId = id;
                 dbtry = tempUsuario;
-            }
+            }*/
 
             _dbContext.Entry(dbtry).State = EntityState.Added;
             // await _dbContext.Set<T>().AddAsync(value);

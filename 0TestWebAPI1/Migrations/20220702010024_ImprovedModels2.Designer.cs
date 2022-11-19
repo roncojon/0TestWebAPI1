@@ -207,14 +207,14 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int>("CentroId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsuarioId")
+                    b.Property<int>("UsuarioCi")
                         .HasColumnType("int");
 
                     b.HasKey("UId");
 
                     b.HasIndex("CentroId");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioCi");
 
                     b.ToTable("UsuarioCentro");
                 });
@@ -229,14 +229,14 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int>("PruebaBaseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsuarioId")
+                    b.Property<int>("UsuarioCi")
                         .HasColumnType("int");
 
                     b.HasKey("UId");
 
                     b.HasIndex("PruebaBaseId");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioCi");
 
                     b.ToTable("UsuarioPruebaBase");
                 });
@@ -289,7 +289,7 @@ namespace _0TestWebAPI1.Migrations
 
                     b.HasOne("_0TestWebAPI1.Models.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("UsuarioCi")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -308,7 +308,7 @@ namespace _0TestWebAPI1.Migrations
 
                     b.HasOne("_0TestWebAPI1.Models.Usuario", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("UsuarioCi")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

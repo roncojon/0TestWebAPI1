@@ -11,7 +11,7 @@ namespace _0TestWebAPI1.Models
     {
         [Key]
         public string Nombre { get; set; }
-        public int Nivel { get; set; }
+        // public int Nivel { get; set; }
 
         //[Range(1,3)]
         //public int Grupo { get; set; }

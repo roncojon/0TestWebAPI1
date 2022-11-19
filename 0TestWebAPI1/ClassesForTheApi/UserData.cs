@@ -11,7 +11,7 @@ namespace _0TestWebAPI1.ClassesForTheApi
     public class UserData
     {
         /*private PruebasDbContext _dbContext { get; set; }*/
-        public Guid Id { get; set; }
+        // public Guid Id { get; set; }
         public string Ci { get; set; }
 
         public string Nombre { get; set; }
@@ -22,7 +22,7 @@ namespace _0TestWebAPI1.ClassesForTheApi
 
         public string SexoNombre { get; set; }  //true es femeneino
 
-        // public int Edad { get; set; }
+        public int Edad { get; set; }
 
         public List<string> Roles { get; set; }
         public string GrupoEtarioNombre { get; set; } // se valida en el controller

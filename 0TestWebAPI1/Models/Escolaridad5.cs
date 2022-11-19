@@ -16,7 +16,7 @@ namespace _0TestWebAPI1.Models
         //public List<Sujeto> Sujetos { get; set; }
         [Key]
         public string Nombre { get; set; }
-        public int Nivel { get; set; }
+        // public int Nivel { get; set; }
         public ICollection<Usuario1> Usuarios { get; set; }
     }
 }

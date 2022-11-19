@@ -48,7 +48,7 @@ namespace _0TestWebAPI1
             });
             //services.AddMvc();
             services.AddControllers();
-            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Initial Catalog=TesisDb; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=RON-PC\SQLEXPRESS;Integrated Security=True;Initial Catalog=TesisDb;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             // PC Data Source=RON-PC\SQLEXPRESS;Integrated Security=True;Initial Catalog=TesisDb;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
             // Laptop Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Initial Catalog=TesisDb; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
