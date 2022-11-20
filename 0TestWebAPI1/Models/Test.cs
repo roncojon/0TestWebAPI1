@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -8,6 +9,7 @@ namespace _0TestWebAPI1.Models
     public class Test
     {
         [Key]
+        public Guid UId { get; set; }
         [Required(ErrorMessage = "Name is required")]
         public string Nombre { get; set; }
         public string Descripcion { get; set; }

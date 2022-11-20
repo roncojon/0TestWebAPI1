@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Controllers
@@ -16,15 +17,24 @@ namespace _0TestWebAPI1.Controllers
             {
             }
         [NonAction]
+        public override async Task Post(UsuarioExamen10 ue) { }
+        [NonAction]
         public override async Task<UsuarioExamen10> GetById(Guid id)
             {
             return new UsuarioExamen10();
             }
         [HttpGet]
         [Route("uexamen")]
-        public async Task<UsuarioExamen10> GetByIds(string UsuarioCi, Guid examenId)
+        public async Task<UsuarioExamen10> GetByIds(string UsuarioCi, Guid examenId, long timeSpan)
             {
-            return await _dbContext.FindAsync<UsuarioExamen10>(UsuarioCi, examenId);
+            List<UsuarioExamen10> ueList = await _dbContext.UsuarioExamen.ToListAsync();
+            UsuarioExamen10 ueResult = new UsuarioExamen10();
+            foreach (var ue in ueList)
+                {
+                if (ue.UsuarioCi == UsuarioCi && ue.ExamenId == examenId && ue.Fecha == timeSpan)
+                    ueResult = ue;
+                }
+            return ueResult;
             }
         [HttpPost]
         [Route("uexamen2")]
@@ -41,7 +51,7 @@ namespace _0TestWebAPI1.Controllers
                 DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
                 ue2.Fecha = dto.ToUnixTimeMilliseconds(); ;
 
-                usuarioExamen.PatronUsuario = respuestaDeUsuarioAExamen;
+                ue2.PatronUsuario = respuestaDeUsuarioAExamen;
 
                 // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
                 // Fecha fechaNow = new Fecha(/*dto.ToUnixTimeMilliseconds()*/);

@@ -171,7 +171,7 @@ namespace _0TestWebAPI1.Migrations
                     b.Property<int?>("EscolaridadNombre")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GrupoEtarioNombre")
+                    b.Property<int?>("GrupoEtarioUId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
@@ -187,7 +187,7 @@ namespace _0TestWebAPI1.Migrations
 
                     b.HasIndex("EscolaridadNombre");
 
-                    b.HasIndex("GrupoEtarioNombre");
+                    b.HasIndex("GrupoEtarioUId");
 
                     b.HasIndex("RolNombre");
 
@@ -255,7 +255,7 @@ namespace _0TestWebAPI1.Migrations
 
                     b.HasOne("_0TestWebAPI1.Models.GrupoEtario", "GrupoEtario")
                         .WithMany()
-                        .HasForeignKey("GrupoEtarioNombre");
+                        .HasForeignKey("GrupoEtarioUId");
 
                     b.HasOne("_0TestWebAPI1.Models.Rol", "Rol")
                         .WithMany()

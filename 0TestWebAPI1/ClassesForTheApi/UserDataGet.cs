@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.ClassesForTheApi
 {
-    public class UserData
+    public class UserDataGet
     {
         /*private PruebasDbContext _dbContext { get; set; }*/
         // public Guid Id { get; set; }
@@ -24,7 +24,8 @@ namespace _0TestWebAPI1.ClassesForTheApi
 
         public int Edad { get; set; }
 
-        public List<string> Roles { get; set; }
+        public List<Rol7> Roles { get; set; }
+        //public List<Guid> RolesUId { get; set; }
         public string GrupoEtarioNombre { get; set; } // se valida en el controller
 
         // public List<string> Centros { get; set; } //esto es pal get pa ver los centros a q pertenece 1 usuario

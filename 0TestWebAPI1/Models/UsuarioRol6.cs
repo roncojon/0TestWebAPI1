@@ -10,7 +10,7 @@ namespace _0TestWebAPI1.Models
         
         public string UsuarioCi { get; set; }
         public Usuario1 Usuario{ get; set; }
-        public string RolNombre { get; set; }
+        public Guid RolUId { get; set; }
         /*[NotMapped]*/
         public Rol7 Rol { get; set; }
     }

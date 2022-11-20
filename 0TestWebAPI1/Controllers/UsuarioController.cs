@@ -33,35 +33,65 @@ namespace _0TestWebAPI1.Controllers
             _auth = new AuthService(_configuration);
             /* _dbContext = dbContext;*/
             }
+        [NonAction]
+        public override async Task<List<Usuario1>> GetAll() { return new List<Usuario1>(); }
+        [NonAction]
+        public override async Task Post(Usuario1 user) {/* return new Usuario1();*/}
         [HttpGet]
         // [Authorize]
         [Route("usuariosplus")]
-        public async Task<List<UserData>> GetAllPlus()
+        public async Task<List<UserDataGet>> GetAllPlus()
             {
             List<Usuario1> usuarios = await _dbContext.Set<Usuario1>().ToListAsync();
-            List<UserData> usuariosPlus = new List<UserData>();
+            List<UserDataGet> usuariosPlus = new List<UserDataGet>();
 
             foreach (var user in usuarios)
                 {
-                UserData udTemp = new UserData();
+                UserDataGet udTemp = new UserDataGet();
                 udTemp.Ci = user.Ci;
                 udTemp.Nombre = user.Nombre;
                 udTemp.Apellidos = user.Apellidos;
                 udTemp.UserName = user.UserName;
                 udTemp.Password = user.Password;
-                udTemp.EscolaridadNombre = user.EscolaridadNombre;
-                udTemp.GrupoEtarioNombre = user.GrupoEtarioNombre;
-                List<string> roles = new List<string>();
-                foreach (var usuarioRol in _dbContext.UsuarioRol)
+
+                // Hayando la escolaridad
+                Escolaridad es =await _dbContext.Escolaridad.FirstOrDefaultAsync(e => e.UId== user.EscolaridadUId);
+                udTemp.EscolaridadNombre = es.Nombre;
+
+                // Hayando el grupo etario
+                GrupoEtario ge =await _dbContext.GrupoEtario.FirstOrDefaultAsync(g => g.UId== user.GrupoEtarioUId);
+                udTemp.GrupoEtarioNombre = ge.Nombre;
+
+                // Hayando los roles
+                List<Rol7> roles = new List<Rol7>();
+
+                List<UsuarioRol6> urList = _dbContext.UsuarioRol.ToList();
+                List<Rol7> rolList = _dbContext.Rol.ToList();
+
+                foreach (var usuarioRol in urList)
                     {
                     if (usuarioRol.UsuarioCi == user.Ci)
-                        roles.Add(usuarioRol.RolNombre);
+                        {
+                        foreach (var rol in rolList)
+                            {
+                            if (rol.UId == usuarioRol.RolUId)
+                        roles.Add(rol);
+                            }
+                        }
                     }
                 udTemp.Roles = roles;
+                //
+
+                // Hayando la edad
                 AgeByCi age = new AgeByCi();
                 DateTime actualDate = DateTime.Now;
                 udTemp.Edad =age.Get(user.Ci, actualDate);
-                udTemp.SexoNombre = user.SexoNombre;
+                //
+
+                // Hayando el sexo
+                Sexo2 sx = await _dbContext.Sexo.FirstOrDefaultAsync(s => s.UId == user.SexoUId);
+                udTemp.SexoNombre = sx.Nombre;
+                //
 
                 usuariosPlus.Add(udTemp);
                 }
@@ -72,43 +102,61 @@ namespace _0TestWebAPI1.Controllers
             { return new Usuario1(); }
         // [Route("getbyci")]
         [HttpGet("{ci}")]
-        public  async Task<UserData> GetByCi(string ci)  // public async Task<ActionResult<T>> GetById(Z id)
+        public  async Task<UserDataGet> GetPlusByCi(string ci)  // public async Task<ActionResult<T>> GetById(Z id)
             {
 
             Usuario1 user= await _dbContext.FindAsync<Usuario1>(ci);
 
-            UserData udTemp = new UserData();
+            UserDataGet udTemp = new UserDataGet();
             udTemp.Ci = user.Ci;
             udTemp.Nombre = user.Nombre;
             udTemp.Apellidos = user.Apellidos;
             udTemp.UserName = user.UserName;
             udTemp.Password = user.Password;
-            udTemp.EscolaridadNombre = user.EscolaridadNombre;
-            udTemp.GrupoEtarioNombre = user.GrupoEtarioNombre;
-            List<string> roles = new List<string>();
-            foreach (var usuarioRol in _dbContext.UsuarioRol)
+
+            // Hayando la escolaridad
+            Escolaridad es = await _dbContext.Escolaridad.FirstOrDefaultAsync(e => e.UId == user.EscolaridadUId);
+            udTemp.EscolaridadNombre = es.Nombre;
+            
+            // Hayando el grupo etario
+            GrupoEtario ge = await _dbContext.GrupoEtario.FirstOrDefaultAsync(g => g.UId == user.GrupoEtarioUId);
+            udTemp.GrupoEtarioNombre = ge.Nombre;
+
+            // Hayando los roles
+            List<Rol7> roles = new List<Rol7>();
+
+            List<UsuarioRol6> urList = _dbContext.UsuarioRol.ToList();
+            List<Rol7> rolList = _dbContext.Rol.ToList();
+
+            foreach (var usuarioRol in urList)
                 {
                 if (usuarioRol.UsuarioCi == user.Ci)
-                    roles.Add(usuarioRol.RolNombre);
+                    {
+                    foreach (var rol in rolList)
+                        {
+                        if (rol.UId == usuarioRol.RolUId)
+                            roles.Add(rol);
+                        }
+                    }
                 }
             udTemp.Roles = roles;
             AgeByCi age = new AgeByCi();
             DateTime actualDate = DateTime.Now;
             udTemp.Edad = age.Get(user.Ci, actualDate);
-            udTemp.SexoNombre = user.SexoNombre;
+
+            // Hayando el sexo
+            Sexo2 sx = await _dbContext.Sexo.FirstOrDefaultAsync(s => s.UId == user.SexoUId);
+            udTemp.SexoNombre = sx.Nombre;
 
             return udTemp;
             }
-        [NonAction]
-        public override async Task Post(Usuario1 user)
-            {
-            /* return new Usuario1();*/
-            }
+        
 
         [HttpPost]
         //[Authorize(Roles = "ADMINISTRADOR,EXAMINADOR")]
-        public async Task<IActionResult> Register([FromBody] UserData usuario)
+        public async Task<IActionResult> Register([FromBody] UserDataPost userData)
             {
+            Usuario1 usuario = userData.Usuario;
             //creando usuario
             // string newUserNick = usuario.UserName;
             // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.UserName == newUserNick).SingleOrDefault();
@@ -168,6 +216,57 @@ namespace _0TestWebAPI1.Controllers
                 // Console.WriteLine(age);
                 /////////////////////
 
+
+                // Hayando grupo etarioId
+                // Guid geUId = Guid.NewGuid();
+                // dynamic var geUIda = null ;
+                /* dynamic GetGrupoEtario () {  
+                     foreach (var ge in _dbContext.GrupoEtario)
+                     {
+                     GrupoEtario geTemp = new GrupoEtario();
+                     var geUid = geTemp.GetUIdIfFits(edad);
+                     if (geUid.GetType() == typeof(Guid))
+                         {
+                             return geUid; ;
+                         }
+
+                     }
+                     return null;
+                     }*/
+                /*GrupoEtario GetGrupoEtario()
+                    {
+                    GrupoEtario geResult = new GrupoEtario();
+                    foreach (var ge in _dbContext.GrupoEtario)
+                        {
+                        GrupoEtario geTemp = new GrupoEtario();
+                
+                        if (geTemp.GetUIdIfFits(edad))
+                            {
+                            geResult = ge ;
+                            break;
+                            }
+                        }
+                    return geResult;
+                    }*/
+                // HAYANDO GRUPOETARIO OKOK
+                GrupoEtario geTemp = new GrupoEtario();
+                foreach (var ge in _dbContext.GrupoEtario)
+                    {
+                    if (DoesThisAgeFitsInThisGroup(ge, edad))
+                        geTemp = ge;
+                    }
+                 bool DoesThisAgeFitsInThisGroup(GrupoEtario ge, int edad)
+                    {
+                    if (edad >= ge.EdadMinima && edad < ge.EdadMaxima)
+                        {
+                        return true;
+                        }
+                    else
+                        {
+                        return false;
+                        }
+                    }
+
                 switch (age)
                     {
                     case < 12:
@@ -189,10 +288,7 @@ namespace _0TestWebAPI1.Controllers
                         grupoEtarioNombre = "Muy mayor";
                         break;
                     }
-                /* if (_dbContext.Usuario.Count() == 3)
-                 {
-                     RolNombre = "ADMINISTRADOR";
-                 }*/
+  
                 var userObj = new Usuario1
                     {
                     // UId = Guid.NewGuid(),
@@ -202,21 +298,21 @@ namespace _0TestWebAPI1.Controllers
                     Password = SecurePasswordHasherHelper.Hash(usuario.Password),
                     // RolNombre = RolNombre,
                     Ci = usuario.Ci,
-                    SexoNombre = usuario.SexoNombre,
+                    SexoUId = usuario.SexoUId,
                     // Edad = usuario.Edad,
-                    GrupoEtarioNombre = grupoEtarioNombre,
-                    EscolaridadNombre = usuario.EscolaridadNombre,
+                    GrupoEtarioUId = geTemp.UId/*usuario.GrupoEtarioUId*/,
+                    // GrupoEtarioNombre = geTemp.Nombre/*usuario.GrupoEtarioUId*/,
+                    EscolaridadUId = usuario.EscolaridadUId,
                     };
-
 
                 await _dbContext.Usuario.AddAsync(userObj);
 
-                foreach (var rol in usuario.Roles)
+                foreach (var rolId in userData.RolesUIds)
                     {
                     UsuarioRol6 urTemp = new UsuarioRol6();
                     urTemp.UsuarioCi = userObj.Ci;
-                    urTemp.RolNombre = rol;
-                    await _dbContext.UsuarioRol.AddAsync(urTemp);
+                    urTemp.RolUId = rolId;
+                     _dbContext.UsuarioRol.Add(urTemp);
 
                     }
 
@@ -234,7 +330,7 @@ namespace _0TestWebAPI1.Controllers
             List<Rol7> rolList = new List<Rol7>();
             foreach (var uRol in uRolList)
                 {
-                Rol7 rolTemp = await _dbContext.Rol.FirstOrDefaultAsync(u => u.Nombre == uRol.RolNombre);
+                Rol7 rolTemp = await _dbContext.Rol.FirstOrDefaultAsync(r => r.UId == uRol.RolUId);
                 if (rolTemp != null)
                     rolList.Add(rolTemp);
                 }

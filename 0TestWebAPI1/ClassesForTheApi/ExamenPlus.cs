@@ -9,13 +9,14 @@ namespace _0TestWebAPI1.ClassesForTheApi
         /*        public string Prueba { get; set; }
                 public int MyProperty { get; set; }*/
         /*yyyy-MM-dd'T'HH:mm:ss*/
-        public string PruebaMatrizNombre { get; set; }
+        public string TestNombre { get; set; }
+        public Guid TestUId { get; set; }
         public string PatronClave { get; set; }
         public string Descripcion { get; set; }
-        public long Fecha { get; set; }
+        // public long Fecha { get; set; }
         public int CantColumnas { get; set; }
         public int CantidadFilas { get; set; }
         public int TiempoLimiteMs { get; set; }
-        public bool Activo { get; set; }
+        // public bool Activo { get; set; }
         }
     }

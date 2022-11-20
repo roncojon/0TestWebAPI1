@@ -40,6 +40,7 @@ namespace _0TestWebAPI1.Controllers
 
         // POST api/<ControllerSuper>
         [HttpPost]
+        [AllowAnonymous]
         public virtual async Task Post(T value)
         {
             var dbtry = Activator.CreateInstance(typeof(T));

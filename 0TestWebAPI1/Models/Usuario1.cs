@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -22,12 +23,15 @@ namespace _0TestWebAPI1.Models
         public string Apellidos { get; set; } 
         public string UserName { get; set; }
 
-        public string SexoNombre { get; set; }
+        public Guid SexoUId { get; set; }
         [JsonIgnore]
         public Sexo2 Sexo { get; set; }
 
         // public int Edad { get; set; }
-        public string GrupoEtarioNombre { get; set; }
+        public Guid GrupoEtarioUId { get; set; }
+        /*[NotMapped]
+        public string GrupoEtarioNombre { get; set; }*/
+
         [JsonIgnore]
         public GrupoEtario GrupoEtario { get; set; }
 
@@ -35,7 +39,7 @@ namespace _0TestWebAPI1.Models
         /*[JsonIgnore]
         public Rol7 Rol7 { get; set; }*/
 
-        public string EscolaridadNombre { get; set; }  // se valida en el front y en el controller 
+        public Guid EscolaridadUId { get; set; }  // se valida en el front y en el controller 
         [JsonIgnore]
         public Escolaridad Escolaridad { get; set; }
        /* public Guid Centro4Id { get; set; }

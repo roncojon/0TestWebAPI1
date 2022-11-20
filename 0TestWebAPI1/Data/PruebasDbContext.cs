@@ -16,30 +16,50 @@ namespace _0TestWebAPI1.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
             base.OnModelCreating(modelBuilder);
+
+            Guid rolExaminado = Guid.NewGuid();
+            Guid rolAdministrador = Guid.NewGuid();
+            Guid rolExaminador = Guid.NewGuid();
             modelBuilder.Entity<Rol7>().HasData(new Rol7[] {
-                new Rol7 { Nombre ="EXAMINADO" },
-                new Rol7 {  Nombre ="ADMINISTRADOR" },
-                new Rol7 {  Nombre ="EXAMINADOR" }
+                new Rol7 {UId=rolExaminado , Nombre ="EXAMINADO" },
+                new Rol7 {UId=rolAdministrador ,  Nombre ="ADMINISTRADOR" },
+                new Rol7 {UId=rolExaminador ,  Nombre ="EXAMINADOR" }
             });
+
+            Guid geMuyJoven = Guid.NewGuid();
+            Guid geJoven = Guid.NewGuid();
+            Guid geMedio = Guid.NewGuid();
+            Guid geMayor = Guid.NewGuid();
+            Guid geMuyMayor = Guid.NewGuid();
             modelBuilder.Entity<GrupoEtario>().HasData(new GrupoEtario[] {
-                new GrupoEtario {Nombre="Joven", EdadMinima=12, EdadMaxima=18},
-                new GrupoEtario {Nombre="Medio", EdadMinima=19, EdadMaxima=30},
-                new GrupoEtario {Nombre="Mayor", EdadMinima=31, EdadMaxima=60}
+                new GrupoEtario {UId=geMuyJoven,Nombre="Muy joven", EdadMinima=0, EdadMaxima=11},
+                new GrupoEtario {UId=geJoven,Nombre="Joven", EdadMinima=12, EdadMaxima=18},
+                new GrupoEtario {UId=geMedio,Nombre="Medio", EdadMinima=19, EdadMaxima=30},
+                new GrupoEtario {UId=geMayor,Nombre="Mayor", EdadMinima=31, EdadMaxima=60},
+                new GrupoEtario {UId=geMuyMayor,Nombre="Muy mayor", EdadMinima=61, EdadMaxima=200}
             });
+
+            Guid eBasico = Guid.NewGuid();
+            Guid eMedio = Guid.NewGuid();
+            Guid eSuperior = Guid.NewGuid();
             modelBuilder.Entity<Escolaridad>().HasData(new Escolaridad[] {
-                new Escolaridad {  Nombre="Básico"},
-                new Escolaridad {  Nombre="Medio Superior"},
-                new Escolaridad {  Nombre="Superior"},
+                new Escolaridad { UId=eBasico, Nombre="Básico"},
+                new Escolaridad { UId=eMedio, Nombre="Medio Superior"},
+                new Escolaridad { UId=eSuperior, Nombre="Superior"},
             });
-            Guid centroGuiteras = Guid.NewGuid();
+
+            /*Guid centroGuiteras = Guid.NewGuid();
             Guid centroUmcc = Guid.NewGuid();
-           /* modelBuilder.Entity<Centro4>().HasData(new Centro4[] {
-                new Centro4 {UId = centroGuiteras, Nombre="CTE Antonio Guiteras"},
-                new Centro4 {UId =centroUmcc, Nombre="UMCC"},
-            });*/
+             modelBuilder.Entity<Centro4>().HasData(new Centro4[] {
+                 new Centro4 {UId = centroGuiteras, Nombre="CTE Antonio Guiteras"},
+                 new Centro4 {UId =centroUmcc, Nombre="UMCC"},
+             });*/
+
+            Guid sMasculino = Guid.NewGuid();
+            Guid sFemenino = Guid.NewGuid();
             modelBuilder.Entity<Sexo2>().HasData(new Sexo2[] {
-                new Sexo2 {Nombre="Masculino"},
-                new Sexo2 {Nombre="Femenino"},
+                new Sexo2 {UId=sMasculino, Nombre="Masculino"},
+                new Sexo2 {UId=sFemenino, Nombre="Femenino"},
             });
 
             /*Guid userAdminId = Guid.NewGuid();
@@ -59,10 +79,10 @@ namespace _0TestWebAPI1.Data
                    Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
                    // RolNombre = "ADMINISTRADOR",
                    Ci = "85050560959",
-                   SexoNombre = "Masculino",
+                   SexoUId = sMasculino,
                    // Edad = 37,
-                   GrupoEtarioNombre = "Medio",
-                   EscolaridadNombre = "Básico",
+                   GrupoEtarioUId = geMayor,
+                   EscolaridadUId = eBasico,
                    // Centro4Id = centroGuiteras
                },
                 new Usuario1
@@ -74,10 +94,10 @@ namespace _0TestWebAPI1.Data
                    Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
                    // RolNombre = "EXAMINADOR",
                    Ci = "86060670067",
-                   SexoNombre = "Masculino",
+                   SexoUId = sMasculino,
                    // Edad = 36,
-                   GrupoEtarioNombre = "Medio",
-                   EscolaridadNombre = "Superior",
+                   GrupoEtarioUId = geMayor,
+                   EscolaridadUId = eSuperior,
                    // Centro4Id = centroGuiteras
                },
                 new Usuario1
@@ -89,10 +109,10 @@ namespace _0TestWebAPI1.Data
                    Password = SecurePasswordHasherHelper.Hash("ExaminadoMaster.10*"),
                    // RolNombre = "EXAMINADO",
                    Ci = "96060670065",
-                   SexoNombre = "Femenino",
+                   SexoUId = sMasculino,
                    // Edad = 36,
-                   GrupoEtarioNombre = "Medio",
-                   EscolaridadNombre = "Superior",
+                   GrupoEtarioUId = geMedio,
+                   EscolaridadUId = eSuperior,
                    // Centro4Id = centroUmcc
                },
                 new Usuario1
@@ -104,10 +124,10 @@ namespace _0TestWebAPI1.Data
                    Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
                    // RolNombre = "ADMINISTRADOR",
                    Ci = "85050560659",
-                   SexoNombre = "Masculino",
+                   SexoUId = sMasculino,
                    // Edad = 37,
-                   GrupoEtarioNombre = "Medio",
-                   EscolaridadNombre = "Básico",
+                   GrupoEtarioUId = geMayor,
+                   EscolaridadUId = eBasico,
                },
                 new Usuario1
                {
@@ -118,10 +138,10 @@ namespace _0TestWebAPI1.Data
                    Password = SecurePasswordHasherHelper.Hash("PsychoMaster.10*"),
                    // RolNombre = "EXAMINADOR",
                    Ci = "76060670067",
-                   SexoNombre = "Masculino",
+                   SexoUId = sMasculino,
                    // Edad = 36,
-                   GrupoEtarioNombre = "Medio",
-                   EscolaridadNombre = "Superior",
+                   GrupoEtarioUId = geMayor,
+                   EscolaridadUId = eSuperior,
                },
                 new Usuario1
                {
@@ -132,20 +152,21 @@ namespace _0TestWebAPI1.Data
                    Password = SecurePasswordHasherHelper.Hash("ExaminadoMaster.10*"),
                    // RolNombre = "EXAMINADO",
                    Ci = "76060670065",
-                   SexoNombre = "Femenino",
+                   SexoUId = sFemenino,
                    // Edad = 36,
-                   GrupoEtarioNombre = "Medio",
-                   EscolaridadNombre = "Superior",
+                   GrupoEtarioUId = geMedio,
+                   EscolaridadUId = eSuperior,
                }
                });
             modelBuilder.Entity<UsuarioExamen10>()
        .HasKey(nameof(UsuarioExamen10.UsuarioCi), nameof(UsuarioExamen10.ExamenId), nameof(UsuarioExamen10.Fecha) );
 
             modelBuilder.Entity<UsuarioRol6>()
-       .HasKey(u => new { u.UsuarioCi, u.RolNombre });
+       .HasKey(u => new { u.UsuarioCi, u.RolUId });
 
             modelBuilder.Entity<Test>().HasData(new Test
                 {
+                UId = Guid.NewGuid(),
                 Nombre = "Caritas",
                 Descripcion = "Test de percepcion de diferencias. Selecciona la carita única en cada trío",
                 CantidadFilas = 15,
@@ -155,19 +176,18 @@ namespace _0TestWebAPI1.Data
             });
 
             modelBuilder.Entity<UsuarioRol6>().HasData(new UsuarioRol6[] {
-                new UsuarioRol6 { UsuarioCi="85050560959", RolNombre ="ADMINISTRADOR"},
-                new UsuarioRol6 { UsuarioCi="85050560959", RolNombre ="EXAMINADOR"},
-                new UsuarioRol6 { UsuarioCi="85050560959", RolNombre ="EXAMINADO"},
+                new UsuarioRol6 { UsuarioCi="85050560959", RolUId = rolAdministrador},
+                new UsuarioRol6 { UsuarioCi="85050560959", RolUId =rolExaminador},
+                new UsuarioRol6 { UsuarioCi="85050560959", RolUId =rolExaminado},
                
-                new UsuarioRol6 {UsuarioCi="86060670067", RolNombre ="EXAMINADOR"},
-                new UsuarioRol6 {UsuarioCi="96060670065", RolNombre="EXAMINADOR"},
-                new UsuarioRol6 {UsuarioCi="85050560659", RolNombre="EXAMINADO"},
-                new UsuarioRol6 {UsuarioCi="76060670067", RolNombre="EXAMINADO"},
-                new UsuarioRol6 {UsuarioCi="76060670065", RolNombre="EXAMINADO"},
+                new UsuarioRol6 {UsuarioCi="86060670067", RolUId =rolExaminador},
+                new UsuarioRol6 {UsuarioCi="96060670065", RolUId=rolExaminador},
+                new UsuarioRol6 {UsuarioCi="85050560659", RolUId=rolExaminado},
+                new UsuarioRol6 {UsuarioCi="76060670067", RolUId=rolExaminado},
+                new UsuarioRol6 {UsuarioCi="76060670065", RolUId=rolExaminado},
             });
             }
        
-
 public DbSet<Usuario1> Usuario { get; set; }
         public DbSet<Sexo2> Sexo { get; set; }
         public DbSet<GrupoEtario> GrupoEtario { get; set; }

@@ -37,13 +37,13 @@ namespace _0TestWebAPI1.Controllers
 
             foreach (var examen in examenes)
                 {
-                Test pmTemp = new Test();
-                pmTemp = await _dbContext.FindAsync<Test>(examen.TestNombre);
+                Test pmTemp = await _dbContext.FindAsync<Test>(examen.TestUId); 
 
                 ExamenPlus newExamenPlus = new ExamenPlus();
 
                 newExamenPlus.Id = examen.UId;
-                newExamenPlus.PruebaMatrizNombre = examen.TestNombre;
+                newExamenPlus.TestNombre = pmTemp.Nombre;
+                newExamenPlus.TestUId = examen.TestUId;
                 newExamenPlus.PatronClave = examen.PatronClave;
 
                 /*List<Examen9> exams = _dbContext.Fecha.FirstOrDefault(f => f.Examenes)*/
@@ -118,19 +118,19 @@ namespace _0TestWebAPI1.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task Post(string pruebaMatrizNombre, bool isPatronOriginal,List<string> usuariosCiList)
+        public async Task Post(Guid testUId, bool isPatronOriginal,List<string> usuariosCiList)
             {
             /*var fecha = value.Fecha.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("es-ES"));
             var temp = value;
             temp.Fecha = fecha;*/
            
 
-            Test temp = await _dbContext.Test.FirstOrDefaultAsync(p => p.Nombre == pruebaMatrizNombre);
+            Test temp = await _dbContext.Test.FirstOrDefaultAsync(p => p.UId == testUId);
             string patronOriginal = temp.PatronOriginal;
 
             Examen9 newExamen = new Examen9();
             newExamen.UId = Guid.NewGuid();
-            newExamen.TestNombre = pruebaMatrizNombre;
+            newExamen.TestUId = testUId;
 
             // var fechaDbtry = Activator.CreateInstance(typeof(Fecha));
 
