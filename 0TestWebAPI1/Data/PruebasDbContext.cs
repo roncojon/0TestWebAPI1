@@ -198,6 +198,7 @@ public DbSet<Usuario1> Usuario { get; set; }
         // public DbSet<Fecha> Fecha { get; set; }
         public DbSet<Test> Test { get; set; }
         public DbSet<Examen9> Examen { get; set; }
+        // public DbSet<ExamenTerminado> ExamenTerminado { get; set; }
         public DbSet<UsuarioExamen10> UsuarioExamen { get; set; }
         }
     }

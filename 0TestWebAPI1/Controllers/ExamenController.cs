@@ -118,14 +118,14 @@ namespace _0TestWebAPI1.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task Post(Guid testUId, bool isPatronOriginal,List<string> usuariosCiList)
+        public async Task<IActionResult> Post(Guid testUId, bool isPatronOriginal,List<string> usuariosCiList)
             {
             /*var fecha = value.Fecha.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("es-ES"));
             var temp = value;
             temp.Fecha = fecha;*/
-           
 
             Test temp = await _dbContext.Test.FirstOrDefaultAsync(p => p.UId == testUId);
+            if (temp != null) { 
             string patronOriginal = temp.PatronOriginal;
 
             Examen9 newExamen = new Examen9();
@@ -191,15 +191,35 @@ namespace _0TestWebAPI1.Controllers
                 _dbContext.Entry(newUsuarioExamen).State = EntityState.Added;
                 await _dbContext.SaveChangesAsync();
                 }
+                return new OkResult();
+                }
+            else { return BadRequest("No se encuentra un test con ese Id"); }
             }
 
+        /*[AllowAnonymous]
+        [HttpPost]
+        [Route("terminar")]
+        public async Task PostFinishExam(Guid examenUId)
+            {
+            Examen9 examen = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == examenUId);
+            ExamenTerminado examenTerminado = new ExamenTerminado();
+            examenTerminado.UId = examen.UId;
+            examenTerminado.TestUId = examen.TestUId;
+            examenTerminado.PatronClave = examen.PatronClave;
+
+            await _dbContext.ExamenTerminado.AddAsync(examenTerminado);
+            await _dbContext.SaveChangesAsync();
+
+            _dbContext.Examen.Remove(examen);
+            await _dbContext.SaveChangesAsync();
+            }*/
         /*[HttpPost]
         [Route("examenesActivos")]
-        public  async Task DisableExam(Guid examenId*//* bool setIsActive*//*, Z id*//*)
+        public async Task DisableExam(Guid examenId bool setIsActive, Z id)
             {
             Examen9 temp = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == examenId);
             temp.Activo = false;
             await _dbContext.SaveChangesAsync();
             }*/
-            }
+        }
         }

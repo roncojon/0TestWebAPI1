@@ -23,6 +23,8 @@ namespace _0TestWebAPI1.Models
         [JsonIgnore]
         public Examen9 Examen { get; set; }
 
+
+
         public string PatronUsuario { get; set; }
 
         // public int TiempoSegundos { get; set; }

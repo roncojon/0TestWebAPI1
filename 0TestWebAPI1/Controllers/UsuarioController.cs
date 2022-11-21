@@ -169,10 +169,6 @@ namespace _0TestWebAPI1.Controllers
                 { return BadRequest("Ya existe un usuario con ese ci"); }
             else
                 {
-                string grupoEtarioNombre = "Fuera de rango para el estudio";
-
-                // List<string> RolNombres = usuario.Roles;
-
                 string ciAsDate = usuario.Ci.Substring(0, 6);
                 string ciAsDateYear = ciAsDate.Substring(0, 2);
 
@@ -185,72 +181,32 @@ namespace _0TestWebAPI1.Controllers
                     }
                 else
                     {
-                    // int actualYear = DateTime.Now.Year;
                     ciAsDate = "19" + ciAsDate;
                     }
                 ciAsDateYear = ciAsDate.Substring(0, 4);
-                // Console.WriteLine(ciAsDateYear);
                 string ciAsDateMonth = ciAsDate.Substring(4, 2);
-                // Console.WriteLine(ciAsDateMonth);
                 string ciAsDateDay = ciAsDate.Substring(6, 2);
-                // Console.WriteLine(ciAsDateDay);
-                // ciAsDate = ciAsDateYear + ciAsDate.Substring(2, 6);
+               
                 ciAsDate = ciAsDateMonth + "/" + ciAsDateDay + "/" + ciAsDateYear;
                 string[] ciAsDateArray = { ciAsDateMonth, "/", ciAsDateDay, "/", ciAsDateYear };
                 ciAsDate = string.Concat(ciAsDateArray);
-                // Console.WriteLine(ciAsDate);
-
+               
                 DateTime userBornDate = DateTime.Parse(ciAsDate);
                 DateTime actualDate = DateTime.Now;
-
-                // DateTimeOffset userBornDateMs = new DateTimeOffset(userBornDate);
-                // DateTimeOffset actualDateMs = new DateTimeOffset(dateToCompare);
-
 
                 int now = int.Parse(actualDate.ToString("yyyyMMdd"));
                 Console.WriteLine(now);
                 int dob = int.Parse(userBornDate.ToString("yyyyMMdd"));
                 Console.WriteLine(dob);
                 int age = (now - dob) / 10000;
-
-                // Console.WriteLine(age);
                 /////////////////////
+                if(age<=0)
+                    { return BadRequest("Error al salvar los datos del Ci"); }
 
-
-                // Hayando grupo etarioId
-                // Guid geUId = Guid.NewGuid();
-                // dynamic var geUIda = null ;
-                /* dynamic GetGrupoEtario () {  
-                     foreach (var ge in _dbContext.GrupoEtario)
-                     {
-                     GrupoEtario geTemp = new GrupoEtario();
-                     var geUid = geTemp.GetUIdIfFits(edad);
-                     if (geUid.GetType() == typeof(Guid))
-                         {
-                             return geUid; ;
-                         }
-
-                     }
-                     return null;
-                     }*/
-                /*GrupoEtario GetGrupoEtario()
-                    {
-                    GrupoEtario geResult = new GrupoEtario();
-                    foreach (var ge in _dbContext.GrupoEtario)
-                        {
-                        GrupoEtario geTemp = new GrupoEtario();
-                
-                        if (geTemp.GetUIdIfFits(edad))
-                            {
-                            geResult = ge ;
-                            break;
-                            }
-                        }
-                    return geResult;
-                    }*/
                 // HAYANDO GRUPOETARIO OKOK
                 GrupoEtario geTemp = new GrupoEtario();
-                foreach (var ge in _dbContext.GrupoEtario)
+                List<GrupoEtario> geListAll =await _dbContext.GrupoEtario.ToListAsync();
+                foreach (var ge in geListAll)
                     {
                     if (DoesThisAgeFitsInThisGroup(ge, edad))
                         geTemp = ge;
@@ -266,15 +222,16 @@ namespace _0TestWebAPI1.Controllers
                         return false;
                         }
                     }
-
-                switch (age)
+                ////////////////////
+                
+                /*switch (age)
                     {
                     case < 12:
                         grupoEtarioNombre = "Muy joven";
                         break;
-                    /*case int n when (n >= 12 && n <= 18):
+                    case int n when (n >= 12 && n <= 18):
                         grupoEtarioNombre = "Joven";
-                        break;*/
+                        break;
                     case <= 18:
                         grupoEtarioNombre = "Joven";
                         break;
@@ -287,8 +244,8 @@ namespace _0TestWebAPI1.Controllers
                     case > 60:
                         grupoEtarioNombre = "Muy mayor";
                         break;
-                    }
-  
+                    }*/
+
                 var userObj = new Usuario1
                     {
                     // UId = Guid.NewGuid(),
@@ -388,13 +345,13 @@ namespace _0TestWebAPI1.Controllers
             }
 
         [HttpDelete]
-        public string DeleteSeveral(List<Guid> ids)
+        public string DeleteSeveral(List<string> ciList)
             {
-            foreach (var id in ids)
+            foreach (var ci in ciList)
                 {
                 try
                     {
-                    Usuario1 temp = _dbContext.Find<Usuario1>(id);
+                    Usuario1 temp = _dbContext.Find<Usuario1>(ci);
                     _dbContext.Set<Usuario1>().Remove(temp);
                     }
                 catch (Exception)
@@ -434,6 +391,4 @@ namespace _0TestWebAPI1.Controllers
             }*/
 
         }
-    
-
     }
