@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace _0TestWebAPI1.Controllers
@@ -38,32 +39,59 @@ namespace _0TestWebAPI1.Controllers
             }
         [HttpPost]
         [Route("uexamen2")]
-        public async Task PostExamen(string UsuarioCi, Guid examenId, string respuestaDeUsuarioAExamen)
+        public async Task<IActionResult> PostExamen(string UsuarioCi, Guid examenId, string respuestaDeUsuarioAExamen)
             {
             try
                 {
-                var usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(UsuarioCi, examenId,(long)0);
-                UsuarioExamen10 ue2 = new UsuarioExamen10();
-                ue2.UsuarioCi = usuarioExamen.UsuarioCi;
-                ue2.ExamenId = usuarioExamen.ExamenId;
-                ue2.PatronUsuario = usuarioExamen.PatronUsuario;
+                List<UsuarioExamen10> ueList = await _dbContext.UsuarioExamen.Where(ue => ue.ExamenId == examenId && ue.UsuarioCi == UsuarioCi).ToListAsync();
 
-                DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                ue2.Fecha = dto.ToUnixTimeMilliseconds(); ;
+                UsuarioExamen10 ueInDb = new UsuarioExamen10();
+                if (ueList.Count == 1)
+                    {
+                    if (ueList[0].Fecha == 0)
+                        {
+                        ueInDb = ueList[0];
+                        }
+                    else
+                        {
+                        return BadRequest("Error, ya este usuario realizó este examen");
+                        }
+                    //UsuarioExamen10 usuarioExamen = await _dbContext.FindAsync<UsuarioExamen10>(UsuarioCi, examenId,(long)0);
 
-                ue2.PatronUsuario = respuestaDeUsuarioAExamen;
+                    UsuarioExamen10 ue2 = new UsuarioExamen10();
+                    ue2.UsuarioCi = ueInDb.UsuarioCi;
+                    ue2.ExamenId = ueInDb.ExamenId;
+                    //ue2.PatronUsuario = ueInDb.PatronUsuario;
+                    ue2.PatronUsuario = respuestaDeUsuarioAExamen;
 
-                // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                // Fecha fechaNow = new Fecha(/*dto.ToUnixTimeMilliseconds()*/);
-                // fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
+                    DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+                    Examen9 exam = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == examenId);
 
-                /* DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                 usuarioExamen.Fecha = dto.ToUnixTimeMilliseconds();*/
-                _dbContext.Remove(usuarioExamen);
-                await _dbContext.SaveChangesAsync();
+                    ue2.Fecha = dto.ToUnixTimeMilliseconds();
 
-                _dbContext.Entry(ue2).State = EntityState.Added;
-                await _dbContext.SaveChangesAsync();
+                    if (ue2.Fecha > exam.FechaInicio && ue2.Fecha < exam.FechaFin)
+                        {
+                        _dbContext.Remove(ueInDb);
+                        await _dbContext.SaveChangesAsync();
+
+                        _dbContext.Entry(ue2).State = EntityState.Added;
+                        await _dbContext.SaveChangesAsync();
+
+                        return Ok();
+                        }
+                    if (ue2.Fecha < exam.FechaInicio)
+                        {
+                        return BadRequest("Aún no puede realizar este examen");
+                        }
+                    /*if (ue2.Fecha > exam.FechaFin)
+                        {*/
+                        return BadRequest("Ya no puede realizar este examen");
+                        /*}*/
+                    }
+                else
+                    {
+                    return BadRequest("Error, este usuario no ha sido asignado a este examen");
+                    }
                 }
             catch (Exception)
                 {

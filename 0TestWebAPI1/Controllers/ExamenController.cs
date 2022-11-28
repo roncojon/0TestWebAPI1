@@ -28,7 +28,7 @@ namespace _0TestWebAPI1.Controllers
 
         [HttpGet]
         // [Authorize]
-        // [Route("examenPlus")]
+         [Route("examenPlus")]
         public async Task<List<ExamenPlus>> GetAllPlus()
             {
             List<ExamenPlus> examenesPlus = new List<ExamenPlus>();
@@ -45,6 +45,8 @@ namespace _0TestWebAPI1.Controllers
                 newExamenPlus.TestNombre = pmTemp.Nombre;
                 newExamenPlus.TestUId = examen.TestUId;
                 newExamenPlus.PatronClave = examen.PatronClave;
+                newExamenPlus.FechaInicio = examen.FechaInicio;
+                newExamenPlus.FechaFin = examen.FechaFin;
 
                 /*List<Examen9> exams = _dbContext.Fecha.FirstOrDefault(f => f.Examenes)*/
                 /* List<Fecha> fechasAll = await _dbContext.Set<Fecha>().ToListAsync();
@@ -118,20 +120,22 @@ namespace _0TestWebAPI1.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Post(Guid testUId, bool isPatronOriginal, List<string> usuariosCiList)
+        public async Task<IActionResult> Post(ExamPostNeeds newExamData)
             {
             /*var fecha = value.Fecha.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("es-ES"));
             var temp = value;
             temp.Fecha = fecha;*/
 
-            Test temp = await _dbContext.Test.FirstOrDefaultAsync(p => p.UId == testUId);
+            Test temp = await _dbContext.Test.FirstOrDefaultAsync(p => p.UId == newExamData.TestUId);
             if (temp != null)
                 {
                 string patronOriginal = temp.PatronOriginal;
 
                 Examen9 newExamen = new Examen9();
                 newExamen.UId = Guid.NewGuid();
-                newExamen.TestUId = testUId;
+                newExamen.TestUId = newExamData.TestUId;
+                newExamen.FechaInicio = newExamData.FechaInicio;
+                newExamen.FechaFin = newExamData.FechaFin;
 
                 // var fechaDbtry = Activator.CreateInstance(typeof(Fecha));
 
@@ -162,7 +166,7 @@ namespace _0TestWebAPI1.Controllers
                 /*transaction.Commit();
                 }*/
 
-                if (!isPatronOriginal)
+                if (!newExamData.IsPatronOriginal)
                     {
                     PatronExamen pattern = new PatronExamen(patronOriginal);
                     newExamen.PatronClave = pattern.GenerarPatron();
@@ -180,7 +184,7 @@ namespace _0TestWebAPI1.Controllers
                 await _dbContext.SaveChangesAsync();
 
                 //CREANDO LA RELACION DE CADA USUARIO ASIGNADO AL EXAMEN
-                foreach (var item in usuariosCiList)
+                foreach (var item in newExamData.UsuariosCiList)
                     {
                     UsuarioExamen10 newUsuarioExamen = new UsuarioExamen10();
                     newUsuarioExamen.UsuarioCi = item;
@@ -217,13 +221,35 @@ namespace _0TestWebAPI1.Controllers
             _dbContext.Examen.Remove(examen);
             await _dbContext.SaveChangesAsync();
             }*/
-        /*[HttpPost]
+        [HttpGet]
         [Route("examenesActivos")]
-        public async Task DisableExam(Guid examenId bool setIsActive, Z id)
+        public async Task<List<Examen9>> GetActives(string userCi)
             {
-            Examen9 temp = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == examenId);
-            temp.Activo = false;
-            await _dbContext.SaveChangesAsync();
-            }*/
+            // Result
+            List<Examen9> examList = new List<Examen9>();
+            // Paso intermedio para hallar los examenes en q aparece este usuario
+            List<UsuarioExamen10> ueList = await _dbContext.UsuarioExamen.Where(ue => ue.UsuarioCi == userCi).ToListAsync();
+            // Fecha actual del sistema. O sea fecha cuando llega el request de ver los examenes
+            DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+            long fechaActual = dto.ToUnixTimeMilliseconds();
+
+            // Por cada examen en el q aparezca este usuario
+            foreach (var ue in ueList)
+                {
+                // Si la fecha esta en 0 significa q el usuario fue asignado al examen y aun no lo ha realizado
+                if (ue.Fecha == 0)
+                    {
+                    // Hallando si la fecha actual esta dentro del rango del examen, si es asi, añade este examen a la lista
+                    Examen9 examTemp = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == ue.ExamenId);
+                    if (examTemp.FechaInicio < fechaActual && examTemp.FechaFin > fechaActual)
+                        {
+                        examList.Add(examTemp);
+                        }
+                    }
+                
+                }
+
+            return examList;
+            }
         }
     }

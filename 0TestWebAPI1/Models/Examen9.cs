@@ -21,8 +21,10 @@ namespace _0TestWebAPI1.Models
         public Fecha Fecha { get; set; }*/
 
         public string PatronClave { get; set; }
-      
-        
+
+        public long FechaInicio { get; set; }
+        public long FechaFin { get; set; }
+
         // public bool Activo { get; set; }
-    }
+        }
 }
