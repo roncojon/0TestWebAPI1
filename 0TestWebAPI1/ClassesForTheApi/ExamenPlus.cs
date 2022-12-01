@@ -1,5 +1,6 @@
 ﻿using _0TestWebAPI1.Models;
 using System;
+using System.Collections.Generic;
 
 namespace _0TestWebAPI1.ClassesForTheApi
     {
@@ -20,6 +21,7 @@ namespace _0TestWebAPI1.ClassesForTheApi
 
         public long FechaInicio { get; set; }
         public long FechaFin { get; set; }
+        public List<Usuario1> Usuarios { get; set; }
         // public bool Activo { get; set; }
         }
     }

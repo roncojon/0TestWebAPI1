@@ -34,6 +34,7 @@ namespace _0TestWebAPI1.Controllers
             List<ExamenPlus> examenesPlus = new List<ExamenPlus>();
 
             List<Examen9> examenes = await _dbContext.Set<Examen9>().ToListAsync();
+            List<UsuarioExamen10> ueAll = await _dbContext.Set<UsuarioExamen10>().ToListAsync();
 
             foreach (var examen in examenes)
                 {
@@ -48,6 +49,22 @@ namespace _0TestWebAPI1.Controllers
                 newExamenPlus.FechaInicio = examen.FechaInicio;
                 newExamenPlus.FechaFin = examen.FechaFin;
 
+                List<UsuarioExamen10> ueListTemp = new List<UsuarioExamen10>();
+                List<Usuario1> usersListTemp = new List<Usuario1>();
+                foreach (UsuarioExamen10 ue in ueAll)
+                    {
+                    if (ue.ExamenId== examen.UId)
+                        {
+                        ueListTemp.Add(ue);
+                        }
+                    }
+                foreach (var ue in ueListTemp)
+                    {
+                    Usuario1 userTemp = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.Ci == ue.UsuarioCi);
+                    usersListTemp.Add(userTemp);
+                    }
+
+                newExamenPlus.Usuarios = usersListTemp;
                 /*List<Examen9> exams = _dbContext.Fecha.FirstOrDefault(f => f.Examenes)*/
                 /* List<Fecha> fechasAll = await _dbContext.Set<Fecha>().ToListAsync();
 
@@ -81,6 +98,50 @@ namespace _0TestWebAPI1.Controllers
 
             return examenesPlus;
             // return await _dbContext.Set<Examen9>().ToListAsync();
+            }
+
+        /*[NonAction]
+        public async override Task<Examen9> GetById(Guid examenId) { Examen9 temp = new Examen9(); return temp; }*/
+
+        [HttpGet("{id}")]
+        [Route("getExamenPlus")]
+        public async Task<ExamenPlus> GetByUId(Guid examenId) 
+            {
+          /*  List<UsuarioExamen10> ueAll = await _dbContext.Set<UsuarioExamen10>().ToListAsync();
+            Examen9 examen = await  _dbContext.FindAsync<Examen9>(examenId);
+            Test pmTemp = await _dbContext.FindAsync<Test>(examen.TestUId);
+*/
+            ExamenPlus newExamenPlus = new ExamenPlus();
+
+        /*    newExamenPlus.Id = examen.UId;
+            newExamenPlus.TestNombre = pmTemp.Nombre;
+            newExamenPlus.TestUId = examen.TestUId;
+            newExamenPlus.PatronClave = examen.PatronClave;
+            newExamenPlus.FechaInicio = examen.FechaInicio;
+            newExamenPlus.FechaFin = examen.FechaFin;
+
+            List<UsuarioExamen10> ueListTemp = new List<UsuarioExamen10>();
+            List<Usuario1> usersListTemp = new List<Usuario1>();
+            foreach (UsuarioExamen10 ue in ueAll)
+                {
+                if (ue.ExamenId == examen.UId)
+                    {
+                    ueListTemp.Add(ue);
+                    }
+                }
+            foreach (var ue in ueListTemp)
+                {
+                Usuario1 userTemp = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.Ci == ue.UsuarioCi);
+                usersListTemp.Add(userTemp);
+                }
+
+            newExamenPlus.Usuarios = usersListTemp;
+            newExamenPlus.Descripcion = pmTemp.Descripcion;
+            newExamenPlus.CantColumnas = pmTemp.CantColumnas;
+            newExamenPlus.CantidadFilas = pmTemp.CantidadFilas;
+            newExamenPlus.TiempoLimiteMs = pmTemp.TiempoLimiteMs;*/
+
+            return newExamenPlus;
             }
 
         /* [HttpGet]
