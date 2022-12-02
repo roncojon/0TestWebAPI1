@@ -28,7 +28,7 @@ namespace _0TestWebAPI1.Controllers
 
         [HttpGet]
         // [Authorize]
-         [Route("examenPlus")]
+         [Route("allPlus")]
         public async Task<List<ExamenPlus>> GetAllPlus()
             {
             List<ExamenPlus> examenesPlus = new List<ExamenPlus>();
@@ -103,17 +103,21 @@ namespace _0TestWebAPI1.Controllers
         /*[NonAction]
         public async override Task<Examen9> GetById(Guid examenId) { Examen9 temp = new Examen9(); return temp; }*/
 
-        [HttpGet("{id}")]
-        [Route("getExamenPlus")]
+        [NonAction]
+         [HttpGet("{id}")]
+        public override async Task<Examen9> GetById(Guid id) {return await _dbContext.FindAsync<Examen9>(id);}
+
+        [HttpGet]
+        [Route("onePlus")]
         public async Task<ExamenPlus> GetByUId(Guid examenId) 
             {
-          /*  List<UsuarioExamen10> ueAll = await _dbContext.Set<UsuarioExamen10>().ToListAsync();
-            Examen9 examen = await  _dbContext.FindAsync<Examen9>(examenId);
+            List<UsuarioExamen10> ueAll = await _dbContext.Set<UsuarioExamen10>().ToListAsync();
+            Examen9 examen = await _dbContext.FindAsync<Examen9>(examenId);
             Test pmTemp = await _dbContext.FindAsync<Test>(examen.TestUId);
-*/
+
             ExamenPlus newExamenPlus = new ExamenPlus();
 
-        /*    newExamenPlus.Id = examen.UId;
+            newExamenPlus.Id = examen.UId;
             newExamenPlus.TestNombre = pmTemp.Nombre;
             newExamenPlus.TestUId = examen.TestUId;
             newExamenPlus.PatronClave = examen.PatronClave;
@@ -139,7 +143,7 @@ namespace _0TestWebAPI1.Controllers
             newExamenPlus.Descripcion = pmTemp.Descripcion;
             newExamenPlus.CantColumnas = pmTemp.CantColumnas;
             newExamenPlus.CantidadFilas = pmTemp.CantidadFilas;
-            newExamenPlus.TiempoLimiteMs = pmTemp.TiempoLimiteMs;*/
+            newExamenPlus.TiempoLimiteMs = pmTemp.TiempoLimiteMs;
 
             return newExamenPlus;
             }
@@ -283,11 +287,11 @@ namespace _0TestWebAPI1.Controllers
             await _dbContext.SaveChangesAsync();
             }*/
         [HttpGet]
-        [Route("examenesActivos")]
-        public async Task<List<Examen9>> GetActives(string userCi)
+        [Route("activeS")]
+        public async Task<List<ExamenPlus>> GetActives(string userCi)
             {
             // Result
-            List<Examen9> examList = new List<Examen9>();
+            List<Examen9> examenes = new List<Examen9>();
             // Paso intermedio para hallar los examenes en q aparece este usuario
             List<UsuarioExamen10> ueList = await _dbContext.UsuarioExamen.Where(ue => ue.UsuarioCi == userCi).ToListAsync();
             // Fecha actual del sistema. O sea fecha cuando llega el request de ver los examenes
@@ -304,13 +308,56 @@ namespace _0TestWebAPI1.Controllers
                     Examen9 examTemp = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == ue.ExamenId);
                     if (examTemp.FechaInicio < fechaActual && examTemp.FechaFin > fechaActual)
                         {
-                        examList.Add(examTemp);
+                        examenes.Add(examTemp);
                         }
                     }
                 
                 }
 
-            return examList;
+            // CREANDO LOS EXAMENESPLUS DE LA LISTA DE EXAMENES
+            List<ExamenPlus> examenesPlus = new List<ExamenPlus>();
+
+            // List<Examen9> examenes = await _dbContext.Set<Examen9>().ToListAsync();
+            List<UsuarioExamen10> ueAll = await _dbContext.Set<UsuarioExamen10>().ToListAsync();
+
+            foreach (var examen in examenes)
+                {
+                Test pmTemp = await _dbContext.FindAsync<Test>(examen.TestUId);
+
+                ExamenPlus newExamenPlus = new ExamenPlus();
+
+                newExamenPlus.Id = examen.UId;
+                newExamenPlus.TestNombre = pmTemp.Nombre;
+                newExamenPlus.TestUId = examen.TestUId;
+                newExamenPlus.PatronClave = examen.PatronClave;
+                newExamenPlus.FechaInicio = examen.FechaInicio;
+                newExamenPlus.FechaFin = examen.FechaFin;
+
+                List<UsuarioExamen10> ueListTemp = new List<UsuarioExamen10>();
+                List<Usuario1> usersListTemp = new List<Usuario1>();
+                foreach (UsuarioExamen10 ue in ueAll)
+                    {
+                    if (ue.ExamenId == examen.UId)
+                        {
+                        ueListTemp.Add(ue);
+                        }
+                    }
+                foreach (var ue in ueListTemp)
+                    {
+                    Usuario1 userTemp = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.Ci == ue.UsuarioCi);
+                    usersListTemp.Add(userTemp);
+                    }
+
+                newExamenPlus.Usuarios = usersListTemp;
+                newExamenPlus.Descripcion = pmTemp.Descripcion;
+                newExamenPlus.CantColumnas = pmTemp.CantColumnas;
+                newExamenPlus.CantidadFilas = pmTemp.CantidadFilas;
+                newExamenPlus.TiempoLimiteMs = pmTemp.TiempoLimiteMs;
+
+                examenesPlus.Add(newExamenPlus);
+                }
+
+            return examenesPlus;
             }
         }
     }
