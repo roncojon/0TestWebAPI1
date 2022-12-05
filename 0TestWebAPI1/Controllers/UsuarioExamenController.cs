@@ -1,5 +1,7 @@
-﻿using _0TestWebAPI1.Data;
+﻿using _0TestWebAPI1.ClassesForTheApi;
+using _0TestWebAPI1.Data;
 using _0TestWebAPI1.Models;
+using _0TestWebAPI1.SupportFunctions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,10 +41,14 @@ namespace _0TestWebAPI1.Controllers
             }
         [HttpPost]
         [Route("uexamen2")]
-        public async Task<IActionResult> PostExamen(string UsuarioCi, Guid examenId, string respuestaDeUsuarioAExamen)
+        public async Task<IActionResult> PostExamen(UexamenPost uePost)
             {
             try
                 {
+                string UsuarioCi = uePost.UsuarioCi;
+                Guid examenId = uePost.ExamenId;
+                string respuestaDeUsuarioAExamen = uePost.RespuestaDeUsuarioAExamen;
+                Console.WriteLine(UsuarioCi);
                 List<UsuarioExamen10> ueList = await _dbContext.UsuarioExamen.Where(ue => ue.ExamenId == examenId && ue.UsuarioCi == UsuarioCi).ToListAsync();
 
                 UsuarioExamen10 ueInDb = new UsuarioExamen10();
@@ -77,7 +83,10 @@ namespace _0TestWebAPI1.Controllers
                         _dbContext.Entry(ue2).State = EntityState.Added;
                         await _dbContext.SaveChangesAsync();
 
-                        return Ok();
+
+                        PatronExamen pe = new PatronExamen(exam.PatronClave, ue2.PatronUsuario);
+                        string[] examenRevisado = pe.RevisarExamen();
+                        return Ok(examenRevisado);
                         }
                     if (ue2.Fecha < exam.FechaInicio)
                         {
