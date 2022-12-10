@@ -339,31 +339,90 @@ namespace _0TestWebAPI1.Controllers
 
         [HttpGet]
         [Route("usuariosConNombre")]
-        public async Task<List<Usuario1>> GetAll(string userName)
+        public async Task<List<UserDataGet>> GetAll(string userName)
             {
-            return await _dbContext.Set<Usuario1>().Where(uc => uc.UserName.Contains(userName)).ToListAsync();
+           List<Usuario1> usuarios =await _dbContext.Set<Usuario1>().Where(uc => uc.UserName.Contains(userName)).ToListAsync();
+
+            List<UserDataGet> usuariosPlus = new List<UserDataGet>();
+
+            foreach (var user in usuarios)
+                {
+                UserDataGet udTemp = new UserDataGet();
+                udTemp.Ci = user.Ci;
+                udTemp.Nombre = user.Nombre;
+                udTemp.Apellidos = user.Apellidos;
+                udTemp.UserName = user.UserName;
+                udTemp.Password = user.Password;
+
+                // Hayando la escolaridad
+                Escolaridad es = await _dbContext.Escolaridad.FirstOrDefaultAsync(e => e.UId == user.EscolaridadUId);
+                udTemp.EscolaridadNombre = es.Nombre;
+
+                // Hayando el grupo etario
+                GrupoEtario ge = await _dbContext.GrupoEtario.FirstOrDefaultAsync(g => g.UId == user.GrupoEtarioUId);
+                udTemp.GrupoEtarioNombre = ge.Nombre;
+
+                // Hayando los roles
+                List<Rol7> roles = new List<Rol7>();
+
+                List<UsuarioRol6> urList = _dbContext.UsuarioRol.ToList();
+                List<Rol7> rolList = _dbContext.Rol.ToList();
+
+                foreach (var usuarioRol in urList)
+                    {
+                    if (usuarioRol.UsuarioCi == user.Ci)
+                        {
+                        foreach (var rol in rolList)
+                            {
+                            if (rol.UId == usuarioRol.RolUId)
+                                roles.Add(rol);
+                            }
+                        }
+                    }
+                udTemp.Roles = roles;
+                //
+
+                // Hayando la edad
+                AgeByCi age = new AgeByCi();
+                DateTime actualDate = DateTime.Now;
+                udTemp.Edad = age.Get(user.Ci, actualDate);
+                //
+
+                // Hayando el sexo
+                Sexo2 sx = await _dbContext.Sexo.FirstOrDefaultAsync(s => s.UId == user.SexoUId);
+                udTemp.SexoNombre = sx.Nombre;
+                //
+
+                usuariosPlus.Add(udTemp);
+                }
+            return usuariosPlus;
             }
 
         [HttpDelete]
-        public string DeleteSeveral(List<string> ciList)
+        public IActionResult /*async Task<IActionResult>*/ DeleteSeveral(List<string> ciList)
             {
             foreach (var ci in ciList)
                 {
                 try
                     {
-                    Usuario1 temp = _dbContext.Find<Usuario1>(ci);
+                    Usuario1 temp =  _dbContext.Find<Usuario1>(ci);
                     _dbContext.Set<Usuario1>().Remove(temp);
+                    
                     }
                 catch (Exception)
                     {
                     throw;
+                    return BadRequest("Error al eliminar");
                     }
 
 
                 }
             _dbContext.SaveChanges();
-            var databaseName = _dbContext.Database.GetDbConnection().Database;
-            return databaseName;
+            return Ok("Eliminados correctamente");
+            // return BadRequest("Error al eliminar 2");
+
+            // var databaseName = _dbContext.Database.GetDbConnection().Database;
+            // return databaseName;
             }
 
         /*[HttpGet]
