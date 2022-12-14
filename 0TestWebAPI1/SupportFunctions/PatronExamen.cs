@@ -48,57 +48,47 @@ namespace _0TestWebAPI1.SupportFunctions
             int lastAnswerIndex = 0;
             for (int i = userResult.Count - 1; i > -1; i--)
                 {
-                // Console.WriteLine(userResult[i] +" "+ i);
-
-
-
                 // Si la respuesta del usuario no coincide con la clave
                 if (userResult[i] != keyPattern[i])
                     {
-                    // Console.WriteLine(int.Parse(userResult[i].Split()[1]));
-                    // Console.WriteLine(i < lastAnswerIndex);
                     Console.WriteLine(i + " " + lastAnswerIndex);
-                    if (int.Parse(userResult[i].Split()[1]) == 0 && i < lastAnswerIndex)
-                        examResultRaw[i] = "omission";
+                    // Si el usuario no respondio esta celda
+                    if (int.Parse(userResult[i].Split()[1]) == 0)
+                        {
+                        // Si esto ocurrio antes de q cometiera un error o anotacion, es una omision
+                        if (i < lastAnswerIndex)
+                            examResultRaw[i] = "omission";
 
-                    // Si esta respuesta fue la ultima respuesta correcta o error se actualiza este index q permite diferenciar luego las omisiones de 
-                    // las imagenes no evaluadas
+                        // Si esto ocurrio despues de q cometiera un error o anotacion, es q no le dio tiempo y marco la celda como no evaluada
+                        else
+                            examResultRaw[i] = "notEvaluated";
+                        }
+                    // Si el usuario respondio pero su respuesta es distinta al patron clave es un error
                     else
                         {
                         examResultRaw[i] = "error";
+                        if (i > lastAnswerIndex)
+                            lastAnswerIndex = i;
+                        }
+                    }
+                // Si la respuesta del usuario coincide con la clave 
+                else if (userResult[i] == keyPattern[i])
+                    {
+                    // Si la respuesta no es 0 es una anotacion
+                    if (int.Parse(userResult[i].Split()[1]) != 0)
+                        {
+                        examResultRaw[i] = "annotation";
 
                         if (lastAnswerIndex < i)
                             lastAnswerIndex = i;
                         }
-                    }
-                // Si no dio una respuesta puede ser omision o q no le dio tiempo
-
-                else if (int.Parse(userResult[i].Split()[1]) == 0)
-                    {
-                    // Si esta falta de respuesta ocurre antes de la ultima respuesta correcta o error es una omision
-                    if (lastAnswerIndex > i)
-                        examResultRaw[i] = "omission";
-                    // Si esta falta de respuesta ocurre despues de la ultima respuesta correcta o error es q no le dio tiempo
+                    // Si la respuesta es 0 es q no debia marcar la celda o sea todo ok
                     else
-                        examResultRaw[i] = "notEvaluated";
-                    }
-                else
-                    {
-                    // Si la respuesta del usuario coincide con la clave es una anotacion
-                    if (userResult[i] == keyPattern[i])
-                        {
-                        // Si esta respuesta fue la ultima respuesta correcta o error se actualiza este index q permite diferenciar luego las omisiones de 
-                        // las imagenes no evaluadas
-                        if (lastAnswerIndex < i)
-                            { lastAnswerIndex = i; }
-
-
-                        examResultRaw[i] = "annotation";
-                        }
-
+                        examResultRaw[i] = "trapCellPassed";
                     }
                 }
             return examResultRaw;
+
             }
 
         /*// Innecesario probablemente
