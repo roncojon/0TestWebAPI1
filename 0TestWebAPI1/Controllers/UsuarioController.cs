@@ -398,6 +398,20 @@ namespace _0TestWebAPI1.Controllers
             return usuariosPlus;
             }
 
+        [HttpGet]
+        public async Task<RequiredDataForCreateUser> GetDataRequiredDataForCreateUser()  // public async Task<ActionResult<T>> GetById(Z id)
+            {
+            RequiredDataForCreateUser result = new RequiredDataForCreateUser();
+            List<Rol7> Roles = await _dbContext.Rol.ToListAsync();
+            List<Escolaridad> EscolaridadList = await _dbContext.Escolaridad.ToListAsync();
+            List<Sexo2> SexoList = await _dbContext.Sexo.ToListAsync();
+            result.Roles = Roles;
+            result.EscolaridadList = EscolaridadList;
+            result.SexoList = SexoList;
+
+            return result;
+            }
+
         [HttpDelete]
         public IActionResult /*async Task<IActionResult>*/ DeleteSeveral(List<string> ciList)
             {
