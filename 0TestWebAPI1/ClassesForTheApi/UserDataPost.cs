@@ -8,7 +8,7 @@ namespace _0TestWebAPI1.ClassesForTheApi
     {
     public class UserDataPost
         {
-        public Usuario1 Usuario { get; set; }
+        public UserRegister Usuario { get; set; }
 
         // public List<string> Roles { get; set; }
         public List<Guid> RolesUIds { get; set; }

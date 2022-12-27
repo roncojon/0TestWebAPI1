@@ -7,7 +7,7 @@ namespace _0TestWebAPI1.ClassesForTheApi
 {
     public class UserLogin
     {
-        public string UserName { get; set; }
+        public string Ci { get; set; }
         public string Password { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace _0TestWebAPI1.Models
         public string Nombre { get; set; }
 
         public string Apellidos { get; set; } 
-        public string UserName { get; set; }
+        // public string Ci { get; set; }
 
         public Guid SexoUId { get; set; }
         [JsonIgnore]

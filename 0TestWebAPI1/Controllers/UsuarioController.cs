@@ -51,7 +51,7 @@ namespace _0TestWebAPI1.Controllers
                 udTemp.Ci = user.Ci;
                 udTemp.Nombre = user.Nombre;
                 udTemp.Apellidos = user.Apellidos;
-                udTemp.UserName = user.UserName;
+                // udTemp.UserName = user.UserName;
                 udTemp.Password = user.Password;
 
                 // Hayando la escolaridad
@@ -111,7 +111,7 @@ namespace _0TestWebAPI1.Controllers
             udTemp.Ci = user.Ci;
             udTemp.Nombre = user.Nombre;
             udTemp.Apellidos = user.Apellidos;
-            udTemp.UserName = user.UserName;
+            // udTemp.UserName = user.UserName;
             udTemp.Password = user.Password;
 
             // Hayando la escolaridad
@@ -156,15 +156,16 @@ namespace _0TestWebAPI1.Controllers
         //[Authorize(Roles = "ADMINISTRADOR,EXAMINADOR")]
         public async Task<IActionResult> Register([FromBody] UserDataPost userData)
             {
-            Usuario1 usuario = userData.Usuario;
+            UserRegister usuario = userData.Usuario;
             //creando usuario
-            // string newUserNick = usuario.UserName;
-            // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.UserName == newUserNick).SingleOrDefault();
-            var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.UserName == usuario.UserName).SingleOrDefault();
+            // string newUserNick = usuario.Ci;
+            // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.Ci == newUserNick).SingleOrDefault();
+            
+            // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.Ci == usuario.Ci).SingleOrDefault();
             var usuarioConMismoCi = _dbContext.Usuario.Where(u => u.Ci == usuario.Ci).SingleOrDefault();
 
-            if (usuarioConMismoNick != null)
-                { return BadRequest("Ya existe un usuario con ese nombre"); }
+            /*if (usuarioConMismoNick != null)
+                { return BadRequest("Ya existe un usuario con ese nombre"); }*/
             if (usuarioConMismoCi != null)
                 { return BadRequest("Ya existe un usuario con ese ci"); }
             else
@@ -251,7 +252,7 @@ namespace _0TestWebAPI1.Controllers
                     // UId = Guid.NewGuid(),
                     Nombre = usuario.Nombre,
                     Apellidos = usuario.Apellidos,
-                    UserName = usuario.UserName,
+                    // Ci = usuario.Ci,
                     Password = SecurePasswordHasherHelper.Hash(usuario.Password),
                     // RolNombre = RolNombre,
                     Ci = usuario.Ci,
@@ -280,9 +281,137 @@ namespace _0TestWebAPI1.Controllers
             }
 
         [HttpPost]
+        //[Authorize(Roles = "ADMINISTRADOR,EXAMINADOR")]
+        public async Task<IActionResult> Modify([FromBody] UserDataPost userData)
+            {
+            UserRegister usuario = userData.Usuario;
+            //creando usuario
+            // string newUserNick = usuario.Ci;
+            // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.Ci == newUserNick).SingleOrDefault();
+
+            // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.Ci == usuario.Ci).SingleOrDefault();
+            var usuarioConMismoCi = _dbContext.Usuario.Where(u => u.Ci == usuario.Ci).SingleOrDefault();
+
+            /*if (usuarioConMismoNick != null)
+                { return BadRequest("Ya existe un usuario con ese nombre"); }*/
+            if (usuarioConMismoCi == null)
+                { return BadRequest("No existe un usuario con ese ci"); }
+            else
+                {
+                string ciAsDate = usuario.Ci.Substring(0, 6);
+                string ciAsDateYear = ciAsDate.Substring(0, 2);
+
+                /////////////////////
+                int edad = 0;
+                string actualYear = DateTime.Now.Year.ToString();
+                if (int.Parse(ciAsDateYear) <= int.Parse(actualYear.Substring(2, 2)))
+                    {
+                    ciAsDate = "20" + ciAsDate;
+                    }
+                else
+                    {
+                    ciAsDate = "19" + ciAsDate;
+                    }
+                ciAsDateYear = ciAsDate.Substring(0, 4);
+                string ciAsDateMonth = ciAsDate.Substring(4, 2);
+                string ciAsDateDay = ciAsDate.Substring(6, 2);
+
+                ciAsDate = ciAsDateMonth + "/" + ciAsDateDay + "/" + ciAsDateYear;
+                string[] ciAsDateArray = { ciAsDateMonth, "/", ciAsDateDay, "/", ciAsDateYear };
+                ciAsDate = string.Concat(ciAsDateArray);
+
+                DateTime userBornDate = DateTime.Parse(ciAsDate);
+                DateTime actualDate = DateTime.Now;
+
+                int now = int.Parse(actualDate.ToString("yyyyMMdd"));
+                Console.WriteLine(now);
+                int dob = int.Parse(userBornDate.ToString("yyyyMMdd"));
+                Console.WriteLine(dob);
+                int age = (now - dob) / 10000;
+                /////////////////////
+                if (age <= 0)
+                    { return BadRequest("Error al salvar los datos del Ci"); }
+
+                // HAYANDO GRUPOETARIO OKOK
+                GrupoEtario geTemp = new GrupoEtario();
+                List<GrupoEtario> geListAll = await _dbContext.GrupoEtario.ToListAsync();
+                foreach (var ge in geListAll)
+                    {
+                    if (DoesThisAgeFitsInThisGroup(ge, edad))
+                        geTemp = ge;
+                    }
+                bool DoesThisAgeFitsInThisGroup(GrupoEtario ge, int edad)
+                    {
+                    if (edad >= ge.EdadMinima && edad < ge.EdadMaxima)
+                        {
+                        return true;
+                        }
+                    else
+                        {
+                        return false;
+                        }
+                    }
+                ////////////////////
+
+                /*switch (age)
+                    {
+                    case < 12:
+                        grupoEtarioNombre = "Muy joven";
+                        break;
+                    case int n when (n >= 12 && n <= 18):
+                        grupoEtarioNombre = "Joven";
+                        break;
+                    case <= 18:
+                        grupoEtarioNombre = "Joven";
+                        break;
+                    case <= 30:
+                        grupoEtarioNombre = "Medio";
+                        break;
+                    case <= 60:
+                        grupoEtarioNombre = "Mayor";
+                        break;
+                    case > 60:
+                        grupoEtarioNombre = "Muy mayor";
+                        break;
+                    }*/
+
+                var userObj = new Usuario1
+                    {
+                    // UId = Guid.NewGuid(),
+                    Nombre = usuario.Nombre,
+                    Apellidos = usuario.Apellidos,
+                    // Ci = usuario.Ci,
+                    Password = SecurePasswordHasherHelper.Hash(usuario.Password),
+                    // RolNombre = RolNombre,
+                    Ci = usuario.Ci,
+                    SexoUId = usuario.SexoUId,
+                    // Edad = usuario.Edad,
+                    GrupoEtarioUId = geTemp.UId/*usuario.GrupoEtarioUId*/,
+                    // GrupoEtarioNombre = geTemp.Nombre/*usuario.GrupoEtarioUId*/,
+                    EscolaridadUId = usuario.EscolaridadUId,
+                    };
+                _dbContext.Usuario.Remove(usuarioConMismoCi);
+                await _dbContext.Usuario.AddAsync(userObj);
+
+                foreach (var rolId in userData.RolesUIds)
+                    {
+                    UsuarioRol6 urTemp = new UsuarioRol6();
+                    urTemp.UsuarioCi = userObj.Ci;
+                    urTemp.RolUId = rolId;
+                    _dbContext.UsuarioRol.Add(urTemp);
+
+                    }
+
+                await _dbContext.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status201Created);
+                }
+            }
+
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
             {
-            Usuario1 usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.UserName == userLogin.UserName);
+            Usuario1 usuario = await _dbContext.Usuario.FirstOrDefaultAsync(u => u.Ci == userLogin.Ci);
             List<UsuarioRol6> uRolList = await _dbContext.UsuarioRol.Where(ur => ur.UsuarioCi == usuario.Ci).ToListAsync();
             List<Rol7> rolList = new List<Rol7>();
             foreach (var uRol in uRolList)
@@ -304,9 +433,9 @@ namespace _0TestWebAPI1.Controllers
 
             // Rol7 rol =await _dbContext.Rol.FirstOrDefaultAsync(r => r.Nombre == rolNombre.Nombre);
             List<Claim> claims = new List<Claim>();
-            Claim cl1 = new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.UserName);
+            Claim cl1 = new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.Ci);
             claims.Add(cl1);
-            Claim cl2 = new Claim(ClaimTypes.NameIdentifier, userLogin.UserName);
+            Claim cl2 = new Claim(ClaimTypes.NameIdentifier, userLogin.Ci);
             claims.Add(cl2);
             foreach (var rol in rolList)
                 {
@@ -314,8 +443,8 @@ namespace _0TestWebAPI1.Controllers
                 }
             /*var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.UserName),
-                new Claim(ClaimTypes.NameIdentifier, userLogin.UserName),
+                new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.Ci),
+                new Claim(ClaimTypes.NameIdentifier, userLogin.Ci),
                 new Claim(ClaimTypes.Role, rol.Nombre)
             };*/
             var token = _auth.GenerateAccessToken(claims);
@@ -341,7 +470,7 @@ namespace _0TestWebAPI1.Controllers
         [Route("usuariosConNombre")]
         public async Task<List<UserDataGet>> GetAll(string userName)
             {
-           List<Usuario1> usuarios =await _dbContext.Set<Usuario1>().Where(uc => uc.UserName.Contains(userName)).ToListAsync();
+           List<Usuario1> usuarios =await _dbContext.Set<Usuario1>().Where(uc => uc.Nombre.Contains(userName) || uc.Apellidos.Contains(userName)).ToListAsync();
 
             List<UserDataGet> usuariosPlus = new List<UserDataGet>();
 
@@ -351,7 +480,7 @@ namespace _0TestWebAPI1.Controllers
                 udTemp.Ci = user.Ci;
                 udTemp.Nombre = user.Nombre;
                 udTemp.Apellidos = user.Apellidos;
-                udTemp.UserName = user.UserName;
+                // udTemp.UserName = user.UserName;
                 udTemp.Password = user.Password;
 
                 // Hayando la escolaridad
