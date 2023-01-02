@@ -81,7 +81,7 @@ namespace _0TestWebAPI1.Data
                    Ci = "94052920987",
                    SexoUId = sMasculino,
                    // Edad = 37,
-                   GrupoEtarioUId = geMayor,
+                   GrupoEtarioUId = geMedio,
                    EscolaridadUId = eBasico,
                    // Centro4Id = centroGuiteras
                },
@@ -154,7 +154,7 @@ namespace _0TestWebAPI1.Data
                    Ci = "76060670065",
                    SexoUId = sFemenino,
                    // Edad = 36,
-                   GrupoEtarioUId = geMedio,
+                   GrupoEtarioUId = geMayor,
                    EscolaridadUId = eSuperior,
                }
                });
