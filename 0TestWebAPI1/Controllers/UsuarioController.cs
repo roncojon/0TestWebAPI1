@@ -285,17 +285,18 @@ namespace _0TestWebAPI1.Controllers
                 }
             }
 
-        [HttpPost]
+        [HttpPut("{ci}")]
         //[Authorize(Roles = "ADMINISTRADOR,EXAMINADOR")]
-        public async Task<IActionResult> Modify([FromBody] UserDataPost userData)
+        public async Task<IActionResult> Modify(string ci,[FromBody] UserDataPost userData)
             {
+            try { 
             UserRegister usuario = userData.Usuario;
             //creando usuario
             // string newUserNick = usuario.Ci;
             // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.Ci == newUserNick).SingleOrDefault();
 
             // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.Ci == usuario.Ci).SingleOrDefault();
-            var usuarioConMismoCi = _dbContext.Usuario.Where(u => u.Ci == usuario.Ci).SingleOrDefault();
+            var usuarioConMismoCi = _dbContext.Usuario.Where(u => u.Ci == ci).SingleOrDefault();
 
             /*if (usuarioConMismoNick != null)
                 { return BadRequest("Ya existe un usuario con ese nombre"); }*/
@@ -390,7 +391,7 @@ namespace _0TestWebAPI1.Controllers
                     Nombre = usuario.Nombre,
                     Apellidos = usuario.Apellidos,
                     // Ci = usuario.Ci,
-                    Password = SecurePasswordHasherHelper.Hash(usuario.Password),
+                    Password = usuario.Password.Length > 0 ? SecurePasswordHasherHelper.Hash(usuario.Password) : usuarioConMismoCi.Password,
                     // RolNombre = RolNombre,
                     Ci = usuario.Ci,
                     SexoUId = usuario.SexoUId,
@@ -412,8 +413,16 @@ namespace _0TestWebAPI1.Controllers
                     }
 
                 await _dbContext.SaveChangesAsync();
-                return Ok("Modificado");
+                return new ObjectResult(new
+                    {
+                    ok = true
+                    });
                 // return StatusCode(StatusCodes.Status201Created);
+                }
+                }
+            catch
+                {
+                return BadRequest("Error al salvar los datos");
                 }
             }
 
