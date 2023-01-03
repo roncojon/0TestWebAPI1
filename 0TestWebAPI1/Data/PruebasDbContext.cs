@@ -168,7 +168,7 @@ namespace _0TestWebAPI1.Data
                 {
                 UId = Guid.NewGuid(),
                 Nombre = "Caritas",
-                Descripcion = "Test de percepcion de diferencias. Selecciona la carita única en cada trío",
+                Descripcion = "Test de percepción de diferencias. Selecciona la carita única en cada trío",
                 CantidadFilas = 15,
                 CantColumnas = 4,
                 TiempoLimiteMs = 180000,
