@@ -21,6 +21,8 @@ namespace _0TestWebAPI1.ClassesForTheApi
 
         public long FechaInicio { get; set; }
         public long FechaFin { get; set; }
+        public bool EstaActivo { get; set; }
+        public bool EsPatronOriginal { get; set; }
         public List<Usuario1> Usuarios { get; set; }
         // public bool Activo { get; set; }
         }

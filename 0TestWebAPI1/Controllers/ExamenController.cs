@@ -92,6 +92,15 @@ namespace _0TestWebAPI1.Controllers
                 newExamenPlus.CantColumnas = pmTemp.CantColumnas;
                 newExamenPlus.CantidadFilas = pmTemp.CantidadFilas;
                 newExamenPlus.TiempoLimiteMs = pmTemp.TiempoLimiteMs;
+                // Hallando si es patron original
+                newExamenPlus.EsPatronOriginal = newExamenPlus.PatronClave == pmTemp.PatronOriginal;
+                // Hallando si esta activo
+                DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
+                long fechaActual = dto.ToUnixTimeMilliseconds();
+                bool isActive = false;
+                if (examen.FechaInicio < fechaActual && examen.FechaFin > fechaActual)
+                    isActive=true;
+                newExamenPlus.EstaActivo = isActive;
 
                 examenesPlus.Add(newExamenPlus);
                 }
