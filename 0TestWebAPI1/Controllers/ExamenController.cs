@@ -28,7 +28,7 @@ namespace _0TestWebAPI1.Controllers
 
         [HttpGet]
         // [Authorize]
-         [Route("allPlus")]
+        [Route("allPlus")]
         public async Task<List<ExamenPlus>> GetAllPlus()
             {
             List<ExamenPlus> examenesPlus = new List<ExamenPlus>();
@@ -53,7 +53,7 @@ namespace _0TestWebAPI1.Controllers
                 List<Usuario1> usersListTemp = new List<Usuario1>();
                 foreach (UsuarioExamen10 ue in ueAll)
                     {
-                    if (ue.ExamenId== examen.UId)
+                    if (ue.ExamenId == examen.UId)
                         {
                         ueListTemp.Add(ue);
                         }
@@ -99,7 +99,7 @@ namespace _0TestWebAPI1.Controllers
                 long fechaActual = dto.ToUnixTimeMilliseconds();
                 bool isActive = false;
                 if (examen.FechaInicio < fechaActual && examen.FechaFin > fechaActual)
-                    isActive=true;
+                    isActive = true;
                 newExamenPlus.EstaActivo = isActive;
 
                 examenesPlus.Add(newExamenPlus);
@@ -113,12 +113,12 @@ namespace _0TestWebAPI1.Controllers
         public async override Task<Examen9> GetById(Guid examenId) { Examen9 temp = new Examen9(); return temp; }*/
 
         [NonAction]
-         [HttpGet("{id}")]
-        public override async Task<Examen9> GetById(Guid id) {return await _dbContext.FindAsync<Examen9>(id);}
+        [HttpGet("{id}")]
+        public override async Task<Examen9> GetById(Guid id) { return await _dbContext.FindAsync<Examen9>(id); }
 
         [HttpGet]
         [Route("onePlus")]
-        public async Task<ExamenPlus> GetByUId(Guid examenId) 
+        public async Task<ExamenPlus> GetByUId(Guid examenId)
             {
             List<UsuarioExamen10> ueAll = await _dbContext.Set<UsuarioExamen10>().ToListAsync();
             Examen9 examen = await _dbContext.FindAsync<Examen9>(examenId);
@@ -196,10 +196,6 @@ namespace _0TestWebAPI1.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(ExamPostNeeds newExamData)
             {
-            /*var fecha = value.Fecha.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("es-ES"));
-            var temp = value;
-            temp.Fecha = fecha;*/
-
             Test temp = await _dbContext.Test.FirstOrDefaultAsync(p => p.UId == newExamData.TestUId);
             if (temp != null)
                 {
@@ -211,35 +207,6 @@ namespace _0TestWebAPI1.Controllers
                 newExamen.FechaInicio = newExamData.FechaInicio;
                 newExamen.FechaFin = newExamData.FechaFin;
 
-                // var fechaDbtry = Activator.CreateInstance(typeof(Fecha));
-
-                // fechaNow.TimeStamp = dto.ToUnixTimeMilliseconds();
-                // using (var transaction = _dbContext.Database.BeginTransaction()) { 
-                /*using (_dbContext)
-                    {*/
-                /*_dbContext.Database.OpenConnection();
-                try
-                    {
-                    _dbContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Fecha ON");*/
-
-                /*Fecha fechaNowTemp = new Fecha(*//*dto.ToUnixTimeMilliseconds()*//*);
-                        DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                        fechaNowTemp.TimeStamp = dto.ToUnixTimeMilliseconds();
-                        Fecha fechaNow = fechaNowTemp;
-                        _dbContext.Add(fechaNow);
-
-                        await _dbContext.SaveChangesAsync();*/
-
-                /* await _dbContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Fecha OFF");
-                 }
-             finally
-                 {
-                 _dbContext.Database.CloseConnection();
-                 }*/
-                /*}*/
-                /*transaction.Commit();
-                }*/
-
                 if (!newExamData.IsPatronOriginal)
                     {
                     PatronExamen pattern = new PatronExamen(patronOriginal);
@@ -248,13 +215,7 @@ namespace _0TestWebAPI1.Controllers
                 else
                     newExamen.PatronClave = patronOriginal;
 
-                /*_dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Fecha ON");
-                _dbContext.Entry(fechaNow).State = EntityState.Added;
-                _dbContext.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Fecha OFF");*/
-
-                // _dbContext.Entry(fechaNow).State = EntityState.Added;
                 _dbContext.Entry(newExamen).State = EntityState.Added;
-                // await _dbContext.Set<T>().AddAsync(value);
                 await _dbContext.SaveChangesAsync();
 
                 //CREANDO LA RELACION DE CADA USUARIO ASIGNADO AL EXAMEN
@@ -264,8 +225,7 @@ namespace _0TestWebAPI1.Controllers
                     newUsuarioExamen.UsuarioCi = item;
                     newUsuarioExamen.ExamenId = newExamen.UId;
 
-                    // DateTimeOffset dto = new DateTimeOffset(DateTime.Now);
-                    newUsuarioExamen.Fecha = 0/*dto.ToUnixTimeMilliseconds()*/;
+                    newUsuarioExamen.Fecha = 0;
 
                     _dbContext.Entry(newUsuarioExamen).State = EntityState.Added;
                     await _dbContext.SaveChangesAsync();
@@ -278,24 +238,76 @@ namespace _0TestWebAPI1.Controllers
                 }
             }
 
-        /*[AllowAnonymous]
-        [HttpPost]
-        [Route("terminar")]
-        public async Task PostFinishExam(Guid examenUId)
+        [NonAction]
+        public async override Task Put(Examen9 e) { }
+        [HttpPut("{UId}")]
+        public async Task<IActionResult> Put(Guid UId, [FromBody] ExamPostNeeds newExamData)
             {
-            Examen9 examen = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == examenUId);
-            ExamenTerminado examenTerminado = new ExamenTerminado();
-            examenTerminado.UId = examen.UId;
-            examenTerminado.TestUId = examen.TestUId;
-            examenTerminado.PatronClave = examen.PatronClave;
 
-            await _dbContext.ExamenTerminado.AddAsync(examenTerminado);
-            await _dbContext.SaveChangesAsync();
+            Examen9 examenTemp = await _dbContext.Examen.FirstOrDefaultAsync(e => e.UId == UId);
+            if (examenTemp == null)
+                return BadRequest("No se encuentra un examen con ese Id");
 
-            _dbContext.Examen.Remove(examen);
-            await _dbContext.SaveChangesAsync();
-            }*/
+            Test temp = await _dbContext.Test.FirstOrDefaultAsync(p => p.UId == newExamData.TestUId);
+            if (temp != null)
+                {
+                string patronOriginal = temp.PatronOriginal;
+
+                Examen9 newExamen = new Examen9();
+                newExamen.UId = UId;
+                newExamen.TestUId = newExamData.TestUId;
+                newExamen.FechaInicio = newExamData.FechaInicio;
+                newExamen.FechaFin = newExamData.FechaFin;
+
+                //    *****   PATRON   *****
+                // Si el patron es el original se usa el patron original y ya
+                if (newExamData.IsPatronOriginal)
+                    newExamen.PatronClave = patronOriginal;
+                // Si el patron no es el original, se revisa si el q habia en el examen ya creado
+                // antes de esta modificacion era original.
+                else
+                    {
+                    // Si antes de la modificacion habia un patron original 
+                    //  y ahora se quiere un patron random pues se crea ese nuevo patron random
+                    if (examenTemp.PatronClave != temp.PatronOriginal)
+                        {
+                        PatronExamen pattern = new PatronExamen(patronOriginal);
+                        newExamen.PatronClave = pattern.GenerarPatron();
+                        }
+                    // Pero si antes habia un patron random y llega de nuevo un patron random, se mantiene el viejo
+                    else
+                        {
+                        newExamen.PatronClave = temp.PatronOriginal;
+                        }
+                    }
+
+                _dbContext.Examen.Remove(examenTemp);
+                await _dbContext.SaveChangesAsync();
+                _dbContext.Entry(newExamen).State = EntityState.Added;
+                await _dbContext.SaveChangesAsync();
+
+                //CREANDO LA RELACION DE CADA USUARIO ASIGNADO AL EXAMEN
+                foreach (var item in newExamData.UsuariosCiList)
+                    {
+                    UsuarioExamen10 newUsuarioExamen = new UsuarioExamen10();
+                    newUsuarioExamen.UsuarioCi = item;
+                    newUsuarioExamen.ExamenId = newExamen.UId;
+
+                    newUsuarioExamen.Fecha = 0;
+
+                    _dbContext.Entry(newUsuarioExamen).State = EntityState.Added;
+                    await _dbContext.SaveChangesAsync();
+                    }
+                return new OkResult();
+                }
+            else
+                {
+                return BadRequest("No se encuentra un test con ese Id");
+                }
+            }
+
         [HttpGet]
+
         [Route("activeS")]
         public async Task<List<ExamenPlus>> GetActives(string userCi)
             {
@@ -320,7 +332,7 @@ namespace _0TestWebAPI1.Controllers
                         examenes.Add(examTemp);
                         }
                     }
-                
+
                 }
 
             // CREANDO LOS EXAMENESPLUS DE LA LISTA DE EXAMENES

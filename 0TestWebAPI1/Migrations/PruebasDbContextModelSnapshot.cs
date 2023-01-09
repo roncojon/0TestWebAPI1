@@ -132,7 +132,7 @@ namespace _0TestWebAPI1.Migrations
 
                     b.HasIndex("PruebaBaseId");
 
-                    b.ToTable("PruebaCaritas");
+                    b.ToTable("ResultadoDe1Examen");
                 });
 
             modelBuilder.Entity("_0TestWebAPI1.Models.Rol", b =>

@@ -7,8 +7,7 @@ namespace _0TestWebAPI1.Models
 {
     public class Fila
     {
-        public int Id { get; set; }
-        public int PruebaBaseId { get; set; }
+       // public int Number { get; set; }
         public int Attempts { get; set; }
         public int Annotations { get; set; }
         public int Errors { get; set; }

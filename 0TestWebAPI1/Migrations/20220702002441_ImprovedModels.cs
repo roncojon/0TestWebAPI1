@@ -8,7 +8,7 @@ namespace _0TestWebAPI1.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_PruebaCaritas_PruebaBase_PruebaBaseId",
-                table: "PruebaCaritas");
+                table: "ResultadoDe1Examen");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Usuario_Escolaridad_EscolaridadId",
@@ -101,7 +101,7 @@ namespace _0TestWebAPI1.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "PruebaBaseId",
-                table: "PruebaCaritas",
+                table: "ResultadoDe1Examen",
                 type: "int",
                 nullable: false,
                 defaultValue: 0,
@@ -116,7 +116,7 @@ namespace _0TestWebAPI1.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_PruebaCaritas_PruebaBase_PruebaBaseId",
-                table: "PruebaCaritas",
+                table: "ResultadoDe1Examen",
                 column: "PruebaBaseId",
                 principalTable: "PruebaBase",
                 principalColumn: "UId",
@@ -175,7 +175,7 @@ namespace _0TestWebAPI1.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_PruebaCaritas_PruebaBase_PruebaBaseId",
-                table: "PruebaCaritas");
+                table: "ResultadoDe1Examen");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Usuario_Escolaridad_EscolaridadId",
@@ -259,7 +259,7 @@ namespace _0TestWebAPI1.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "PruebaBaseId",
-                table: "PruebaCaritas",
+                table: "ResultadoDe1Examen",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
@@ -272,7 +272,7 @@ namespace _0TestWebAPI1.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_PruebaCaritas_PruebaBase_PruebaBaseId",
-                table: "PruebaCaritas",
+                table: "ResultadoDe1Examen",
                 column: "PruebaBaseId",
                 principalTable: "PruebaBase",
                 principalColumn: "UId",

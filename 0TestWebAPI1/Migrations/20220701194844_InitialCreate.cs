@@ -97,7 +97,7 @@ namespace _0TestWebAPI1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PruebaCaritas",
+                name: "ResultadoDe1Examen",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -177,7 +177,7 @@ namespace _0TestWebAPI1.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_PruebaCaritas_PruebaBaseId",
-                table: "PruebaCaritas",
+                table: "ResultadoDe1Examen",
                 column: "PruebaBaseId");
 
             migrationBuilder.CreateIndex(
@@ -214,7 +214,7 @@ namespace _0TestWebAPI1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PruebaCaritas");
+                name: "ResultadoDe1Examen");
 
             migrationBuilder.DropTable(
                 name: "UsuarioCentro");

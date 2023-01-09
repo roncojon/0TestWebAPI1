@@ -82,9 +82,9 @@ namespace _0TestWebAPI1.SupportFunctions
                         if (lastAnswerIndex < i)
                             lastAnswerIndex = i;
                         }
-                    // Si la respuesta es 0 es q no debia marcar la celda o sea todo ok
+                    /*// Si la respuesta es 0 es q no debia marcar la celda o sea todo ok
                     else
-                        examResultRaw[i] = "trapCellPassed";
+                        examResultRaw[i] = "trapCellPassed";*/
                     }
                 }
             return examResultRaw;

@@ -401,14 +401,17 @@ namespace _0TestWebAPI1.Controllers
                     EscolaridadUId = usuario.EscolaridadUId,
                     };
                 _dbContext.Usuario.Remove(usuarioConMismoCi);
-                /*await*/ _dbContext.Usuario.Add/*Async*/(userObj);
+                    await _dbContext.SaveChangesAsync();
 
-                foreach (var rolId in userData.RolesUIds)
+                    await _dbContext.Usuario.AddAsync(userObj);
+
+
+                    foreach (var rolId in userData.RolesUIds)
                     {
                     UsuarioRol6 urTemp = new UsuarioRol6();
                     urTemp.UsuarioCi = userObj.Ci;
                     urTemp.RolUId = rolId;
-                    _dbContext.UsuarioRol.Add(urTemp);
+                    await _dbContext.UsuarioRol.AddAsync(urTemp);
 
                     }
 
@@ -579,7 +582,7 @@ namespace _0TestWebAPI1.Controllers
 
                 }
             _dbContext.SaveChanges();
-            return Ok("Eliminados correctamente");
+            return new OkResult();
             // return BadRequest("Error al eliminar 2");
 
             // var databaseName = _dbContext.Database.GetDbConnection().Database;
