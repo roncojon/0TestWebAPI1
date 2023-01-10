@@ -168,11 +168,11 @@ namespace _0TestWebAPI1.Data
                 {
                 UId = Guid.NewGuid(),
                 Nombre = "Caritas",
-                Descripcion = "Test de percepción de diferencias. Selecciona la carita única en cada trío. Duración: 3 minutos",
+                Descripcion = "Test de percepción de diferencias. Selecciona la carita única en cada trío. Resuelva cada fila en orden de izquierda a derecha. Duración: 3 minutos",
                 CantidadFilas = 15,
                 CantColumnas = 4,
                 TiempoLimiteMs = 180000,
-                PatronOriginal = "i1 3,i2 2,i3 2,i4 2,i5 3,i6 3,i7 2,i8 3,i9 1,i10 1,i11 1,i12 3,i13 2,i14 1,i15 2,i16 2,i17 2,i18 2,i19 3,i20 1,i21 2,i22 2,i23 1,i24 1,i25 1,i26 1,i27 1,i28 3,i29 1,i30 3,i31 2,i32 2,i33 1,i34 1,i35 2,i36 3,i37 1,i38 1,i39 2,i40 3,i41 2,i42 2,i43 3,i44 3,i45 3,i46 2,i47 2,i48 1,i49 1,i50 1,i51 1,i52 2,i53 2,i54 3,i55 2,i56 3,i57 3,i58 1,i59 2,i60 1,"
+                PatronOriginal = "i1 3,i2 2,i3 2,i4 2,i5 3,i6 3,i7 2,i8 3,i9 1,i10 3,i11 1,i12 3,i13 2,i14 1,i15 2,i16 2,i17 2,i18 2,i19 3,i20 1,i21 2,i22 2,i23 1,i24 1,i25 1,i26 1,i27 1,i28 3,i29 1,i30 3,i31 2,i32 2,i33 1,i34 1,i35 2,i36 3,i37 1,i38 1,i39 2,i40 3,i41 2,i42 2,i43 3,i44 3,i45 3,i46 2,i47 2,i48 1,i49 1,i50 1,i51 1,i52 2,i53 2,i54 3,i55 2,i56 3,i57 3,i58 1,i59 2,i60 1,"
             });
 
             modelBuilder.Entity<UsuarioRol6>().HasData(new UsuarioRol6[] {

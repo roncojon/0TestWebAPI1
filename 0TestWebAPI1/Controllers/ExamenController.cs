@@ -51,11 +51,15 @@ namespace _0TestWebAPI1.Controllers
 
                 List<UsuarioExamen10> ueListTemp = new List<UsuarioExamen10>();
                 List<Usuario1> usersListTemp = new List<Usuario1>();
+                List<ResultadoDe1Examen> resultsTemp = new List<ResultadoDe1Examen>();
+
                 foreach (UsuarioExamen10 ue in ueAll)
                     {
                     if (ue.ExamenId == examen.UId)
                         {
                         ueListTemp.Add(ue);
+                        ResultadoDe1Examen? result = new ResultadoDe1Examen(pmTemp, ue.PatronUsuario);
+                        resultsTemp.Add(result);
                         }
                     }
                 foreach (var ue in ueListTemp)
@@ -65,6 +69,8 @@ namespace _0TestWebAPI1.Controllers
                     }
 
                 newExamenPlus.Usuarios = usersListTemp;
+                newExamenPlus.Results = resultsTemp;
+
                 /*List<Examen9> exams = _dbContext.Fecha.FirstOrDefault(f => f.Examenes)*/
                 /* List<Fecha> fechasAll = await _dbContext.Set<Fecha>().ToListAsync();
 

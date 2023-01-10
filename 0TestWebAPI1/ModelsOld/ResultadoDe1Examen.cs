@@ -48,89 +48,168 @@ namespace _0TestWebAPI1.Models
 
         public ResultadoDe1Examen(Test test, string patronRespuestaUsuario)
             {
-            PatronExamen pattern = new PatronExamen(test.PatronOriginal, patronRespuestaUsuario);
-            string[] resultAsStringList = pattern.RevisarExamen();
-            List<Fila> filasTemp = new List<Fila>();
-
-            // TEMPS 
-            int attempts = 0;
-            int annotations = 0;
-            int errors = 0;
-            int omissions = 0;
-            for (int i = 0; i < resultAsStringList.Length; i++)
+            if (patronRespuestaUsuario != null)
                 {
-                attempts++;
-                if (resultAsStringList[i] == "omission")
-                    omissions++;
-               else if (resultAsStringList[i] == "error")
-                    errors++;
-               else if (resultAsStringList[i] == "annotation")
-                    annotations++;
-
-                if (i % test.CantColumnas == 0)
+                if (test.PatronOriginal.Length == patronRespuestaUsuario.Length)
                     {
-                    Fila filaTemp = new Fila();
+                    PatronExamen pattern = new PatronExamen(test.PatronOriginal, patronRespuestaUsuario);
+                    string[] resultAsStringList = pattern.RevisarExamen();
+                    List<Fila> filasTemp = new List<Fila>();
 
-                    filaTemp.Annotations = annotations;
-                    filaTemp.Attempts = attempts;
-                    filaTemp.Errors = errors;
-                    filaTemp.Omissions = omissions;
-                    filasTemp.Add(filaTemp);
+                    // TEMPS 
+                    int attempts = 0;
+                    int annotations = 0;
+                    int errors = 0;
+                    int omissions = 0;
+                    // Total Temps
+                    int totalAttempts = 0;
+                    int totalAnnotations = 0;
+                    int totalErrors = 0;
+                    int totalOmissions = 0;
+                    for (int i = 0; i < resultAsStringList.Count(); i++)
+                        {
+                        
+                        if (resultAsStringList[i] == "omission")
+                            {
+                            totalOmissions++;
+                            omissions++;
+                            totalAttempts++;
+                            attempts++;
+                            }
+                        else if (resultAsStringList[i] == "error")
+                            {
+                            totalErrors++;
+                            errors++;
+                            totalAttempts++;
+                            attempts++;
+                            }
+                        else if (resultAsStringList[i] == "annotation")
+                            {
+                            totalAnnotations++;
+                            annotations++;
+                            totalAttempts++;
+                            attempts++;
+                            }
+                        if ((i+1) % test.CantColumnas == 0)
+                            {
+                            Fila filaTemp = new Fila();
 
-                     attempts = 0;
-                     annotations = 0;
-                     errors = 0;
-                     omissions = 0;
+                            /*int annotationsTemp = annotations;
+                            int attemptsTemp = attempts;
+                            int errorsTemp = errors;
+                            int omissionsTemp = omissions;
+
+                            filaTemp.Annotations = annotationsTemp;
+                            filaTemp.Attempts = attemptsTemp;
+                            filaTemp.Errors = errorsTemp;
+                            filaTemp.Omissions = omissionsTemp;
+                            filasTemp.Add(filaTemp);*/
+
+                            filaTemp.Annotations = annotations;
+                            filaTemp.Attempts = attempts;
+                            filaTemp.Errors = errors;
+                            filaTemp.Omissions = omissions;
+                            filasTemp.Add(filaTemp);
+
+                            annotations = 0;
+                            attempts = 0;
+                            errors = 0;
+                            omissions = 0;
+                            }
+                        }
+                    Filas = filasTemp;
+                    IntentosTotales = totalAttempts;
+                    AnotacionesTotales = totalAnnotations;
+                    ErroresTotales = totalErrors;
+                    OmisionesTotales = totalOmissions;
+
+                    IGAP = AnotacionesTotales - (ErroresTotales + OmisionesTotales);
+                    if (AnotacionesTotales + ErroresTotales + OmisionesTotales == 0)
+                        {
+                        ICI = 0;
+                        }
+                    else
+                        {
+                        ICI = Math.Round(((double)AnotacionesTotales - ((double)ErroresTotales + (double)OmisionesTotales)) / ((double)AnotacionesTotales + ((double)ErroresTotales + (double)OmisionesTotales)) * 100.0, 2);
+                        }
+                    PorCientoDeAciertos = Math.Round(((double)AnotacionesTotales - (double)ErroresTotales) / 60.0 * 100.0, 2);
+                    if (IntentosTotales == 0)
+                        {
+                        EficaciaAtencional = 0;
+                        }
+                    else
+                        {
+                        EficaciaAtencional = Math.Round(((double)AnotacionesTotales / (double)IntentosTotales) * 100, 2);
+                        }
+                    EficienciaAtencional = Math.Round(((double)AnotacionesTotales / 3.0), 2);
+                    RendimientoAtencional = Math.Round((double)EficaciaAtencional / 3.0, 2);
+                    if (AnotacionesTotales + OmisionesTotales == 0)
+                        {
+                        CalidadDeLaAtencion = 0;
+                        }
+                    else
+                        {
+                        CalidadDeLaAtencion = Math.Round(((double)AnotacionesTotales - (double)ErroresTotales) / ((double)AnotacionesTotales + (double)OmisionesTotales) * 100.0, 2);
+                        }
+
+                    switch (AnotacionesTotales)
+                        {
+                        case <= 23:
+                            DatosAtencion = 1;
+                            break;
+                        case >= 24:
+                            DatosAtencion = 2;
+                            break;
+                        }
                     }
                 }
-            Filas = filasTemp;
             }
-        public ResultadoDe1Examen Evaluar(ResultadoDe1Examen pc)
-            {
-            ResultadoDe1Examen npc = pc;
-            npc.Filas = new List<Fila>();
+        /* public ResultadoDe1Examen Evaluar(ResultadoDe1Examen pc)
+             {
+             ResultadoDe1Examen npc = pc;
+             Filas = new List<Fila>();
 
-            npc.IGAP = pc.AnotacionesTotales - (pc.ErroresTotales + pc.OmisionesTotales);
-            if (pc.AnotacionesTotales + pc.ErroresTotales + pc.OmisionesTotales == 0)
-                {
-                npc.ICI = 0;
-                }
-            else
-                {
-                npc.ICI = Math.Round(((double)pc.AnotacionesTotales - ((double)pc.ErroresTotales + (double)pc.OmisionesTotales)) / ((double)pc.AnotacionesTotales + ((double)pc.ErroresTotales + (double)pc.OmisionesTotales)) * 100.0, 2);
-                }
+             IGAP = AnotacionesTotales - (ErroresTotales + OmisionesTotales);
+             if (AnotacionesTotales + ErroresTotales + OmisionesTotales == 0)
+                 {
+                 ICI = 0;
+                 }
+             else
+                 {
+                 ICI = Math.Round(((double)AnotacionesTotales - ((double)ErroresTotales + (double)OmisionesTotales)) / ((double)AnotacionesTotales + ((double)ErroresTotales + (double)OmisionesTotales)) * 100.0, 2);
+                 }
 
-            npc.PorCientoDeAciertos = Math.Round(((double)pc.AnotacionesTotales - (double)pc.ErroresTotales) / 60.0 * 100.0, 2);
-            if (pc.IntentosTotales == 0)
-                {
-                npc.EficaciaAtencional = 0;
-                }
-            else
-                {
-                npc.EficaciaAtencional = Math.Round(((double)pc.AnotacionesTotales / (double)pc.IntentosTotales) * 100, 2);
-                }
-            npc.EficienciaAtencional = Math.Round(((double)pc.AnotacionesTotales / 3.0), 2);
-            npc.RendimientoAtencional = Math.Round((double)pc.EficaciaAtencional / 3.0, 2);
-            if (pc.AnotacionesTotales + pc.OmisionesTotales == 0)
-                {
-                npc.CalidadDeLaAtencion = 0;
-                }
-            else
-                {
-                npc.CalidadDeLaAtencion = Math.Round(((double)pc.AnotacionesTotales - (double)pc.ErroresTotales) / ((double)pc.AnotacionesTotales + (double)pc.OmisionesTotales) * 100.0, 2);
-                }
+             PorCientoDeAciertos = Math.Round(((double)AnotacionesTotales - (double)ErroresTotales) / 60.0 * 100.0, 2);
+             if (IntentosTotales == 0)
+                 {
+                 EficaciaAtencional = 0;
+                 }
+             else
+                 {
+                 EficaciaAtencional = Math.Round(((double)AnotacionesTotales / (double)IntentosTotales) * 100, 2);
+                 }
+             EficienciaAtencional = Math.Round(((double)AnotacionesTotales / 3.0), 2);
+             RendimientoAtencional = Math.Round((double)EficaciaAtencional / 3.0, 2);
+             if (AnotacionesTotales + OmisionesTotales == 0)
+                 {
+                 CalidadDeLaAtencion = 0;
+                 }
+             else
+                 {
+                 CalidadDeLaAtencion = Math.Round(((double)AnotacionesTotales - (double)ErroresTotales) / ((double)AnotacionesTotales + (double)OmisionesTotales) * 100.0, 2);
+                 }
 
-            switch (pc.AnotacionesTotales)
-                {
-                case <= 23:
-                    npc.DatosAtencion = 1;
-                    break;
-                case >= 24:
-                    npc.DatosAtencion = 2;
-                    break;
-                }
+             switch (AnotacionesTotales)
+                 {
+                 case <= 23:
+                     DatosAtencion = 1;
+                     break;
+                 case >= 24:
+                     DatosAtencion = 2;
+                     break;
+                 }
 
-            return npc;
-            }
+             return npc;
+             }*/
         }
     }
