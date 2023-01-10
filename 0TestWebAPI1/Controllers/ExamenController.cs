@@ -58,7 +58,7 @@ namespace _0TestWebAPI1.Controllers
                     if (ue.ExamenId == examen.UId)
                         {
                         ueListTemp.Add(ue);
-                        ResultadoDe1Examen? result = new ResultadoDe1Examen(pmTemp, ue.PatronUsuario);
+                        ResultadoDe1Examen? result = new ResultadoDe1Examen(pmTemp, ue.PatronUsuario, ue.UsuarioCi);
                         resultsTemp.Add(result);
                         }
                     }

@@ -10,8 +10,8 @@ namespace _0TestWebAPI1.Models
     public class ResultadoDe1Examen
         {
         [Key]
-        public int Id { get; set; }
-        public int UsuarioCi { get; set; }
+       // public int Id { get; set; }
+        public string UsuarioCi { get; set; }
 
         //[DataFormatString("{0:dd-MM-yyyy}")]
 
@@ -46,12 +46,13 @@ namespace _0TestWebAPI1.Models
         //public Usuario Usuario { get; set; }
         public int Tipo = 1;
 
-        public ResultadoDe1Examen(Test test, string patronRespuestaUsuario)
+        public ResultadoDe1Examen(Test test, string patronRespuestaUsuario, string userCi)
             {
             if (patronRespuestaUsuario != null)
                 {
                 if (test.PatronOriginal.Length == patronRespuestaUsuario.Length)
                     {
+                    UsuarioCi = userCi;
                     PatronExamen pattern = new PatronExamen(test.PatronOriginal, patronRespuestaUsuario);
                     string[] resultAsStringList = pattern.RevisarExamen();
                     List<Fila> filasTemp = new List<Fila>();
