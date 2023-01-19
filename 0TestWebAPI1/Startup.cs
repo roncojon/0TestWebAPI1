@@ -22,33 +22,46 @@ using System.Threading.Tasks;
 
 
 namespace _0TestWebAPI1
-{
-    public class Startup
     {
-        public Startup(IConfiguration configuration)
+    public class Startup
         {
+        public Startup(IConfiguration configuration)
+            {
             Configuration = configuration;
-        }
+            }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+            {
+            // services.AddSingleton(Configuration);
             services.AddCors();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:44351","http://localhost:3000", "http://localhost:4200")
+                        builder.WithOrigins("https://localhost:44351", "http://localhost:3000", "http://localhost:4200", "http://192.168.188.202")
                                             .AllowAnyHeader()
                                             .AllowAnyMethod();
                     });
             });
             //services.AddMvc();
             services.AddControllers();
-            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Initial Catalog=TesisDb; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+
+            /*string ConnectionS()
+               {
+
+               }*/
+
+            // _dbContext.Database.GetDbConnection().ConnectionStringHandler = "NEW_CONN_STRING";
+            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(
+                Configuration.GetConnectionString("ServerAdimn")
+                    /*ConnectionStringHandler.isUserAuthenticated ?
+                    Configuration.GetConnectionString("TesisDbWriter") :
+                    Configuration.GetConnectionString("TesisDbReader"))*/
+                    ));
 
             // PC Data Source=RON-PC\SQLEXPRESS;Integrated Security=True;Initial Catalog=TesisDb;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
             // Laptop Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Initial Catalog=TesisDb; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
@@ -64,7 +77,7 @@ namespace _0TestWebAPI1
                .AddJwtBearer(options =>
                {
                    options.TokenValidationParameters = new TokenValidationParameters
-                   {
+                       {
                        ValidateIssuer = true,
                        ValidateAudience = true,
                        ValidateLifetime = true,
@@ -73,19 +86,24 @@ namespace _0TestWebAPI1
                        ValidAudience = Configuration["Tokens:Issuer"],
                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
                        ClockSkew = TimeSpan.Zero,
-                   };
+                       };
                });
-        }
+            }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, PruebasDbContext dbContext)
-        {
-            if (env.IsDevelopment())
             {
+            /*app.Use((context, next) => {
+                context.Items["ServerUrl"] = Configuration.GetValue<string>("ServerUrl");
+                return next();
+            });*/
+            if (env.IsDevelopment())
+                {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "_0TestWebAPI1 v1"));
-            }
+                }
+          
             app.UseCors();
             //app.UseMvc();
 
@@ -93,8 +111,8 @@ namespace _0TestWebAPI1
 
             app.UseRouting();
 
-            dbContext.Database.EnsureDeleted();
-            dbContext.Database.EnsureCreated();
+             // dbContext.Database.EnsureDeleted();
+             dbContext.Database.EnsureCreated();
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -103,6 +121,6 @@ namespace _0TestWebAPI1
             {
                 endpoints.MapControllers();
             });
+            }
         }
     }
-}

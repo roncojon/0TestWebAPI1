@@ -1,3 +1,4 @@
+using _0TestWebAPI1.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,7 @@ namespace _0TestWebAPI1
     {
         public static void Main(string[] args)
         {
+            // ConnectionStringHandler.isUserAuthenticated = false;
             CreateHostBuilder(args).Build().Run();
         }
 
