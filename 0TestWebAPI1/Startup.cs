@@ -35,20 +35,34 @@ namespace _0TestWebAPI1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddCors();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("https://localhost:44351","http://localhost:3000", "http://localhost:4200")
-                                            .AllowAnyHeader()
-                                            .AllowAnyMethod();
+                        //builder.WithOrigins("https://localhost:44351", "http://localhost:3000", "https://localhost:3000", "http://localhost:4200", "http://192.168.188.202")
+                        builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                     });
             });
             //services.AddMvc();
             services.AddControllers();
-            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Initial Catalog=TesisDb; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+
+            /*string ConnectionS()
+               {
+
+               }*/
+
+            // _dbContext.Database.GetDbConnection().ConnectionStringHandler = "NEW_CONN_STRING";
+            services.AddDbContext<PruebasDbContext>(options => options.UseSqlServer(
+                Configuration.GetConnectionString("TesisDbWriter")
+                    /*ConnectionStringHandler.isUserAuthenticated ?
+                    Configuration.GetConnectionString("TesisDbWriter") :
+                    Configuration.GetConnectionString("TesisDbReader"))*/
+                    ));
 
             // PC Data Source=RON-PC\SQLEXPRESS;Integrated Security=True;Initial Catalog=TesisDb;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
             // Laptop Data Source=(localdb)\MSSQLLocalDB;Integrated Security=True;Initial Catalog=TesisDb; Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
@@ -93,7 +107,7 @@ namespace _0TestWebAPI1
 
             app.UseRouting();
 
-            dbContext.Database.EnsureDeleted();
+            // dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
 
             app.UseAuthentication();

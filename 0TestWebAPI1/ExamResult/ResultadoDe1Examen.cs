@@ -48,15 +48,16 @@ namespace _0TestWebAPI1.Models
 
         public ResultadoDe1Examen(Test test, string patronRespuestaUsuario, string userCi)
             {
+            UsuarioCi = userCi;
+
             if (patronRespuestaUsuario != null)
                 {
                 if (test.PatronOriginal.Length == patronRespuestaUsuario.Length)
                     {
-                    UsuarioCi = userCi;
                     PatronExamen pattern = new PatronExamen(test.PatronOriginal, patronRespuestaUsuario);
                     string[] resultAsStringList = pattern.RevisarExamen();
                     List<Fila> filasTemp = new List<Fila>();
-
+                    double totalElements = 0;
                     // TEMPS 
                     int attempts = 0;
                     int annotations = 0;
@@ -69,7 +70,7 @@ namespace _0TestWebAPI1.Models
                     int totalOmissions = 0;
                     for (int i = 0; i < resultAsStringList.Count(); i++)
                         {
-                        
+                        totalElements++;
                         if (resultAsStringList[i] == "omission")
                             {
                             totalOmissions++;
@@ -133,7 +134,7 @@ namespace _0TestWebAPI1.Models
                         {
                         ICI = Math.Round(((double)AnotacionesTotales - ((double)ErroresTotales + (double)OmisionesTotales)) / ((double)AnotacionesTotales + ((double)ErroresTotales + (double)OmisionesTotales)) * 100.0, 2);
                         }
-                    PorCientoDeAciertos = Math.Round(((double)AnotacionesTotales - (double)ErroresTotales) / 60.0 * 100.0, 2);
+                    PorCientoDeAciertos = Math.Round(((double)AnotacionesTotales - (double)ErroresTotales) / totalElements/*60.0*/ * 100.0, 2);
                     if (IntentosTotales == 0)
                         {
                         EficaciaAtencional = 0;

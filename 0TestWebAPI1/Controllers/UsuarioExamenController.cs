@@ -2,6 +2,7 @@
 using _0TestWebAPI1.Data;
 using _0TestWebAPI1.Models;
 using _0TestWebAPI1.SupportFunctions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace _0TestWebAPI1.Controllers
     {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsuarioExamenController : ControllerSuper<UsuarioExamen10, Guid>
         {
         public UsuarioExamenController(PruebasDbContext context) : base(context)

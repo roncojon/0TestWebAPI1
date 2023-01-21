@@ -14,6 +14,7 @@ namespace _0TestWebAPI1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public abstract class ControllerSuper<T,Z> : ControllerBase where T : class, new()
     {
         public readonly PruebasDbContext _dbContext;
@@ -40,7 +41,7 @@ namespace _0TestWebAPI1.Controllers
 
         // POST api/<ControllerSuper>
         [HttpPost]
-        [AllowAnonymous]
+        // [AllowAnonymous]
         public virtual async Task Post(T value)
         {
             var dbtry = Activator.CreateInstance(typeof(T));

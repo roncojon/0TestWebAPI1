@@ -177,8 +177,8 @@ namespace _0TestWebAPI1.Data
 
             modelBuilder.Entity<UsuarioRol6>().HasData(new UsuarioRol6[] {
                 new UsuarioRol6 { UsuarioCi="94052920987", RolUId = rolAdministrador},
-                new UsuarioRol6 { UsuarioCi="94052920987", RolUId =rolExaminador},
-                new UsuarioRol6 { UsuarioCi="94052920987", RolUId =rolExaminado},
+                // new UsuarioRol6 { UsuarioCi="94052920987", RolUId =rolExaminador},
+                // new UsuarioRol6 { UsuarioCi="94052920987", RolUId =rolExaminado},
                
                 new UsuarioRol6 {UsuarioCi="86060670067", RolUId =rolExaminador},
                 new UsuarioRol6 {UsuarioCi="96060670065", RolUId=rolExaminador},
