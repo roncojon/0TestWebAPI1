@@ -243,15 +243,8 @@ namespace _0TestWebAPI1.Controllers
             try
             {
                 UserRegister usuario = userData.Usuario;
-                //creando usuario
-                // string newUserNick = usuario.Ci;
-                // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.Ci == newUserNick).SingleOrDefault();
-
-                // var usuarioConMismoNick = _dbContext.Usuario.Where(u => u.Ci == usuario.Ci).SingleOrDefault();
                 var usuarioConMismoCi = _dbContext.Usuario.Where(u => u.Ci == ci).SingleOrDefault();
 
-                /*if (usuarioConMismoNick != null)
-                    { return BadRequest("Ya existe un usuario con ese nombre"); }*/
                 if (usuarioConMismoCi == null)
                 { return BadRequest("No existe un usuario con ese ci"); }
                 else
@@ -264,32 +257,6 @@ namespace _0TestWebAPI1.Controllers
                     AgeByCi age = new AgeByCi();
                     DateTime actualDate = DateTime.Now;
                     edad = age.Get(usuario.Ci, actualDate);
-                    /* string actualYear = DateTime.Now.Year.ToString();
-                     if (int.Parse(ciAsDateYear) <= int.Parse(actualYear.Substring(2, 2)))
-                         {
-                         ciAsDate = "20" + ciAsDate;
-                         }
-                     else
-                         {
-                         ciAsDate = "19" + ciAsDate;
-                         }
-                     ciAsDateYear = ciAsDate.Substring(0, 4);
-                     string ciAsDateMonth = ciAsDate.Substring(4, 2);
-                     string ciAsDateDay = ciAsDate.Substring(6, 2);
-
-                     ciAsDate = ciAsDateMonth + "/" + ciAsDateDay + "/" + ciAsDateYear;
-                     string[] ciAsDateArray = { ciAsDateMonth, "/", ciAsDateDay, "/", ciAsDateYear };
-                     ciAsDate = string.Concat(ciAsDateArray);
-
-                     DateTime userBornDate = DateTime.Parse(ciAsDate);
-                     DateTime actualDate = DateTime.Now;
-
-                     int now = int.Parse(actualDate.ToString("yyyyMMdd"));
-                     Console.WriteLine(now);
-                     int dob = int.Parse(userBornDate.ToString("yyyyMMdd"));
-                     Console.WriteLine(dob);
-                     int age = (now - dob) / 10000;*/
-                    /////////////////////
                     if (edad <= 0)
                     { return BadRequest("Error al salvar los datos del Ci"); }
 
@@ -314,52 +281,38 @@ namespace _0TestWebAPI1.Controllers
                     }
 
                     ////////////////////
-
-                    /*switch (age)
-                        {
-                        case < 12:
-                            grupoEtarioNombre = "Muy joven";
-                            break;
-                        case int n when (n >= 12 && n <= 18):
-                            grupoEtarioNombre = "Joven";
-                            break;
-                        case <= 18:
-                            grupoEtarioNombre = "Joven";
-                            break;
-                        case <= 30:
-                            grupoEtarioNombre = "Medio";
-                            break;
-                        case <= 60:
-                            grupoEtarioNombre = "Mayor";
-                            break;
-                        case > 60:
-                            grupoEtarioNombre = "Muy mayor";
-                            break;
-                        }*/
-
                     var userObj = new Usuario1
                     {
-                        // UId = Guid.NewGuid(),
                         Nombre = usuario.Nombre,
                         Apellidos = usuario.Apellidos,
-                        // Ci = usuario.Ci,
                         Password = usuario.Password.Length > 0 ? SecurePasswordHasherHelper.Hash(usuario.Password) : usuarioConMismoCi.Password,
-                        // RolNombre = RolNombre,
                         Ci = usuario.Ci,
                         SexoUId = usuario.SexoUId,
-                        // Edad = usuario.Edad,
                         GrupoEtarioUId = geTemp.UId/*usuario.GrupoEtarioUId*/,
-                        // GrupoEtarioNombre = geTemp.Nombre/*usuario.GrupoEtarioUId*/,
                         EscolaridadUId = usuario.EscolaridadUId,
                     };
-                    _dbContext.Usuario.Remove(usuarioConMismoCi);
+                    usuarioConMismoCi.Nombre = userObj.Nombre;
+                    usuarioConMismoCi.Apellidos = userObj.Apellidos;
+                    usuarioConMismoCi.Password = userObj.Password;
+                    usuarioConMismoCi.SexoUId = userObj.SexoUId;
+                    usuarioConMismoCi.GrupoEtarioUId = userObj.GrupoEtarioUId;
+                    usuarioConMismoCi.EscolaridadUId = userObj.EscolaridadUId;
+
+
+                    // I LEFT HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+                    _dbContext.Entry(usuarioConMismoCi).State = EntityState.Modified;
+
+                    List<UsuarioRol6> allUserRol = await _dbContext.UsuarioRol.ToListAsync();
+                    foreach (var item in allUserRol)
+                    {
+                       if (item.UsuarioCi== usuarioConMismoCi.Ci)
+                            _dbContext.UsuarioRol.Remove(item);
+                    }
                     await _dbContext.SaveChangesAsync();
-
-                    await _dbContext.Usuario.AddAsync(userObj);
-
 
                     foreach (var rolId in userData.RolesUIds)
                     {
+                        
                         UsuarioRol6 urTemp = new UsuarioRol6();
                         urTemp.UsuarioCi = userObj.Ci;
                         urTemp.RolUId = rolId;
@@ -372,7 +325,6 @@ namespace _0TestWebAPI1.Controllers
                     {
                         ok = true
                     });
-                    // return StatusCode(StatusCodes.Status201Created);
                 }
             }
             catch

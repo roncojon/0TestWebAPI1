@@ -313,12 +313,6 @@ namespace _0TestWebAPI1.Controllers
                 {
                     foreach (var ueTemp in finalUsersInExam)
                     {
-                        /*UsuarioExamen10 newUsuarioExamen = new UsuarioExamen10();
-                        newUsuarioExamen.UsuarioCi = ueTemp.UsuarioCi;
-                        newUsuarioExamen.ExamenId = newExamen.UId;
-
-                        newUsuarioExamen.Fecha = 0;*/
-
                          _dbContext.Entry(ueTemp).State = EntityState.Added;
                         await _dbContext.SaveChangesAsync();
                     }
